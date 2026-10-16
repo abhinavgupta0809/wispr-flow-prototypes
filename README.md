@@ -41,8 +41,10 @@ cd ~/Desktop/Projects/wispr-flow-prototypes
 node --test tests/*.test.js
 ```
 
-Deploying: any static host works with `site/` as the root (Vercel: root directory `site`, no framework).
-Not deployed yet.
+Live: https://wispr-flow-prototypes.vercel.app/ (Vercel project `wispr-flow-prototypes`, team `abhinav-d561`, deployed
+from the CLI with `site/` as the project folder: `cd site && npx vercel deploy --prod`). Not connected to Git, so each
+change needs that command. Vercel Web Analytics is enabled; every page loads `/_vercel/insights/script.js`.
+`site/.vercelignore` keeps `.env*` files out of deployments.
 
 ## Usability tests and metrics
 
