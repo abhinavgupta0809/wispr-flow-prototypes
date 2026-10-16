@@ -1,13 +1,27 @@
-/* Mobile Fix Strip: pure state and text logic. No DOM, so tests/fixstrip.test.js can run it in Node.
-   The composer's text changes only through APPLY and UNDO, and APPLY touches only the selected range. */
+/* Phrase editing core, shared by Mobile Fix Strip, Journal Mode and Review Revisions. Pure state and text
+   logic with no DOM, so tests/fixstrip.test.js can run it in Node. The text changes only through APPLY and
+   UNDO, and APPLY touches only the selected range. */
 (function (root) {
   const PREPARED_DICTATION = 'Send the revised estimate to Maya by Tuesday, and keep the implementation details in the appendix.';
 
   /* Simulated speech: a fixed lookup, keyed by the selected phrase in lower case. It stands in for a
      spoken replacement so recordings are repeatable. It is not speech recognition of any kind. */
-  const SIMULATED_REPLACEMENTS = {tuesday: 'Thursday'};
+  const SIMULATED_REPLACEMENTS = {tuesday: 'Thursday', 'fix trip': 'Fix Strip'};
 
-  const WORD = /[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu;
+  /* The two Fix Strip demos. The second is built around a recognition error I reported from my own use
+     ("Mobile Fix Strip" captured as "mobile fix trip"); its surrounding sentence is scripted. */
+  const SCENARIOS = [
+    {id: 'wrong-day', label: 'Wrong day', text: PREPARED_DICTATION, target: 'Tuesday', replacement: 'Thursday',
+      incoming: 'Can you send the estimate today? Need it before the review.', thread: 'Project team',
+      source: 'Scripted sentence. A wrong word of the kind reviewers describe fixing.'},
+    {id: 'fix-trip', label: 'Recognition error', text: 'Here’s the link to the mobile fix trip prototype. Can you try it before Friday’s review?', target: 'fix trip', replacement: 'Fix Strip',
+      incoming: 'Is the prototype ready to try?', thread: 'Design review',
+      source: 'User-reported recognition error: I said “Mobile Fix Strip” and Flow wrote “mobile fix trip.” The rest of the sentence is scripted, and nothing is recognized here.'},
+  ];
+  const scenarioById = (id) => SCENARIOS.find((s) => s.id === id) || SCENARIOS[0];
+
+  /* "[unclear]" is how a capture marks audio it couldn't make out; it is one token so it can be replaced whole. */
+  const WORD = /\[unclear\]|[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu;
 
   function tokenize(text) {
     const tokens = [];
@@ -21,7 +35,7 @@
     return tokens;
   }
 
-  const initialState = () => ({phase: 'empty', text: '', dictation: null, sel: null, replacement: '', undo: null, lastChange: null, events: []});
+  const initialState = () => ({phase: 'empty', text: '', dictation: null, sel: null, replacement: '', undo: null, lastChange: null, simulated: SIMULATED_REPLACEMENTS, events: []});
 
   const dictationText = (state) => (state.dictation ? state.text.slice(state.dictation.start, state.dictation.end) : '');
   const dictationTokens = (state) => tokenize(dictationText(state));
@@ -47,8 +61,9 @@
       && after.length === before.length - (end - start) + replacement.length;
   }
 
-  function simulatedReplacementFor(phrase) {
-    return Object.prototype.hasOwnProperty.call(SIMULATED_REPLACEMENTS, phrase.toLowerCase()) ? SIMULATED_REPLACEMENTS[phrase.toLowerCase()] : null;
+  function simulatedReplacementFor(phrase, map = SIMULATED_REPLACEMENTS) {
+    const key = phrase.toLowerCase();
+    return map && Object.prototype.hasOwnProperty.call(map, key) ? map[key] : null;
   }
 
   function previewText(state) {
@@ -64,7 +79,7 @@
       case 'LOAD': {
         if (state.phase !== 'empty') return state;
         const text = action.text ?? PREPARED_DICTATION;
-        return {...state, phase: 'idle', text, dictation: {start: 0, end: text.length}, events: log(state, 'load')};
+        return {...state, phase: 'idle', text, dictation: {start: 0, end: text.length}, simulated: action.phrases ?? state.simulated, events: log(state, 'load')};
       }
       case 'OPEN_STRIP':
         if (state.phase !== 'idle' || !state.dictation) return state;
@@ -126,7 +141,7 @@
     }
   }
 
-  const api = {PREPARED_DICTATION, SIMULATED_REPLACEMENTS, tokenize, initialState, reduce, selectionRange, dictationTokens, replaceRange, preservedOutside, simulatedReplacementFor, previewText};
+  const api = {PREPARED_DICTATION, SIMULATED_REPLACEMENTS, SCENARIOS, scenarioById, tokenize, initialState, reduce, selectionRange, dictationTokens, replaceRange, preservedOutside, simulatedReplacementFor, previewText};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.FixStrip = api;
 })(typeof window !== 'undefined' ? window : globalThis);

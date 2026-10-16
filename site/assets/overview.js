@@ -1,8 +1,7 @@
-/* Overview: evidence links and, if this browser holds a Thought Check workspace, its progress. */
+/* Overview: review links for the lead proposal and the docs lines Flow ships today. */
 (function () {
-  const {el, storage} = window.WFP;
+  const {el, fmtDate} = window.WFP;
   const E = window.EVIDENCE;
-  const TC = window.ThoughtCheck;
 
   const links = (items) => {
     const out = [];
@@ -13,19 +12,15 @@
     return out;
   };
 
-  function progress() {
-    const raw = storage.get('wfp-thoughtcheck-v1');
-    if (!raw) return 'No results yet. The experiment runs in the Thought Check workspace.';
-    try {
-      const s = TC.summarize(TC.parseImport(raw)).controlled;
-      if (!s.primaryRuns) return 'No completed runs yet.';
-      return `In this browser: ${s.primaryRuns} of ${s.passagesTotal} passages assessed, ${s.totals.assessed} meaning units, ${s.flagged.length} needing substantive correction. Small-experiment findings only.`;
-    } catch { return 'No readable results in this browser.'; }
-  }
-
   document.addEventListener('DOMContentLoaded', () => {
+    const d = E.docs;
     document.getElementById('fs-evidence').replaceChildren(...links(E.fixStrip));
-    document.getElementById('tc-evidence').replaceChildren(...links(E.thoughtCheck));
-    document.getElementById('tc-progress').textContent = progress();
+    document.getElementById('read-on').textContent = `re-read ${fmtDate(d.readOn)}`;
+    const q = (text, doc) => el('li', {}, `“${text}” `, el('a', {href: doc.url, target: '_blank', rel: 'noopener', text: doc.title}));
+    document.getElementById('today-quotes').replaceChildren(
+      q(d.transforms.beta, d.transforms),
+      q(d.transforms.platforms, d.transforms),
+      q(d.commandMode.quote, d.commandMode),
+      el('li', {text: 'I haven’t yet checked the current iPhone keyboard myself, so no page here claims a capability is missing on mobile beyond what the docs say.'}));
   });
 })();

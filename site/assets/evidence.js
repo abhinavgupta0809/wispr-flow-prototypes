@@ -59,10 +59,10 @@
     },
   ];
 
-  /* What Wispr documents today. Read on 2026-10-15 from docs.wisprflow.ai; pages show only
-     relative "last updated" dates. Quotes are verbatim. */
+  /* What Wispr documents today. First read 2026-10-15, re-read 2026-10-16 from docs.wisprflow.ai and
+     checked against the raw page text; pages show only relative "last updated" dates. Quotes are verbatim. */
   const docs = {
-    readOn: '2026-10-15',
+    readOn: '2026-10-16',
     commandMode: {
       url: 'https://docs.wisprflow.ai/articles/4816967992-how-to-use-command-mode',
       title: 'How to use Command Mode',
@@ -72,7 +72,16 @@
       url: 'https://docs.wisprflow.ai/articles/8068950331-how-to-use-transforms-beta',
       title: 'Rewrite text with Transforms and custom prompts',
       quote: 'iOS Polish accepts 10–1,000 words and uses only the selection when text is selected.',
+      platforms: 'Available on: Mac, Windows and iOS. iOS has Polish with different limits and controls.',
+      beta: 'Desktop Transforms is in Beta.',
     },
+    handsFree: {
+      url: 'https://docs.wisprflow.ai/articles/6391241694-use-flow-hands-free',
+      title: 'Use Flow hands-free',
+      doubleTap: 'Double-tap your push-to-talk shortcut within half a second of starting: Fn (Mac), Ctrl + Win (Windows), or Ctrl + Opt on Macs without Fn.',
+      quote: 'A third rapid push-to-talk tap cancels instead of pasting.',
+    },
+    voiceEditClaim: 'A web search summary says the iOS Flow Keyboard has a “Voice Edit” button. I could not find it in Wispr’s docs on Oct 15 or Oct 16 (keyboard setup, navigation, Command Mode and Transforms pages). Unverified until checked on a phone.',
     keyboard: {
       url: 'https://docs.wisprflow.ai/articles/7453988911-Set-up-the-Flow-keyboard-on-iPhone',
       title: 'Set up the Flow keyboard on iPhone',

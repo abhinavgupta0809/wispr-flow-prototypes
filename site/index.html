@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Flow prototypes</title>
-  <meta name="description" content="Two independent prototypes for Wispr Flow: Mobile Fix Strip and Thought Check, each grounded in public app reviews.">
+  <meta name="description" content="Three proposed extensions for Wispr Flow: Mobile Fix Strip, Journal Mode and Review Revisions, grounded in public app reviews and my own tests.">
   <link rel="icon" href="data:,">
   <meta name="theme-color" content="#034f46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,92 +13,131 @@
   <link rel="stylesheet" href="assets/styles.css">
   <script src="assets/shared.js"></script>
   <script src="assets/evidence.js"></script>
-  <script src="assets/thoughtcheck-core.js"></script>
   <script defer src="assets/overview.js"></script>
 </head>
 <body>
   <a class="skip" href="#concepts">Skip to the prototypes</a>
   <div class="masthead">
     <div class="shell topbar">
-      <a class="site-name" href="./">Two Flow prototypes</a>
+      <a class="site-name" href="./">Flow prototypes</a>
       <nav class="nav" aria-label="Pages">
         <a href="./" aria-current="page">Overview</a>
         <a href="fix-strip/">Mobile Fix Strip</a>
-        <a href="thought-check/">Thought Check</a>
+        <a href="journal-mode/">Journal Mode</a>
+        <a href="review-revisions/">Review Revisions</a>
+        <a href="research/">Research</a>
         <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
       </nav>
     </div>
     <div class="shell page-intro">
-      <p class="independent">Independent prototypes · not made by or with Wispr</p>
-      <h1>Two problems from Flow's reviews, one prototype each</h1>
-      <p class="lede">People who love Flow's dictation describe two moments where it lets them down: fixing one wrong word on a phone, and trusting that a cleaned-up draft still says everything they said. One is ready to try. The other starts with an experiment.</p>
+      <p class="independent">Independent proposals · not made by or with Wispr</p>
+      <h1>More control over how Flow turns speech into writing</h1>
+      <p class="lede">Give people more control over how Flow turns speech into writing: quick corrections on mobile, faithful capture for personal reflection, and reviewable choices after complex revisions.</p>
     </div>
   </div>
 
   <main class="shell">
     <div class="legend" aria-label="How to read these pages">
       <span class="item"><span class="tag tag-evidence">Customer evidence</span> what reviewers wrote</span>
-      <span class="item"><span class="tag tag-finding">Experiment finding</span> measured in my test only</span>
+      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
+      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
       <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
       <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
     </div>
 
+    <section aria-labelledby="today-h" class="grid-2">
+      <article class="block shipping">
+        <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" id="read-on"></span></div>
+        <h2 id="today-h" class="h3">Where Flow is today</h2>
+        <p>Wispr Flow already offers desktop tools for transforming text. This proposal explores how editing can work on mobile and how users could control cleanup and revisit decisions made while speaking.</p>
+        <ul class="ticks muted" id="today-quotes"></ul>
+      </article>
+      <article class="block proposed">
+        <div class="button-row"><span class="tag tag-proposed">Proposed extensions</span></div>
+        <h2 class="h3">Three connected ideas, one shared editor</h2>
+        <p>Each is a proposed extension of what Flow ships, not a replacement. They share one phrase editor: after a mobile dictation, a journal capture or a revision review, a wrong word is one tap away.</p>
+        <p class="muted">They have different amounts of evidence behind them, and each page says how much.</p>
+      </article>
+    </section>
+
+    <section id="concepts" aria-labelledby="concepts-h">
+      <div class="section-head">
+        <p class="eyebrow">The proposals</p>
+        <h2 id="concepts-h">Start with Mobile Fix Strip</h2>
+      </div>
+      <article class="block concept lead-concept">
+        <div class="lead-grid">
+          <div class="lead-copy">
+            <div class="button-row"><span class="eyebrow">1 · Lead proposal</span><span class="tag tag-evidence">Strongest customer evidence</span></div>
+            <h2>Mobile Fix Strip</h2>
+            <p class="concept-kicker">Precise phrase editing</p>
+            <dl>
+              <div><dt>Problem</dt><dd>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards.</dd></div>
+              <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="fs-evidence"></dd></div>
+              <div><dt><span class="tag tag-finding">My test</span></dt><dd>Flow heard “Mobile Fix Strip” as “mobile fix trip.” That error is the second demo.</dd></div>
+              <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Tap the wrong words, say or type the fix, preview, apply, undo. Only the selected phrase changes; nothing is regenerated.</dd></div>
+              <div><dt>Next step</dt><dd>Time it against today's iOS keyboard. That comparison waits until I've observed the current keyboard on a phone.</dd></div>
+            </dl>
+            <div class="button-row"><a class="button primary" href="fix-strip/">Open Mobile Fix Strip</a><a class="button quiet" href="fix-strip/?scenario=fix-trip#demo">Try the “fix trip” demo</a></div>
+          </div>
+        </div>
+      </article>
+
+      <div class="grid-2 extensions">
+        <article class="block concept">
+          <div class="button-row"><span class="eyebrow">2 · Related extension</span><span class="tag tag-hypothesis">Preference hypothesis</span></div>
+          <h2>Journal Mode</h2>
+          <p class="concept-kicker">Capture with minimal cleanup, polish afterward</p>
+          <dl>
+            <div><dt>Idea</dt><dd>Capture your thoughts in your own words. Clean them up when you're ready.</dd></div>
+            <div><dt><span class="tag tag-finding">My test</span></dt><dd>My journal comparison largely kept my tone and story details. So this is about choice, not a fix for lost personality.</dd></div>
+            <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Turn it on for one recording (triple-press fn, or a button), then keep the capture or polish a separate copy. Both versions stay.</dd></div>
+            <div><dt>Open question</dt><dd>Flow already uses a third quick tap to cancel hands-free dictation, so the shortcut needs Wispr's input.</dd></div>
+          </dl>
+          <div class="button-row"><a class="button primary" href="journal-mode/">Open Journal Mode</a></div>
+        </article>
+        <article class="block concept">
+          <div class="button-row"><span class="eyebrow">3 · Related extension</span><span class="tag tag-finding">Evidence: my tests only</span></div>
+          <h2>Review Revisions</h2>
+          <p class="concept-kicker">Inspect final choices, revisit earlier alternatives</p>
+          <dl>
+            <div><dt>Idea</dt><dd>Check the choices you changed while speaking.</dd></div>
+            <div><dt><span class="tag tag-finding">My test</span></dt><dd>Most corrections landed. One kept Sam on a guest list I'd meant to leave Sam off; one wrote “the smaller group” without naming it.</dd></div>
+            <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>An optional control after dictations with revisions: one card per decision, change any one, preview, apply, undo.</dd></div>
+            <div><dt>Replaces</dt><dd>Thought Check. My scripted passages mostly kept their meaning, so a broad omission check had little to catch.</dd></div>
+          </dl>
+          <div class="button-row"><a class="button primary" href="review-revisions/">Open Review Revisions</a></div>
+        </article>
+      </div>
+    </section>
+
     <section aria-labelledby="video-h" class="video-section">
       <div class="section-head">
         <p class="eyebrow">See it work</p>
-        <h2 id="video-h">The Fix Strip in 23 seconds</h2>
+        <h2 id="video-h">The three prototypes in under a minute</h2>
       </div>
       <figure class="video-figure">
         <video controls playsinline preload="metadata" poster="assets/video/flow-prototypes.jpg" width="1920" height="1080">
           <source src="assets/video/flow-prototypes.mp4" type="video/mp4">
           Your browser can't play this video. <a href="assets/video/flow-prototypes.mp4">Download it</a>.
         </video>
-        <figcaption class="muted"><span class="tag tag-sim">Simulated</span> The dictation and the spoken "Thursday" are prepared text; nothing is recognized. Music: Happy Beats / Business Moves vol. 10 by <a href="https://ende.app/en" target="_blank" rel="noopener">ende.app</a> (CC BY 4.0). Sound effects: Kenney (CC0).</figcaption>
+        <figcaption class="muted"><span class="tag tag-sim">Simulated</span> Every dictation, spoken replacement and Polish result in the video is prepared text; nothing is recognized. Music: Happy Beats / Business Moves vol. 10 by <a href="https://ende.app/en" target="_blank" rel="noopener">ende.app</a> (CC BY 4.0). Sound effects: Kenney (CC0).</figcaption>
       </figure>
-    </section>
-
-    <section id="concepts" aria-label="The two prototypes" class="grid-2">
-      <article class="block concept">
-        <p class="eyebrow">Prototype 1</p>
-        <h2>Mobile Fix Strip</h2>
-        <dl>
-          <div><dt>Problem</dt><dd>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards.</dd></div>
-          <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="fs-evidence"></dd></div>
-          <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Tap the wrong word in a strip showing your last dictation, say or type the fix, preview it, apply. Every other character stays as it was.</dd></div>
-          <div><dt><span class="tag tag-proposed">North star</span></dt><dd>Time to a correct, send-ready message, for dictations that needed a fix. <a href="fix-strip/#measure-h">Supporting metrics and guardrails</a></dd></div>
-          <div><dt>Status</dt><dd>Interactive demo ready. The comparison with Flow's current iOS keyboard waits until it's observed on a phone.</dd></div>
-        </dl>
-        <div class="button-row"><a class="button primary" href="fix-strip/">Open Mobile Fix Strip</a><a class="button quiet" href="fix-strip/#demo">Jump to the demo</a></div>
-      </article>
-
-      <article class="block concept">
-        <p class="eyebrow">Prototype 2</p>
-        <h2>Thought Check</h2>
-        <dl>
-          <div><dt>Problem <span class="tag tag-hypothesis">hypothesis</span></dt><dd>When spoken thoughts become a cleaned-up draft, users may struggle to notice whether an important detail, condition, or instruction disappeared or changed.</dd></div>
-          <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="tc-evidence"></dd></div>
-          <div><dt>Method</dt><dd>Ten scripted passages read into the real Flow app, each checked unit by unit for what survived. Then repeats, then two unscripted brain dumps.</dd></div>
-          <div><dt><span class="tag tag-finding">Experiment finding</span></dt><dd id="tc-progress">No results yet.</dd></div>
-          <div><dt><span class="tag tag-proposed">North star</span></dt><dd>Faithful sent drafts: the share of audited sent drafts that keep every meaning unit the speaker said. Only if the experiment shows losses. <a href="thought-check/#tc-measure-h">Supporting metrics and guardrails</a></dd></div>
-          <div><dt>Status</dt><dd>Test workspace ready. The review interaction is designed only after the results are in.</dd></div>
-        </dl>
-        <div class="button-row"><a class="button primary" href="thought-check/">Open Thought Check</a><a class="button quiet" href="thought-check/#results">See results</a></div>
-      </article>
     </section>
 
     <section aria-labelledby="src-h" class="grid-2">
       <article class="block evidence">
         <h3 id="src-h">Where the evidence comes from</h3>
-        <p>The <a href="https://wispr-reviews-site.vercel.app/">Wispr Flow app reviews dashboard</a>: 7,007 public Google Play and App Store reviews of the mobile apps, May 2025 to Oct 2026, each labeled by an LLM and checked against 120 hand-labeled reviews.</p>
-        <p class="muted">Quotes on these pages are copied verbatim from its export and identified by review ID. Store reviews are self-selected, so they show that a problem exists for someone. They don't show how common it is.</p>
+        <p>The <a href="https://wispr-reviews-site.vercel.app/">Wispr Flow app reviews dashboard</a>: 7,007 public Google Play and App Store reviews of the mobile apps, May 2025 to Oct 2026, each labeled by an LLM and checked against 120 hand-labeled reviews. Plus <a href="research/">my own tests</a> in the real Flow app.</p>
+        <p class="muted">Review quotes are verbatim and identified by review ID. Store reviews are self-selected, so they show that a problem exists for someone, not how common it is. My tests are one speaker and aren't yet checked against their recordings.</p>
       </article>
       <article class="block sim">
         <h3>What's simulated</h3>
         <ul class="ticks">
-          <li>Fix Strip: the dictated sentence and the spoken "Thursday" are prepared text. Nothing is recorded or recognized.</li>
-          <li>Fix Strip: the composer is a mock-up inside this page, not a keyboard that works in other apps.</li>
-          <li>Thought Check's test workspace: nothing is simulated. Every output in it is pasted from the real Flow app.</li>
-          <li>Thought Check's review interaction, once built, will use hand-prepared suggestions, labeled as such.</li>
+          <li>No prototype records or recognizes speech. Dictations, “Say it” replacements and the journal entry are prepared text.</li>
+          <li>Journal Mode's Polished version is written by hand, not produced by Flow or any model.</li>
+          <li>Review Revisions' cards and earlier choices are prepared. Scenario A is rebuilt from what I reported; B and C use scripted input.</li>
+          <li>The research workspace simulates nothing: every output in it is pasted from the real Flow app.</li>
         </ul>
       </article>
     </section>
@@ -110,20 +149,20 @@
       </div>
       <div class="about">
         <article class="block">
-          <p>I'm an avid Wispr Flow user. I've had two student accounts on it, and I connect deeply with the product. That's the reason for this work: I wanted to understand where it still lets people down, and test it properly instead of guessing.</p>
+          <p>I'm an avid Wispr Flow user. I've had two student accounts on it, and I connect deeply with the product. That's the reason for this work: I wanted to understand where it still gets in people's way, and test it properly instead of guessing.</p>
           <div class="usage" aria-label="My Flow usage, self-reported">
             <div><strong>26 days</strong><span>current streak, as of Oct 16, 2026</span></div>
             <div><strong>~50,000</strong><span>words spoken on one account</span></div>
             <div><strong>Much more</strong><span>on my second account</span></div>
           </div>
-          <p class="muted">Self-reported from my own accounts. A heavy user isn't a typical one, so my experience isn't counted as evidence on these pages. The reviews and the experiment are.</p>
+          <p class="muted">Self-reported from my own accounts. A heavy user isn't a typical one, so my experience isn't counted as evidence on these pages. The reviews and the recorded tests are.</p>
         </article>
         <article class="block">
           <h3>Abhinav Gupta</h3>
           <ul class="ticks">
             <li>MS Product Management at Carnegie Mellon (Tepper), graduating December 2026. Aiming for AI product management.</li>
             <li>About six years across Flipkart, ShareChat, Meesho and Tata 1mg, in product, growth, strategy and operations.</li>
-            <li>For this application: built the <a href="https://wispr-reviews-site.vercel.app/">reviews dashboard</a> (7,007 reviews), chose the two problems, designed the experiment and the metrics, and built both prototypes with Claude Code as a coding partner.</li>
+            <li>For this application: built the <a href="https://wispr-reviews-site.vercel.app/">reviews dashboard</a> (7,007 reviews), ran the tests in my own Flow app, designed the three proposals and their metrics, and built the prototypes with Claude Code as a coding partner.</li>
           </ul>
           <div class="button-row"><a class="button small" href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a><a class="button small" href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></div>
         </article>

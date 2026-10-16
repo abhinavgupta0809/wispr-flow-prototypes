@@ -1,6 +1,7 @@
-/* Thought Check: experiment data, workspace model, tallies and export. No DOM, so Node tests can run it.
-   The scripts below are the experimental reference. They are used only to assess runs; nothing in the
-   proposed product interaction may read them. */
+/* Research workspace (first built for Thought Check): experiment data, workspace model, tallies and export.
+   No DOM, so Node tests can run it. The scripts below are the experimental reference. They are used only to
+   assess runs; no prototype interaction reads them. Runs are judged against what was actually said, which
+   may differ from the script. */
 (function (root) {
   const SCHEMA = 'wfp-thoughtcheck/1';
 
@@ -37,6 +38,11 @@
     ['language', 'Language'], ['microphone', 'Microphone'], ['cleanup', 'Cleanup settings'],
   ];
   const PURPOSES = {first: 'First run', redo: 'Redo after misread', recurrence: 'Repeat to check recurrence'};
+  /* 'deviated' = I said something other than the script. The run stays valid and is judged against what I said. */
+  const VALID = ['valid', 'deviated'];
+  const isValid = (run) => VALID.includes(run.validity);
+  const SOURCE_VERIFIED = [['no', 'Not yet verified'], ['recording', 'Checked against the recording'], ['transcript', 'Checked against a transcript only']];
+  const evidenceDefaults = () => ({actualUtterance: '', intendedChoices: '', correctionWanted: '', sourceVerified: 'no'});
 
   const emptyMeta = () => Object.fromEntries(META_FIELDS.map(([k]) => [k, '']));
 
@@ -58,6 +64,7 @@
       units: kind === 'spontaneous' ? (prior ? [...prior.units] : []) : null,
       assessments: {},
       additions: [],
+      ...evidenceDefaults(),
       notes: '',
       repeatNeeded: false,
       createdAt: now, updatedAt: now,
@@ -81,7 +88,7 @@
     const assessed = units.filter((_, i) => VERDICTS.includes(run.assessments[i]?.verdict)).length;
     const started = run.flowOutput.trim() || assessed > 0 || run.notes.trim();
     if (!started) return 'not-started';
-    if (run.flowOutput.trim() && units.length > 0 && assessed === units.length && run.validity === 'valid') return 'complete';
+    if (run.flowOutput.trim() && units.length > 0 && assessed === units.length && isValid(run)) return 'complete';
     return 'in-progress';
   }
 
@@ -159,11 +166,12 @@
 
   function toCSV(ws) {
     const head = ['run_id', 'kind', 'passage_id', 'attempt', 'purpose', 'repeat_of', 'validity', 'invalid_reason', 'status',
-      ...META_FIELDS.map(([k]) => `meta_${k}`), 'has_pre_cleanup', 'recording_ref', 'row_type', 'unit_index', 'unit', 'verdict', 'in_pre_cleanup', 'stage', 'note', 'flow_output'];
+      ...META_FIELDS.map(([k]) => `meta_${k}`), 'has_pre_cleanup', 'recording_ref', 'actual_utterance', 'intended_choices', 'correction_wanted', 'source_verified', 'row_type', 'unit_index', 'unit', 'verdict', 'in_pre_cleanup', 'stage', 'note', 'flow_output'];
     const rows = [head];
     for (const run of ws.runs) {
       const base = [run.id, run.kind, run.passageId, run.attempt, run.purpose, run.repeatOf || '', run.validity, run.invalidReason, runStatus(run),
-        ...META_FIELDS.map(([k]) => run.meta[k]), run.preCleanup.trim() ? 'yes' : 'no', run.recording.ref || run.recording.fileName];
+        ...META_FIELDS.map(([k]) => run.meta[k]), run.preCleanup.trim() ? 'yes' : 'no', run.recording.ref || run.recording.fileName,
+        run.actualUtterance || '', run.intendedChoices || '', run.correctionWanted || '', run.sourceVerified || 'no'];
       const units = unitsFor(run);
       units.forEach((unit, i) => {
         const a = run.assessments[i] || {};
@@ -198,12 +206,13 @@
       if (typeof r.id !== 'string' || !('passageId' in r) || typeof r.flowOutput !== 'string' || typeof r.assessments !== 'object') throw new Error(`Run ${r.id || '?'} is malformed.`);
       r.additions = Array.isArray(r.additions) ? r.additions : [];
       r.recording = r.recording || {ref: '', fileName: '', hasAudio: false};
+      for (const [k, v] of Object.entries(evidenceDefaults())) if (typeof r[k] !== 'string') r[k] = v;
     }
     ws.session = {...emptyMeta(), ...(ws.session || {})};
     return ws;
   }
 
-  const api = {SCHEMA, PASSAGES, SPONTANEOUS, VERDICTS, VERDICT_LABELS, META_FIELDS, PURPOSES,
+  const api = {SCHEMA, PASSAGES, SPONTANEOUS, VERDICTS, VERDICT_LABELS, META_FIELDS, PURPOSES, VALID, isValid, SOURCE_VERIFIED,
     createWorkspace, newRun, passageById, unitsFor, runStatus, tallyRun, discrepancyStage, summarize, toCSV, toExport, parseImport};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.ThoughtCheck = api;

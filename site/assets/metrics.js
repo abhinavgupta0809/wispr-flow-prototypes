@@ -1,4 +1,4 @@
-/* Success metrics for both concepts, chosen with the PM-OS /define-north-star and /feature-metrics
+/* Success metrics and usability tests for the three proposals, chosen with the PM-OS /define-north-star and /feature-metrics
    skills (STEDII check). No Wispr baselines are available to me, so every threshold is a proposed
    starting point to reset once a baseline and its variance are known. Never-events are the exception:
    their threshold is zero by definition. */
@@ -8,7 +8,7 @@
     source: 'Wispr Flow help center footer, read 2026-10-15',
     metric: 'Weekly kept dictations per active user',
     definition: 'Dictations that are sent or kept without being deleted and retyped, per weekly active user.',
-    label: 'Assumption: Wispr’s own north star is not public. This is my stand-in, to show what both feature metrics feed.',
+    label: 'Assumption: Wispr’s own north star is not public. This is my stand-in, to show what all three feature metrics feed.',
   };
 
   const fixStrip = {
@@ -47,42 +47,121 @@
     kill: ['Any text-integrity never-event in production.', 'Quick undo above 20% for a week (proposed).', 'Dictations that end up sent fall 2 or more points below holdout for a week (proposed).'],
   };
 
-  const thoughtCheck = {
-    gate: 'These metrics apply only if the experiment finds meaning losses worth catching. If it doesn’t, there is nothing to measure and the concept stops.',
+  fixStrip.validation = {
+    question: 'Is completing the correction faster and easier?',
+    compare: 'The same correction made two ways by the same person, order counterbalanced: the fastest path the current Flow iOS keyboard allows (observed on a phone first), and the Fix Strip prototype.',
+    tasks: 'Fix “Tuesday” → “Thursday” and “fix trip” → “Fix Strip” in a dictated message.',
+    measures: [
+      ['Primary', 'Seconds from the dictation appearing to a correct message.'],
+      ['Effort', 'Taps, keyboard switches and re-dictations per correction.'],
+      ['Ease', 'Single Ease Question (1 to 7) after each task.'],
+      ['Integrity', 'Any change outside the intended phrase counts as a failure.'],
+    ],
+    caveat: 'The prototype’s “Say it” is instant and always right. Time it with typed replacements, or add a realistic recognition delay, so the comparison isn’t flattered.',
+    decision: 'Go to a native feasibility spike if the strip is faster and rated easier for most participants with no integrity failures. Otherwise, find out where the time goes before building anything.',
+    sample: '6 to 8 iPhone Flow users (proposed). Enough to find usability problems, not to estimate an effect size.',
+  };
+
+  const journalMode = {
+    gate: 'Journal Mode is a preference hypothesis. These metrics apply only if the usability test shows that some people want the captured version or the choice.',
+    validation: {
+      question: 'Which version would the user save, and why?',
+      compare: 'Each participant records a real journal entry in Journal Mode, then sees Captured and Polished side by side.',
+      tasks: 'Turn Journal Mode on (shortcut or button), record, then keep one version. Return to the captured version afterwards.',
+      measures: [
+        ['Primary', 'Which version they keep: Captured, Polished, or one they edited. Plus their reason, coded afterwards.'],
+        ['Unwanted edits', 'Places they mark “I didn’t want this changed,” counted per version.'],
+        ['Activation', 'Whether they turn the mode on without help, and by which path.'],
+        ['Clarity', 'Whether they can say, mid-recording, which mode they’re in and whether the mic is on.'],
+      ],
+      caveat: 'This measures preference. It says nothing about recognition accuracy, and none of it should be reported as a transcription improvement.',
+      decision: 'Worth building if a meaningful share keep Captured or say they want the choice (one in three, proposed) and few report unwanted edits in the Captured version. If nearly everyone keeps Polished, Auto Cleanup already covers the need.',
+      sample: '6 to 8 desktop Flow users who journal or think aloud (proposed).',
+    },
     northStar: {
-      name: 'Faithful sent drafts',
-      formula: 'Audited sent drafts in which every meaning unit in the captured audio survives, with no unsupported additions ÷ audited sent drafts.',
-      population: 'A random weekly sample of dictations of 40 words or more with cleanup on, from users who opted in to quality review of retained audio. Treatment versus a randomized holdout.',
-      period: 'Weekly, read after four full weeks.',
-      exclusions: 'Dictations whose audio was not retained under the user’s own settings; unsent drafts.',
+      name: 'Repeat Journal Mode use',
+      formula: 'Users who use Journal Mode in at least two of the four weeks after first use ÷ users who used it at least once.',
+      population: 'Desktop Flow users in a randomized rollout of Journal Mode.',
+      period: 'Monthly cohorts, read four weeks after first use.',
+      exclusions: 'Internal and test accounts; activations with no completed recording.',
       direction: 'Up is good.',
-      decision: 'Keep building only if treatment raises the faithful share over holdout. If it doesn’t, the cards aren’t catching what matters, however often people tap them.',
-      why: 'The hypothesis is about noticing. What counts is what gets sent, not how many cards appear. Raters use the same meaning-unit rubric as this experiment.',
-      caveat: 'It needs a consented audit program and trained raters. That is slow and costly, which is why the supporting metrics below act as faster leading signals.',
+      decision: 'If repeat use stays low, the preference isn’t strong enough for its own mode; fold “keep it raw” into the existing Auto Cleanup setting instead.',
+      why: 'A preference shows up as coming back, not as one curious try. Repeat use is hard for novelty to fake.',
+      caveat: 'Assumption: people who journal by voice do it often enough to show in four weeks. If they journal weekly or less, lengthen the window.',
       stedii: [
-        ['Sensitive', 'Only if meaning loss is common enough to move; the experiment is the first check of that.'],
-        ['Timely', 'Weekly, with a rating lag of a few days.'],
-        ['Easy', 'Share of sent drafts that still say everything you said.'],
+        ['Sensitive', 'Counts only people who tried the mode, so a real preference moves it.'],
+        ['Timely', 'Four weeks per cohort; slower than the supporting metrics.'],
+        ['Easy', 'Did people come back to it?'],
         ['Directional', 'Higher is better.'],
-        ['Implementable', 'Needs opt-in audio review and raters.'],
+        ['Implementable', 'Needs a mode flag on each recording.'],
+        ['Independent', 'Rollout cohorts absorb seasonality and app releases.'],
+      ],
+    },
+    supporting: [
+      {name: 'Captured kept', formula: 'Entries kept as Captured ÷ entries where a version was kept', direction: 'Informational', decision: 'If almost nobody keeps Captured, the value is the polish step, not the raw capture; reconsider the mode.'},
+      {name: 'Polish rate', formula: 'Journal entries polished ÷ Journal entries', direction: 'Informational', decision: 'Read with Captured kept: polishing then keeping Captured means the comparison itself is useful.'},
+      {name: 'Activation path', formula: 'Activations by shortcut ÷ all activations', direction: 'Informational', decision: 'If the shortcut is rarely used, don’t spend a gesture on it; keep the button.'},
+      {name: 'Phrase edits per entry', formula: 'Applied phrase edits ÷ Journal entries', direction: 'Down', decision: 'Many edits on Captured mean minimal cleanup is too minimal; tune the capture rules.'},
+    ],
+    guardrails: [
+      {name: 'Capture silently replaced', formula: 'Entries whose Captured version changed without a user edit ÷ Journal entries', threshold: 'Zero (never-event)', action: 'Turn the mode off and fix.'},
+      {name: 'Hands-free cancelled by a third tap', formula: 'Hands-free recordings cancelled by a third fn tap ÷ hands-free starts', threshold: 'No higher than holdout', action: 'The shortcut collides with hands-free; move Journal Mode to another binding.'},
+      {name: 'Accidental activation', formula: 'Activations turned off within 5 seconds with no recording ÷ activations', threshold: 'At most 10% (proposed)', action: 'Make the shortcut harder to trigger by accident.'},
+      {name: 'Unwanted-edit reports', formula: 'Reports of unwanted changes per 100 Journal Mode entries', threshold: 'Below the normal-mode rate (proposed)', action: 'Review the capture rules against the reported entries.'},
+    ],
+    kill: ['Any never-event.', 'Hands-free cancellations rise above holdout after a fix attempt.', 'Repeat use below 20% for two monthly cohorts (proposed).'],
+  };
+
+  const reviewRevisions = {
+    gate: 'The usability test comes first: does reviewing beat simply dictating another correction? The production metrics only matter if it does.',
+    validation: {
+      question: 'Can users inspect and adjust their final decisions accurately?',
+      compare: 'Review Revisions against the obvious alternative: dictating another correction (“Actually, drop Sam”). Same scenarios, order counterbalanced.',
+      tasks: 'Exclude Sam while keeping Leo and Daniel’s optional status; move the meeting to Friday without changing the time or guests; pick Thursday without confirming it.',
+      measures: [
+        ['Primary', 'Final-message correctness: every target decision right, and every unrelated decision and condition unchanged.'],
+        ['Effort', 'Seconds and actions to a correct message.'],
+        ['Ease', 'Single Ease Question (1 to 7) per task.'],
+        ['Side effects', 'Unrelated decisions or conditions changed by mistake.'],
+      ],
+      caveat: 'Re-dictation in the test goes through the real app; Review Revisions is a prototype with prepared cards. Score correctness on the final text only, so both paths are judged the same way.',
+      decision: 'Keep it if the controls give equal or better correctness with less effort. If re-dictating is as accurate and as quick, drop the controls.',
+      sample: '6 to 8 Flow users who dictate scheduling or planning messages (proposed).',
+    },
+    northStar: {
+      name: 'Correct final messages after spoken revisions',
+      formula: 'Audited sent messages from dictations containing a spoken revision, where every final decision matches the speaker’s intent and no unrelated decision changed ÷ audited messages of that kind.',
+      population: 'An opt-in quality-review sample, treatment versus a randomized holdout.',
+      period: 'Weekly, read after four full weeks.',
+      exclusions: 'Dictations without a spoken revision; unsent drafts; audio not retained under the user’s own settings.',
+      direction: 'Up is good.',
+      decision: 'Keep building only if treatment raises correctness over holdout. Counting opened reviews would reward the control, not the outcome.',
+      why: 'The point is that the final choices are right. A tidy-looking review that leaves Sam in the message has failed.',
+      caveat: 'Assumption: intent can be judged reliably, by the speaker in a follow-up prompt or by raters with the audio. That is slow and costly, so the supporting metrics lead.',
+      stedii: [
+        ['Sensitive', 'Only dictations with revisions are counted.'],
+        ['Timely', 'Weekly, with a rating lag.'],
+        ['Easy', 'Did the message end up saying what you decided?'],
+        ['Directional', 'Higher is better.'],
+        ['Implementable', 'Needs consented audits and a revision flag.'],
         ['Independent', 'The holdout absorbs model and cleanup changes.'],
       ],
     },
     supporting: [
-      {name: 'Card precision', formula: 'Cards a rater confirms as a real omission or change ÷ cards shown (sampled)', direction: 'Up', decision: 'Below the bar, don’t widen the rollout; noisy cards teach people to ignore them.'},
-      {name: 'Loss recall on the test set', formula: 'Known meaning-unit losses surfaced as cards ÷ known losses in a scripted test set (this experiment’s passages plus more speakers)', direction: 'Up', decision: 'An offline gate before any launch: if it misses most known losses, it isn’t ready.'},
-      {name: 'Restore rate', formula: 'Cards resolved with Restore ÷ cards shown', direction: 'Read with precision', decision: 'High restore with high precision means the cards are useful; high restore with low precision means people accept without checking. Investigate that.'},
-      {name: 'Check details use', formula: 'Drafts where Check details was tapped ÷ eligible drafts', direction: 'Up', decision: 'Very low use means the entry point is invisible or not valued; test placement before judging the check.'},
+      {name: 'Review opens', formula: 'Dictations where Review revisions was opened ÷ dictations that showed the control', direction: 'Informational', decision: 'Very low use means the control is missed or not needed; check which before changing it.'},
+      {name: 'Change rate', formula: 'Opens with at least one applied change ÷ opens', direction: 'Informational', decision: 'Opens without changes are fine if the message was right; audit a sample to tell.'},
+      {name: 'Earlier-choice restores', formula: 'Changes that restore an earlier spoken choice ÷ applied changes', direction: 'Informational', decision: 'If nobody restores, View revisions can be simpler.'},
+      {name: 'Source excerpt views', formula: 'Opens where a source excerpt was viewed ÷ opens', direction: 'Informational', decision: 'Tells whether people check the evidence or trust the cards.'},
     ],
     guardrails: [
-      {name: 'Restore adds something never said', formula: 'Restores that insert content absent from the captured audio or its transcript ÷ restores', threshold: 'Zero (never-event)', action: 'Turn the feature off.'},
-      {name: 'No new audio retention', formula: 'Checks run on audio that the user’s settings would not otherwise retain ÷ checks', threshold: 'Zero (never-event)', action: 'Turn the feature off; privacy review.'},
-      {name: 'False alarms', formula: 'Cards rated not a real loss, per 100 eligible dictations', threshold: 'At most 2 (proposed)', action: 'Raise the bar for showing a card.'},
-      {name: 'Time added before sending', formula: 'Median dictation-to-send time for drafts where Check details was used, minus the same for holdout drafts', threshold: 'At most 5 seconds (proposed)', action: 'Simplify the cards; Flow’s promise is speed.'},
-      {name: 'Undo after Restore', formula: 'Restores undone within 10 seconds ÷ restores', threshold: 'At most 15% (proposed)', action: 'Review undone restores for wrong suggestions.'},
+      {name: 'Card disagrees with the message', formula: 'Reviews where a card shows a value the displayed message doesn’t contain ÷ reviews opened', threshold: 'Zero (never-event)', action: 'Turn the control off.'},
+      {name: 'Unrelated decision changed', formula: 'Applied changes that alter a decision or condition the user didn’t touch ÷ applied changes', threshold: 'Zero (never-event)', action: 'Turn the control off and fix.'},
+      {name: 'Control shown without a revision', formula: 'Controls shown on dictations with no spoken revision, per 100 dictations', threshold: 'At most 2 (proposed)', action: 'Raise the bar for showing it; it must stay rare and optional.'},
+      {name: 'Undo after apply', formula: 'Applied changes undone within 10 seconds ÷ applied changes', threshold: 'At most 15% (proposed)', action: 'Review undone changes for confusing cards.'},
+      {name: 'No new audio retention', formula: 'Source excerpts built from audio the user’s settings wouldn’t otherwise keep ÷ excerpts', threshold: 'Zero (never-event)', action: 'Turn excerpts off; privacy review.'},
     ],
-    kill: ['Any never-event.', 'Card precision below 50% after two weeks (proposed).', 'No gain in faithful sent drafts over holdout after four weeks.'],
+    kill: ['Any never-event.', 'The usability test shows re-dictation is as accurate and as fast.', 'No correctness gain over holdout after four weeks.'],
   };
 
-  root.METRICS = {anchor, fixStrip, thoughtCheck};
+  root.METRICS = {anchor, fixStrip, journalMode, reviewRevisions};
 })(typeof window !== 'undefined' ? window : globalThis);

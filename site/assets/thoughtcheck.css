@@ -110,3 +110,20 @@ legend { font: 600 13px/18px var(--font-sans); color: var(--text-1); padding: 0;
 .verbatim { font-family: var(--font-mono); font-size: 13px; line-height: 20px; white-space: pre-wrap; background: var(--surface); padding: 10px 12px; border-radius: 8px; margin-top: 8px; }
 .empty { padding: 20px; border: 1px dashed var(--border-strong); border-radius: 10px; color: var(--text-3); }
 .invalid-list summary { cursor: pointer; font-size: 13px; color: var(--text-3); }
+
+/* Evidence fields and records (Research page) */
+.evidence-fields { border-top: 1px dashed var(--border-strong); padding-top: 12px; }
+.evidence-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+@media (max-width: 760px) { .evidence-grid { grid-template-columns: 1fr; } }
+.records { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+@media (max-width: 960px) { .records { grid-template-columns: 1fr; } }
+.record h3 { font: 500 22px/26px var(--font-serif); }
+.record-id { margin-left: auto; color: var(--text-3); }
+.record-label { font: 600 11px/16px var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); }
+.record-reading { color: var(--text-1); }
+.quoted { display: grid; gap: 6px; background: var(--surface); border-radius: 8px; padding: 10px 12px; }
+.quoted blockquote { font: 500 17px/24px var(--font-serif); color: var(--text-1); }
+.record-fields > summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--text-1); }
+.record-fields[open] > summary { margin-bottom: 10px; }
+.empty-field textarea { border-style: dashed; }
+.empty-field textarea::placeholder { color: var(--warn); }

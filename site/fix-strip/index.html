@@ -11,29 +11,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
   <link rel="stylesheet" href="../assets/styles.css">
+  <link rel="stylesheet" href="../assets/phrase-editor.css">
   <link rel="stylesheet" href="../assets/fixstrip.css">
   <script src="../assets/shared.js"></script>
   <script src="../assets/evidence.js"></script>
   <script src="../assets/fixstrip-core.js"></script>
   <script src="../assets/metrics.js"></script>
   <script defer src="../assets/metrics-view.js"></script>
+  <script defer src="../assets/phrase-editor.js"></script>
   <script defer src="../assets/fixstrip.js"></script>
 </head>
 <body>
   <a class="skip" href="#demo">Skip to the demo</a>
   <div class="masthead">
     <div class="shell topbar">
-      <a class="site-name" href="../">Two Flow prototypes</a>
+      <a class="site-name" href="../">Flow prototypes</a>
       <nav class="nav" aria-label="Pages">
         <a href="../">Overview</a>
         <a href="./" aria-current="page">Mobile Fix Strip</a>
-        <a href="../thought-check/">Thought Check</a>
+        <a href="../journal-mode/">Journal Mode</a>
+        <a href="../review-revisions/">Review Revisions</a>
+        <a href="../research/">Research</a>
         <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
       </nav>
     </div>
     <div class="shell page-intro">
-      <p class="independent">Independent prototype · not made by or with Wispr</p>
+      <p class="independent">Proposed extension 1 of 3 · not made by or with Wispr</p>
       <h1>Mobile Fix Strip</h1>
+      <p class="kicker">Precise phrase editing</p>
       <p class="lede">Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards.</p>
     </div>
   </div>
@@ -41,6 +46,7 @@
   <main class="shell">
     <div class="legend" aria-label="How to read this page">
       <span class="item"><span class="tag tag-evidence">Customer evidence</span> what reviewers wrote</span>
+      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
       <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
       <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
       <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
@@ -50,9 +56,13 @@
       <div class="section-head">
         <p class="eyebrow">1 · The problem</p>
         <h2 id="problem-h">Reviewers praise the dictation, then describe the edit</h2>
-        <p>Three recent iOS reviews from the <a id="dash-link" href="#">reviews dashboard</a> export. They show the problem exists for some people. They don't say how many.</p>
+        <p>Three recent iOS reviews from the <a id="dash-link" href="#">reviews dashboard</a> export. They show the problem exists for some people. They don't say how many. Of the three proposals, this one has the most customer evidence behind it.</p>
       </div>
       <div class="grid-3" id="fix-evidence"></div>
+      <article class="block finding first-hand">
+        <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
+        <p>It happened to me too. I said “Mobile Fix Strip” and Flow wrote “mobile fix trip.” Fixing two words on a phone shouldn't mean re-dictating the sentence. That error is the second demo below. <a href="../research/">Evidence record R7</a></p>
+      </article>
     </section>
 
     <section aria-labelledby="today-h">
@@ -67,6 +77,7 @@
           <div class="button-row"><span class="tag tag-unverified">Not yet observed</span></div>
           <h3>The iOS comparison waits for a device check</h3>
           <p class="muted">I have read Wispr's docs, not used the current iOS keyboard for this task. The video leaves out any side-by-side until this is recorded on a phone.</p>
+          <p class="muted" id="voice-edit-claim"></p>
           <ol class="steps">
             <li>Dictate the prepared sentence into Messages with the Flow keyboard.</li>
             <li>Change "Tuesday" to "Thursday" the fastest way the app allows. Note each tap, keyboard switch and the seconds taken.</li>
@@ -89,7 +100,8 @@
           <li><strong>Only the latest dictation.</strong> The strip shows that text as tappable words, so you never place a cursor in a long field.</li>
           <li><strong>Tap a word, or two to make a phrase.</strong> Then say the replacement, or type it.</li>
           <li><strong>See it before it lands.</strong> The phrase is shown changing in place. Apply, cancel, or undo afterwards.</li>
-          <li><strong>Exact replacement.</strong> Only the selected characters change. No rewrite of the rest of the message.</li>
+          <li><strong>Exact replacement.</strong> Only the selected characters change. No regenerating the passage, no rewrite of the rest of the message.</li>
+          <li><strong>One editor, three places.</strong> The same phrase editor opens after a <a href="../journal-mode/">Journal Mode</a> capture and after <a href="../review-revisions/">Review Revisions</a>, so a wrong word is always one tap away.</li>
         </ul>
       </article>
     </section>
@@ -97,16 +109,16 @@
     <section id="demo" aria-labelledby="demo-h">
       <div class="section-head">
         <p class="eyebrow">4 · Try it</p>
-        <h2 id="demo-h">Change "Tuesday" to "Thursday"</h2>
-        <p>A simulated message composer. Editing stays inside this page; it doesn't connect to Flow or to any other app.</p>
+        <h2 id="demo-h">Change “Tuesday” to “Thursday”</h2>
+        <p>A simulated message composer. Editing stays inside this page; it doesn't connect to Flow or to any other app. Two demos: a wrong word, and the recognition error I hit myself.</p>
       </div>
       <div class="demo">
         <div class="phone" id="phone">
           <div class="phone-screen">
             <div class="statusbar" aria-hidden="true"><span>9:41</span><span class="sim-chip">Prototype</span></div>
-            <div class="thread-head"><span class="avatar" aria-hidden="true">P</span><div><strong>Project team</strong><span>3 people</span></div></div>
+            <div class="thread-head"><span class="avatar" aria-hidden="true">P</span><div><strong id="thread-name">Project team</strong><span>3 people</span></div></div>
             <div class="thread" aria-label="Message thread">
-              <p class="bubble in">Can you send the estimate today? Need it before the review.</p>
+              <p class="bubble in" id="thread-in">Can you send the estimate today? Need it before the review.</p>
             </div>
             <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
             <div class="composer">
@@ -115,16 +127,24 @@
             </div>
             <div class="strip" id="strip" hidden>
               <div class="strip-head"><span>Last dictation · tap the words to fix</span><button type="button" class="strip-close" id="strip-close" aria-label="Close the fix strip">&times;</button></div>
-              <div class="strip-words" id="strip-words" role="group" aria-label="Words in the last dictation"></div>
+              <div class="pe-words" id="strip-words" role="group" aria-label="Words in the last dictation"></div>
             </div>
-            <div class="kb" id="kb"></div>
+            <div class="kb" id="kb"><div id="kb-host" class="kb-host"></div><div id="kb-editor" class="pe-controls kb-editor" hidden></div></div>
           </div>
         </div>
 
         <aside class="demo-side">
+          <div class="block">
+            <h3>Demo</h3>
+            <div class="scenario-pick" role="group" aria-label="Choose a demo">
+              <button type="button" class="button small" data-scenario="wrong-day" aria-pressed="true">1 · Wrong day</button>
+              <button type="button" class="button small" data-scenario="fix-trip" aria-pressed="false">2 · “fix trip”</button>
+            </div>
+            <p class="muted"><span id="scenario-tag" class="tag tag-sim">Scripted</span> <span id="scenario-source"></span></p>
+          </div>
           <div class="block sim">
             <div class="button-row"><span class="tag tag-sim">Simulated</span></div>
-            <p>The <strong>Dictate</strong> button inserts a prepared sentence. The <strong>Say it</strong> button fills in a prepared replacement ("Thursday" for "Tuesday"). Neither records audio or recognizes speech, and neither shows how Wispr's recognition performs.</p>
+            <p>The <strong>Dictate</strong> button inserts a prepared sentence. The <strong>Say it</strong> button fills in a prepared replacement (“Thursday” for “Tuesday”, “Fix Strip” for “fix trip”). Neither records audio or recognizes speech, and neither shows how Wispr's recognition performs. Typing any other replacement works too.</p>
           </div>
           <div class="block">
             <h3>Steps</h3>
@@ -142,8 +162,8 @@
     <section aria-labelledby="measure-h">
       <div class="section-head">
         <p class="eyebrow">5 · How we'd know it worked</p>
-        <h2 id="measure-h">North star: time to a correct, send-ready message</h2>
-        <p>This prototype hasn't been timed with users, so nothing here claims the strip is faster. These are the metrics I'd run it against, picked with a north-star and STEDII pass.</p>
+        <h2 id="measure-h">Test it against today's keyboard first</h2>
+        <p>This prototype hasn't been timed with users, so nothing here claims the strip is faster. First a usability test, then, if it ships, the north star: time to a correct, send-ready message. Metrics picked with a north-star and STEDII pass.</p>
       </div>
       <div class="metrics" data-metrics="fixStrip"></div>
     </section>
@@ -157,7 +177,7 @@
         <ul class="ticks">
           <li>It does not work in other iOS apps. A real keyboard extension would need a native check: can it reliably find the last dictated text in the host app's field, and replace that exact range safely, with the cursor moved by the user or by autocorrect?</li>
           <li>It does not recognize speech. Replacement by voice uses a prepared phrase.</li>
-          <li>It handles one replacement and one level of undo.</li>
+          <li>It handles one replacement and one level of undo at a time.</li>
           <li>It has not been tested with users.</li>
         </ul>
       </article>

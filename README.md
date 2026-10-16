@@ -1,17 +1,24 @@
-# Two Flow prototypes: Mobile Fix Strip and Thought Check
+# Flow prototypes: Mobile Fix Strip, Journal Mode, Review Revisions
 
 Independent, unofficial prototypes for a Wispr Flow product application. Not made by or with Wispr.
 Part B of run 4 of the reviews work-sample series. The evidence comes from the
-[Wispr Flow reviews dashboard](https://wispr-reviews-site.vercel.app/) (repo `~/Desktop/Projects/wispr-reviews`).
+[Wispr Flow reviews dashboard](https://wispr-reviews-site.vercel.app/) (repo `~/Desktop/Projects/wispr-reviews`)
+and from my own tests in the Flow app.
+
+Positioning: give people more control over how Flow turns speech into writing: quick corrections on
+mobile, faithful capture for personal reflection, and reviewable choices after complex revisions.
+All three are proposed extensions of what Flow ships (desktop Transforms, Auto Cleanup), sharing one
+phrase editor. Mobile Fix Strip leads: it has the most customer evidence.
 
 | Route | What it is | Status |
 |---|---|---|
-| `/` | Overview: the two problems, evidence links, entry points, a 23-second demo video, and "Why listen to me" | Done |
-| `/fix-strip/` | Mobile Fix Strip: problem, evidence, what Flow ships, interactive phone demo, success measure | Demo done. iOS comparison waits for a device check |
-| `/fix-strip/?record` | Same demo with only the phone and step panel, for screen recording | Done |
-| `/thought-check/` | Thought Check: hypothesis, evidence, test workspace, results | Workspace done. Waiting on the ten recorded runs |
-| `/thought-check/#results` | Results view, computed from the workspace | Done (empty until runs are entered) |
-| `/thought-check/#proposal` | Proposed review interaction | Placeholder. Built after the results |
+| `/` | Overview: positioning, Flow today, the three proposals, demo video, evidence, “Why listen to me” | Done |
+| `/fix-strip/` | Mobile Fix Strip: precise phrase editing. Two demos: wrong day, and the “fix trip” recognition error | Demo done. iOS comparison waits for a device check |
+| `/fix-strip/?record&scenario=fix-trip` | Demo only, for screen recording (`scenario=wrong-day` is the default) | Done |
+| `/journal-mode/` | Journal Mode: triple-press fn or button, minimal-cleanup capture, Captured/Polished versions | Demo done (`?record` for recording) |
+| `/review-revisions/` | Review Revisions: scenarios A (guest list), B (linked revisions), C (unresolved), plus plain dictation | Demo done (`?record&scenario=…`) |
+| `/research/` | Evidence records, the ten-passage test workspace, results | Done. Records need outputs and recordings |
+| `/thought-check/` | Redirects to `/research/` (Thought Check was replaced by Review Revisions) | Done |
 
 ## Run it
 
@@ -33,28 +40,41 @@ node --test tests/*.test.js
 Deploying: any static host works with `site/` as the root (Vercel: root directory `site`, no framework).
 Not deployed yet.
 
-## Success metrics
+## Usability tests and metrics
 
-Each feature page has a "How we'd know it worked" section: one proposed north star, four supporting
-metrics, five guardrails and kill criteria, chosen with the PM-OS north-star and STEDII skills. No Wispr
-baselines are available, so thresholds marked "proposed" are starting points; never-events are zero.
-Thought Check's metrics apply only if the experiment finds meaning losses.
+Each proposal page has a “How we'd know it worked” section: the usability test to run first (the question
+from `RECORDING-SCRIPTS.md`), then, if it ships, a north star, four supporting metrics, guardrails and kill
+criteria. No Wispr baselines are available, so thresholds marked “proposed” are starting points;
+never-events are zero. Journal Mode measures preference and unwanted-edit reports, never transcription.
+Review Revisions is compared against simply dictating another correction.
 
 ## Demo video
 
-Built with the /brag workflow and Hyperframes 0.8.163, rendered locally. Music: Happy Beats / Business
+Built with the /brag workflow and Hyperframes 0.8.163, rendered locally. Shows all three prototypes. Music: Happy Beats / Business
 Moves vol. 10 by ende.app (CC BY 4.0, credit optional, credited on the page). SFX: Kenney (CC0). The
 video shows simulated input, labeled on screen.
 
 ## What's simulated
 
-- **Fix Strip dictation.** "Dictate" inserts a prepared sentence. Nothing is recorded or recognized.
-- **Fix Strip spoken replacement.** "Say it" fills in a prepared phrase from a fixed lookup
-  (`SIMULATED_REPLACEMENTS` in `site/assets/fixstrip-core.js`: "Tuesday" → "Thursday"). Any other
-  selection must be typed. It does not show how Wispr's recognition performs.
-- **Fix Strip composer.** A mock-up inside the page. It is not a keyboard and doesn't touch other apps.
-- **Thought Check workspace.** Nothing. Every output is pasted from the real Flow app.
-- **Thought Check review interaction (not built yet).** Will use hand-prepared suggestions, labeled simulated.
+- **Speech.** Nothing records or recognizes audio anywhere. Dictations, “Say it” replacements and the
+  journal entry are prepared text. Spoken replacements come from a fixed lookup
+  (`SIMULATED_REPLACEMENTS` in `site/assets/fixstrip-core.js`: “Tuesday” → “Thursday”, “fix trip” →
+  “Fix Strip”). Anything else must be typed.
+- **Fix Strip “fix trip” demo.** The error is one I reported from my own use; the surrounding sentence is scripted.
+- **Journal Mode entry.** Two lines are quoted from my journal comparison as given in the brief; the rest is
+  scripted and labeled line by line on the page. The Polished version is written by hand.
+- **Journal Mode shortcut.** An on-screen fn key (a physical Fn press is counted only if the browser reports
+  it). The triple-press window is adjustable on the page (default 750 ms).
+- **Review Revisions.** Decisions, earlier choices and excerpts are prepared. Scenario A is a reconstruction
+  of my reported intent (no spoken excerpt, no earlier names); B and C use scripted input from the brief.
+- **Research workspace.** Nothing. Every output in it is pasted from the real Flow app.
+
+## Open question found while building
+
+Wispr's hands-free doc (re-read 2026-10-16): “Double-tap your push-to-talk shortcut within half a second
+of starting: Fn (Mac)…” and “A third rapid push-to-talk tap cancels instead of pasting.” A triple-press of
+fn for Journal Mode would collide with that. The Journal Mode page says so and keeps the button as the
+dependable path.
 
 ## Evidence references
 
@@ -67,9 +87,9 @@ problem, not estimates of how common it is. Data lives in `site/assets/evidence.
 | Fix Strip | `ios_14588888578` | 2026-09-24 | iOS US, app 1.76 | 4 | Correcting small mistakes |
 | Fix Strip | `ios_14606766515` | 2026-09-29 | iOS US, app 1.76 | 1 | Switching between dictation and typing |
 | Fix Strip | `ios_14647561822` | 2026-10-09 | iOS US, app 1.77 | 3 | Editing eats the time saved (about typing in general) |
-| Thought Check | `play_992689aa-a5fc-4125-a004-b7d8c674f486` | 2026-09-09 | Android, app 2.3.1 | 4 | Meaning changed by cleanup |
-| Thought Check | `play_3e4f2950-07ef-49d6-a69f-7df8cd9140d1` | 2026-08-02 | Android, app 2.1.5 | 4 | Dropped words |
-| Thought Check | `play_2626242c-a13a-4678-af80-27ce1f572240` | 2026-04-23 | Android, app 1.7.1 | 3 | Words removed or rephrased |
+| Research (was Thought Check) | `play_992689aa-a5fc-4125-a004-b7d8c674f486` | 2026-09-09 | Android, app 2.3.1 | 4 | Meaning changed by cleanup |
+| Research (was Thought Check) | `play_3e4f2950-07ef-49d6-a69f-7df8cd9140d1` | 2026-08-02 | Android, app 2.1.5 | 4 | Dropped words |
+| Research (was Thought Check) | `play_2626242c-a13a-4678-af80-27ce1f572240` | 2026-04-23 | Android, app 1.7.1 | 3 | Words removed or rephrased |
 
 Wispr docs read on 2026-10-15 (pages show only relative "last updated" dates):
 
@@ -85,28 +105,22 @@ Wispr docs read on 2026-10-15 (pages show only relative "last updated" dates):
 - One web search summary mentioned a "Voice Edit" button on the iOS keyboard. I could not find it in
   Wispr's docs. Unverified: check on the phone.
 
-## Thought Check: running the ten tests
+## Research: records and the ten tests
 
-1. Open `/thought-check/` in the browser you'll keep using (data is stored per browser).
-2. Fill **Test conditions** once: date, device, Flow app version, language, microphone, cleanup settings.
-3. For each passage: start an audio recording (Voice Memos on a second device, or screen recording with
-   mic), read the script into Flow exactly, paste Flow's output into **Actual Flow output**, lock it.
-   Paste a pre-cleanup transcript only if Flow shows one.
-4. Mark "Read as written" or "Misread". A misread run stays; use **Add redo**.
-5. Mark every meaning unit. In passage 6, Thursday kept and Tuesday dropped is correct.
-6. Record unsupported additions: content Flow added that you never said.
-7. After all ten, use **Add repeat (check recurrence)** on each passage that needed substantive correction.
-8. Then the two brain dumps: transcribe what you said from the recording, list its meaning units, assess.
-9. **Export JSON** (full workspace plus summary) and **Export CSV** (one row per meaning unit). Audio
-   attachments stay in the browser and are not exported; keep the files.
+The Research page keeps the original Thought Check experiment and adds evidence records.
 
-Rules the results view applies:
-- The main pass counts one valid run per passage. Recurrence repeats appear beside a flagged passage
-  and never enter the totals.
-- "Needs substantive correction" = at least one unit omitted or changed in meaning, or at least one
-  unsupported addition. Unclear doesn't count but is listed.
-- No pre-cleanup transcript → every discrepancy is labeled end-to-end.
-- Controlled and spontaneous runs are reported separately. Results are this experiment's findings,
+- **Evidence records** (`records-core.js`) hold my reported readings from Oct 16, 2026: the ten passages
+  largely kept their meaning; the journal comparison largely kept tone and details; several corrections
+  resolved; guest attempt 1 added Sam back on purpose; guest attempt 2 kept Sam when I meant to drop Sam;
+  the scheduling output used “the smaller group” without naming it; “Mobile Fix Strip” came out as
+  “mobile fix trip.” Each record has fields for what I actually said, intended final choices, the actual
+  Flow output, the recording reference, whether it was independently verified, and the correction I
+  wanted. Unsupplied fields are empty. Edits save per browser; export JSON or CSV.
+- **Test workspace.** Same as before (stored under the old key, so earlier runs still load), plus the same
+  evidence fields on every run. A run where I said something other than the script is marked “Said
+  something different”: it stays valid and is judged against what I actually said.
+- The main pass counts one valid run per passage; recurrence repeats never enter the totals. No
+  pre-cleanup transcript means every discrepancy is end-to-end. Results are this experiment's findings,
   not Flow's error rate.
 
 ## Files
@@ -114,14 +128,17 @@ Rules the results view applies:
 | Path | What |
 |---|---|
 | `site/index.html`, `site/assets/overview.js` | Overview |
-| `site/fix-strip/index.html`, `site/assets/fixstrip.js`, `fixstrip.css` | Fix Strip page and demo UI |
-| `site/assets/fixstrip-core.js` | Fix Strip state machine and text replacement (tested) |
-| `site/thought-check/index.html`, `site/assets/thoughtcheck.js`, `thoughtcheck.css` | Workspace and results UI |
-| `site/assets/thoughtcheck-core.js` | Passages, meaning units, tallies, CSV/JSON export, import (tested) |
-| `site/assets/evidence.js` | Review quotes and docs quotes |
-| `site/assets/metrics.js`, `metrics-view.js` | North star, supporting and guardrail metrics for both concepts (rendered on each page) |
+| `site/assets/fixstrip-core.js` | Phrase-editing core shared by all three demos, plus the two Fix Strip scenarios (tested) |
+| `site/assets/phrase-editor.js`, `phrase-editor.css` | The shared phrase editor component |
+| `site/fix-strip/index.html`, `site/assets/fixstrip.js`, `fixstrip.css` | Fix Strip page and phone demo |
+| `site/journal-mode/index.html`, `site/assets/journal-core.js`, `journal.js`, `journal.css` | Journal Mode (core tested) |
+| `site/review-revisions/index.html`, `site/assets/revisions-core.js`, `revisions.js`, `revisions.css` | Review Revisions (core tested) |
+| `site/assets/textdiff.js` | Word diff for previews and the Captured/Polished comparison (tested) |
+| `site/research/index.html`, `site/assets/records-core.js`, `records.js`, `thoughtcheck-core.js`, `thoughtcheck.js`, `thoughtcheck.css` | Research page: records, workspace, results |
+| `site/assets/evidence.js` | Review quotes and Wispr docs quotes |
+| `site/assets/metrics.js`, `metrics-view.js` | Usability tests and metrics for the three proposals |
 | `tools/metrics-md.js` | Prints the metrics as markdown (`node tools/metrics-md.js`) |
-| `site/assets/video/flow-prototypes.mp4` | Demo video (23s, 1080p). Source project: `PM-OS/projects/wispr-reviews/03-outputs/brag/` |
+| `site/assets/video/flow-prototypes.mp4` | Demo video. Source project: `PM-OS/projects/wispr-reviews/03-outputs/brag/` |
 | `site/assets/shared.js`, `styles.css` | Theme, helpers, shared tokens (Wispr palette, same as the dashboard) |
-| `RECORDING-SCRIPTS.md` | Video scripts |
-| `tests/` | `node --test` unit tests for both cores |
+| `RECORDING-SCRIPTS.md` | The three video scripts and what each validates |
+| `tests/` | `node --test` unit tests for the cores |

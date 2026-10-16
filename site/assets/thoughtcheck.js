@@ -1,15 +1,17 @@
-/* Thought Check page: the test workspace (Stage A) and the results view.
+/* Research page: the test workspace and its results (first built for Thought Check). Evidence records
+   render separately (records.js).
    Data model and tallies live in thoughtcheck-core.js. Inputs write straight into the workspace object;
    a card is rebuilt only when its structure changes, so typing never loses focus. */
 (function () {
   const {el, quoteCard, storage, fmtDate} = window.WFP;
   const TC = window.ThoughtCheck;
   const E = window.EVIDENCE;
-  const KEY = 'wfp-thoughtcheck-v1';
+  const KEY = 'wfp-thoughtcheck-v1'; // unchanged since Thought Check, so saved runs still load
+  const VIEWS = ['records', 'workspace', 'results'];
   const $ = (id) => document.getElementById(id);
 
   let ws = load();
-  const ui = {active: {}, open: new Set(), saveTimer: null, view: 'workspace'};
+  const ui = {active: {}, open: new Set(), saveTimer: null, view: 'records'};
 
   /* Persistence */
   function load() {
@@ -195,10 +197,11 @@
         input.addEventListener('change', () => { run.validity = value; touched(run); reason.hidden = value !== 'invalid'; });
         return el('label', {class: 'pill'}, input, el('span', {text: label}));
       };
-      const reason = textField('What was misread', run.invalidReason, (v) => { run.invalidReason = v; touched(run); }, {placeholder: 'e.g. said "Wednesday" instead of "Thursday"'});
+      const reason = textField('Why is this run invalid?', run.invalidReason, (v) => { run.invalidReason = v; touched(run); }, {placeholder: 'e.g. the recording failed, or the output was lost'});
       reason.hidden = run.validity !== 'invalid';
-      wrap.append(el('fieldset', {class: 'validity'}, el('legend', {text: 'Did you read the script exactly?'}),
-        el('div', {class: 'pills'}, opt('unconfirmed', 'Not confirmed'), opt('valid', 'Read as written'), opt('invalid', 'Misread: run invalid')), reason));
+      wrap.append(el('fieldset', {class: 'validity'}, el('legend', {text: 'Did you say exactly what the script says?'}),
+        el('div', {class: 'pills'}, opt('unconfirmed', 'Not confirmed'), opt('valid', 'Read as written'), opt('deviated', 'Said something different'), opt('invalid', 'Invalid run')), reason,
+        el('p', {class: 'muted', text: 'Said something different? The run still counts. Write what you actually said below and judge each unit against that, not the script.'})));
     } else {
       const box = el('input', {type: 'checkbox', checked: run.validity === 'invalid'});
       box.addEventListener('change', () => { run.validity = box.checked ? 'invalid' : 'valid'; touched(run); });
@@ -209,6 +212,9 @@
     wrap.append(el('details', {class: 'meta-details', open: !run.meta.device && !ws.session.device ? true : null},
       el('summary', {text: `Test conditions: ${[run.meta.date && fmtDate(run.meta.date), run.meta.device, run.meta.appVersion && `app ${run.meta.appVersion}`, run.meta.cleanup].filter(Boolean).join(' · ') || 'not set'}`}),
       el('div', {class: 'meta-grid'}, ...TC.META_FIELDS.map(([k, label]) => textField(label, run.meta[k], (v) => { run.meta[k] = v; touched(run); }, {type: k === 'date' ? 'date' : 'text', placeholder: placeholderFor(k)})))));
+
+    /* Evidence fields: what was really said, what was meant, and what needed fixing */
+    wrap.append(buildEvidence(run, passage));
 
     /* Spontaneous reference */
     if (!passage) {
@@ -244,7 +250,7 @@
     if (!units.length) table.append(el('p', {class: 'muted', text: 'Add meaning units above to assess this run.'}));
     units.forEach((unit, i) => table.append(buildUnitRow(run, unit, i)));
     wrap.append(el('fieldset', {class: 'assess-wrap'}, el('legend', {text: 'Meaning units'}),
-      el('p', {class: 'muted', text: 'Preserved: the meaning survives, even if worded differently. Changed in meaning: present but now says something else. Unclear: you can\'t tell.'}),
+      el('p', {class: 'muted', text: 'Judge against what you actually said. Preserved: the meaning survives, even if worded differently. Changed in meaning: present but now says something else. Unclear: you can\'t tell, or you didn\'t say that part.'}),
       table, el('p', {class: 'run-tally muted'})));
 
     /* Additions */
@@ -265,6 +271,18 @@
         passage ? el('button', {type: 'button', class: 'button small', 'data-needs': 'redo', disabled: !needsCheck(run, 'redo'), onclick: () => addRun('redo'), text: 'Add redo (after a misread)'}) : null,
         el('button', {type: 'button', class: 'button small', 'data-needs': 'recurrence', disabled: !needsCheck(run, 'recurrence'), onclick: () => addRun('recurrence'), text: 'Add repeat (check recurrence)'}))));
     return wrap;
+  }
+
+  function buildEvidence(run, passage) {
+    const verified = el('select', {'aria-label': 'Was the source independently verified?'}, ...TC.SOURCE_VERIFIED.map(([v, l]) => el('option', {value: v, text: l})));
+    verified.value = run.sourceVerified || 'no';
+    verified.addEventListener('change', () => { run.sourceVerified = verified.value; touched(run); });
+    return el('fieldset', {class: 'evidence-fields'}, el('legend', {text: 'What happened in this run'}),
+      el('div', {class: 'evidence-grid'},
+        passage ? textField('What I actually said', run.actualUtterance, (v) => { run.actualUtterance = v; touched(run); }, {multiline: true, rows: 3, hint: 'From the recording. Leave empty only if you read the script exactly.'}) : null,
+        textField('Intended final choices', run.intendedChoices, (v) => { run.intendedChoices = v; touched(run); }, {multiline: true, rows: 2, hint: 'What the message should have said in the end: names, dates, conditions.'}),
+        textField('Correction I wanted afterward', run.correctionWanted, (v) => { run.correctionWanted = v; touched(run); }, {multiline: true, rows: 2, hint: 'Empty if the output was right.'}),
+        el('div', {class: 'field-wrap'}, el('label', {text: 'Source independently verified?'}), el('span', {class: 'hint', text: 'Checked by listening again, or against a separate transcript.'}), verified)));
   }
 
   function buildUnitRow(run, unit, i) {
@@ -420,12 +438,12 @@
   /* Tabs */
   function setView(view, push = true) {
     ui.view = view;
-    for (const v of ['workspace', 'results', 'proposal']) {
+    for (const v of VIEWS) {
       $(`tab-${v}`).setAttribute('aria-selected', String(v === view));
       $(`view-${v}`).hidden = v !== view;
     }
     if (view === 'results') renderResults();
-    if (push) history.replaceState(null, '', view === 'workspace' ? location.pathname : `#${view}`);
+    if (push) history.replaceState(null, '', view === 'records' ? location.pathname : `#${view}`);
   }
 
   /* Export / import */
@@ -435,8 +453,8 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   }
   const stamp = () => new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
-  function exportJSON() { download(`thought-check-${stamp()}.json`, JSON.stringify(TC.toExport(ws), null, 2), 'application/json'); }
-  function exportCSV() { download(`thought-check-${stamp()}.csv`, TC.toCSV(ws), 'text/csv'); }
+  function exportJSON() { download(`flow-research-workspace-${stamp()}.json`, JSON.stringify(TC.toExport(ws), null, 2), 'application/json'); }
+  function exportCSV() { download(`flow-research-workspace-${stamp()}.csv`, TC.toCSV(ws), 'text/csv'); }
 
   function wireToolbar() {
     $('export-json').addEventListener('click', exportJSON);
@@ -463,11 +481,10 @@
       save(); renderCards(); renderIndex();
       $('save-state').textContent = `Filled ${n} empty field${n === 1 ? '' : 's'}.`;
     });
-    for (const v of ['workspace', 'results', 'proposal']) $(`tab-${v}`).addEventListener('click', () => setView(v));
+    for (const v of VIEWS) $(`tab-${v}`).addEventListener('click', () => setView(v));
     $('tabs').querySelector('[role=tablist]').addEventListener('keydown', (e) => {
       if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
-      const order = ['workspace', 'results', 'proposal'];
-      const next = order[(order.indexOf(ui.view) + (e.key === 'ArrowRight' ? 1 : 2)) % 3];
+      const next = VIEWS[(VIEWS.indexOf(ui.view) + (e.key === 'ArrowRight' ? 1 : VIEWS.length - 1)) % VIEWS.length];
       setView(next); $(`tab-${next}`).focus();
     });
   }
@@ -482,10 +499,7 @@
       el('p', {class: 'muted'}, note, ' Source: ', el('a', {href: src.url, target: '_blank', rel: 'noopener', text: src.title})));
     $('tc-docs').replaceChildren(
       doc('Desktop: the pre-cleanup text is kept', d.autoCleanup.quote, d.autoCleanup.note, d.autoCleanup),
-      doc('iPhone: audio can be retained for a while', null, d.navigating.note, d.navigating),
-      el('article', {class: 'block', style: 'grid-column: 1 / -1'},
-        el('div', {class: 'button-row'}, el('span', {class: 'tag tag-hypothesis', text: 'Hypothesis'})),
-        el('p', {}, 'Showing every edit is not the same as pointing at the one that matters. In a cleaned draft, a dropped condition ("wait for finance approval") reads fluently, so a person skimming may not notice it is gone. This experiment checks first whether that happens with the real app, before any interaction is designed around it.')));
+      doc('iPhone: audio can be retained for a while', null, d.navigating.note, d.navigating));
   }
 
   function renderAll() { renderSession(); renderIndex(); renderCards(); if (ui.view === 'results') renderResults(); }
@@ -493,7 +507,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     renderStatic(); wireToolbar(); renderAll();
     const initial = location.hash.slice(1);
-    setView(['results', 'proposal'].includes(initial) ? initial : 'workspace', false);
+    setView(VIEWS.includes(initial) ? initial : 'records', false);
     $('save-state').textContent = storage.get(KEY) ? 'Loaded your saved workspace from this browser.' : 'New workspace. Your entries save in this browser as you type.';
     try { navigator.storage?.persist?.(); } catch { /* best effort */ }
   });

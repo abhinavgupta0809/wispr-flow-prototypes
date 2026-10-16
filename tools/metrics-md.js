@@ -3,14 +3,21 @@ require('../site/assets/metrics.js');
 const M = globalThis.METRICS;
 const out = [];
 const p = (s = '') => out.push(s);
-p('# Success metrics: Mobile Fix Strip and Thought Check');
+p('# Usability tests and success metrics: Mobile Fix Strip, Journal Mode, Review Revisions');
 p();
 p('Generated from `wispr-flow-prototypes/site/assets/metrics.js` (the site renders the same file). Chosen with /define-north-star and /feature-metrics (STEDII). No Wispr baselines are available, so thresholds marked proposed are starting points; never-events are zero by definition.');
 p();
 p(`**Flow-level anchor (${M.anchor.label})** ${M.anchor.metric}: ${M.anchor.definition}`);
-for (const [title, c] of [['Mobile Fix Strip', M.fixStrip], ['Thought Check', M.thoughtCheck]]) {
+for (const [title, c] of [['Mobile Fix Strip', M.fixStrip], ['Journal Mode', M.journalMode], ['Review Revisions', M.reviewRevisions]]) {
   const n = c.northStar;
   p(); p(`## ${title}`); p();
+  if (c.validation) {
+    const v = c.validation;
+    p(`### Usability test: ${v.question}`); p();
+    p(`- **Compare:** ${v.compare}`); p(`- **Tasks:** ${v.tasks}`);
+    v.measures.forEach(([k, d]) => p(`- **${k}:** ${d}`));
+    p(`- **Decision:** ${v.decision}`); p(`- **Sample:** ${v.sample}`); p(`- **Watch for:** ${v.caveat}`); p();
+  }
   if (c.gate) { p(`> ${c.gate}`); p(); }
   p(`### North star: ${n.name} (${n.direction})`); p();
   p(`- **Formula:** ${n.formula}`); p(`- **Population:** ${n.population}`); p(`- **Period:** ${n.period}`); p(`- **Excludes:** ${n.exclusions}`); p(`- **Decision it controls:** ${n.decision}`); p(`- **Why:** ${n.why}`); p(`- **${n.caveat}**`);

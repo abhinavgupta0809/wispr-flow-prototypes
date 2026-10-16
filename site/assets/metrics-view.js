@@ -1,4 +1,5 @@
-/* Renders a concept's metrics (from metrics.js) into any element with data-metrics="fixStrip|thoughtCheck". */
+/* Renders a proposal's usability test and metrics (from metrics.js) into any element with
+   data-metrics="fixStrip|journalMode|reviewRevisions". */
 (function () {
   const {el} = window.WFP;
   const M = window.METRICS;
@@ -22,12 +23,22 @@
       el('dl', {}, ...extra.map(([k, v]) => row(k, v))));
   }
 
+  function validation(v) {
+    return el('article', {class: 'block proposed validation'},
+      el('div', {class: 'button-row'}, el('span', {class: 'tag tag-proposed', text: 'Usability test'}), el('span', {class: 'muted', text: 'Next step, not yet run'})),
+      el('h3', {class: 'm-star', text: v.question}),
+      el('dl', {class: 'm-def'}, row('Compare', v.compare), row('Tasks', v.tasks), ...v.measures.map(([k, d]) => row(k, d)), row('Decision', v.decision), row('Sample', v.sample)),
+      el('p', {class: 'muted'}, el('span', {class: 'tag tag-hypothesis', text: 'Watch for'}), ' ', v.caveat));
+  }
+
   function render(target) {
     const key = target.dataset.metrics;
     const c = M[key];
     const ns = c.northStar;
     const parts = [];
+    if (c.validation) parts.push(validation(c.validation));
     if (c.gate) parts.push(el('p', {class: 'm-gate'}, el('span', {class: 'tag tag-unverified', text: 'Conditional'}), ' ', c.gate));
+    parts.push(el('h3', {class: 'm-sub', text: 'If it ships: north star, supporting metrics, guardrails'}));
     parts.push(ladder(c));
     parts.push(el('article', {class: 'block proposed'},
       el('div', {class: 'button-row'}, el('span', {class: 'tag tag-proposed', text: 'Proposed north star'}), el('span', {class: 'muted', text: ns.direction})),

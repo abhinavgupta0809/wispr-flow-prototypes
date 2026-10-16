@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Research · Flow prototypes</title>
+  <meta name="description" content="The tests behind three proposed Flow extensions: evidence records, the ten-passage test workspace and its results.">
+  <link rel="icon" href="data:,">
+  <meta name="theme-color" content="#034f46">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <link rel="stylesheet" href="../assets/thoughtcheck.css">
+  <script src="../assets/shared.js"></script>
+  <script src="../assets/evidence.js"></script>
+  <script src="../assets/thoughtcheck-core.js"></script>
+  <script src="../assets/records-core.js"></script>
+  <script defer src="../assets/records.js"></script>
+  <script defer src="../assets/thoughtcheck.js"></script>
+</head>
+<body>
+  <a class="skip" href="#tabs">Skip to the records</a>
+  <div class="masthead">
+    <div class="shell topbar">
+      <a class="site-name" href="../">Flow prototypes</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="../">Overview</a>
+        <a href="../fix-strip/">Mobile Fix Strip</a>
+        <a href="../journal-mode/">Journal Mode</a>
+        <a href="../review-revisions/">Review Revisions</a>
+        <a href="./" aria-current="page">Research</a>
+        <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
+      </nav>
+    </div>
+    <div class="shell page-intro">
+      <p class="independent">Independent research · not made by or with Wispr</p>
+      <h1>What my own tests showed</h1>
+      <p class="lede">I started by testing whether cleanup drops what people say. Mostly it didn't. The tests did show two smaller things worth designing for: choices I changed mid-sentence, and a word Flow misheard. That's how Thought Check became Review Revisions.</p>
+    </div>
+  </div>
+
+  <main class="shell">
+    <div class="legend" aria-label="How to read this page">
+      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
+      <span class="item"><span class="tag tag-unverified">Not yet verified</span> my reading, not yet checked against the recording</span>
+      <span class="item"><span class="tag tag-evidence">Customer evidence</span> what reviewers wrote</span>
+      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
+    </div>
+
+    <section id="tabs" aria-labelledby="work-h">
+      <div class="section-head">
+        <p class="eyebrow">1 · The tests</p>
+        <h2 id="work-h">Evidence records, the test workspace, and results</h2>
+        <p>Every record is judged against what I actually said, not against the script I meant to read. Fields I haven't filled in from a recording stay empty.</p>
+      </div>
+      <div class="tabbar" role="tablist" aria-label="Research views">
+        <button role="tab" id="tab-records" aria-controls="view-records" aria-selected="true" type="button">Evidence records</button>
+        <button role="tab" id="tab-workspace" aria-controls="view-workspace" aria-selected="false" type="button">Test workspace</button>
+        <button role="tab" id="tab-results" aria-controls="view-results" aria-selected="false" type="button">Results</button>
+      </div>
+
+      <div role="tabpanel" id="view-records" aria-labelledby="tab-records" class="view">
+        <div class="grid-2">
+          <article class="block finding">
+            <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
+            <h3>What I've found so far</h3>
+            <ul class="ticks">
+              <li>The ten controlled passages largely kept their substantive meaning.</li>
+              <li>The journal comparison largely kept my tone and the story's details.</li>
+              <li>Several spoken corrections came out right.</li>
+              <li>In my second guest-list test, I meant to keep Leo and drop Sam. The output kept both. (In the first test, adding Sam back was on purpose.)</li>
+              <li>A complex scheduling dictation kept the final date and time, but wrote “the smaller group” without saying who that was.</li>
+              <li>Flow heard “Mobile Fix Strip” as “mobile fix trip.”</li>
+            </ul>
+            <p class="muted" id="records-summary"></p>
+          </article>
+          <article class="block">
+            <h3>How to read these</h3>
+            <p>One speaker, my own Flow app. These are my readings of my own runs, reported Oct 16, 2026. They aren't Flow's error rate, and none has been checked against its recording yet. Each record says which proposal it informs.</p>
+            <p class="muted">To finish a record, paste the actual output, write what I actually said from the recording, and mark it verified.</p>
+            <div class="button-row">
+              <button type="button" class="button small" id="records-json">Export JSON</button>
+              <button type="button" class="button small" id="records-csv">Export CSV</button>
+              <label class="button small" for="records-import">Import JSON</label>
+              <input type="file" id="records-import" accept="application/json,.json" class="sr-only">
+              <button type="button" class="button small quiet" id="records-reset">Clear my edits</button>
+            </div>
+            <p class="save-state" id="records-state" aria-live="polite"></p>
+          </article>
+        </div>
+        <div class="records" id="records-list"></div>
+      </div>
+
+      <div role="tabpanel" id="view-workspace" aria-labelledby="tab-workspace" class="view" hidden>
+        <div class="grid-2">
+          <article class="block">
+            <h3>Method</h3>
+            <ol class="steps">
+              <li>Set the conditions below once. Keep device, microphone, app version and cleanup settings the same for all ten runs.</li>
+              <li>Read each passage aloud into the Flow app. Record the audio separately (voice memo or screen recording).</li>
+              <li>Paste Flow's output into <em>Actual Flow output</em> without editing it, then lock it.</li>
+              <li>If you said something different from the script, mark it and write what you actually said. Judge the run against that.</li>
+              <li>If Flow shows a pre-cleanup transcript, paste it too. If not, leave it empty: discrepancies are then end-to-end.</li>
+              <li>Mark each meaning unit. Rewording, removed fillers and legitimate self-corrections are not errors.</li>
+              <li>After all ten, repeat each passage that needed substantive correction, to see if it recurs.</li>
+              <li>Then record the two unscripted brain dumps and assess them against their recordings.</li>
+            </ol>
+            <p class="muted">This workspace never transcribes anything. Every output here is pasted from the real app.</p>
+          </article>
+          <article class="block">
+            <h3>Test conditions</h3>
+            <p class="muted">New runs start with these values. Change a single run's values inside its card.</p>
+            <div class="meta-grid" id="session-form"></div>
+            <div class="button-row"><button type="button" class="button small" id="session-apply">Fill empty fields in all runs</button></div>
+          </article>
+        </div>
+
+        <div class="toolbar">
+          <div class="button-row">
+            <button type="button" class="button small" id="export-json">Export JSON</button>
+            <button type="button" class="button small" id="export-csv">Export CSV</button>
+            <label class="button small" for="import-json">Import JSON</label>
+            <input type="file" id="import-json" accept="application/json,.json" class="sr-only">
+            <button type="button" class="button small quiet" id="reset-ws">Reset workspace</button>
+          </div>
+          <p class="save-state" id="save-state" aria-live="polite"></p>
+        </div>
+
+        <nav class="run-index" id="run-index" aria-label="Passages"></nav>
+        <div class="cards" id="cards"></div>
+      </div>
+
+      <div role="tabpanel" id="view-results" aria-labelledby="tab-results" class="view" hidden></div>
+    </section>
+
+    <section aria-labelledby="hyp-h">
+      <div class="section-head">
+        <p class="eyebrow">2 · Where this started</p>
+        <h2 id="hyp-h">Reviewers said cleanup changed what they meant</h2>
+        <p>These reviews led to the first hypothesis: that people may not notice when a cleaned-up draft drops a detail or a condition. My runs mostly didn't show that, so I replaced the omission check (Thought Check). The reviews still show the worry exists for some people. They don't show how often it happens.</p>
+      </div>
+      <div class="grid-3" id="tc-evidence"></div>
+    </section>
+
+    <section aria-labelledby="ships-h">
+      <div class="section-head">
+        <p class="eyebrow">3 · What Flow documents today</p>
+        <h2 id="ships-h">The original text is kept on desktop, and iPhone can keep audio for a while</h2>
+      </div>
+      <div class="grid-2" id="tc-docs"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <p>Independent, unofficial research by Abhinav Gupta (MS Product Management, CMU). Not affiliated with or endorsed by Wispr.</p>
+      <p>Records and workspace data stay in this browser (local storage, plus attached audio in IndexedDB) until you export them. Evidence: <a href="https://wispr-reviews-site.vercel.app/">Wispr Flow app reviews dashboard</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>

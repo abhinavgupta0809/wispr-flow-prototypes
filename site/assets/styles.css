@@ -209,3 +209,31 @@ footer.site-footer .shell { display: grid; gap: 6px; }
 .video-figure { margin: 0; display: grid; gap: 10px; }
 .video-figure video { width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 14px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); display: block; }
 .video-figure figcaption { font-size: 13px; line-height: 20px; }
+
+/* Demo side panels: step checklist and text check (all three prototypes) */
+.checklist { display: grid; gap: 6px; padding: 0; list-style: none; counter-reset: step; }
+.checklist li { counter-increment: step; display: flex; gap: 10px; align-items: baseline; font-size: 14px; line-height: 20px; color: var(--text-3); }
+.checklist li::before { content: counter(step); flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 600 11px/1 var(--font-mono); border: 1px solid var(--border-strong); }
+.checklist li.done { color: var(--text-1); }
+.checklist li.done::before { content: "\2713"; background: var(--ok); border-color: var(--ok); color: var(--page); }
+.checklist li.now { color: var(--text-1); font-weight: 600; }
+.checklist li.now::before { border-color: var(--proposed); color: var(--proposed); border-width: 2px; }
+
+.check-row { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 4px 10px; font-size: 13px; line-height: 20px; }
+.check-row code { font-size: 12px; overflow-wrap: anywhere; color: var(--text-1); }
+.check-ok { color: var(--ok); font-weight: 600; }
+.check-bad { color: var(--bad); font-weight: 600; }
+
+
+/* Feature names, toggles */
+.page-intro .kicker { font: 500 22px/28px var(--font-serif); color: #f0d7ff; margin-top: -6px; }
+.button[aria-pressed="true"] { background: var(--text-1); border-color: var(--text-1); color: var(--page); }
+.first-hand { margin-top: 16px; }
+.block + .block { margin-top: 0; }
+
+/* Overview: lead proposal and extensions */
+.h3 { font: 600 16px/22px var(--font-sans); }
+.concept-kicker { font: 500 19px/25px var(--font-serif); color: var(--proposed); margin-top: -8px; }
+.lead-concept { border-left-width: 6px; --kind: var(--evidence); padding: 28px; }
+.lead-concept h2 { font-size: 38px; line-height: 42px; }
+.extensions { margin-top: 16px; }
