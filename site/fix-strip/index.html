@@ -15,6 +15,8 @@
   <script src="../assets/shared.js"></script>
   <script src="../assets/evidence.js"></script>
   <script src="../assets/fixstrip-core.js"></script>
+  <script src="../assets/metrics.js"></script>
+  <script defer src="../assets/metrics-view.js"></script>
   <script defer src="../assets/fixstrip.js"></script>
 </head>
 <body>
@@ -140,20 +142,10 @@
     <section aria-labelledby="measure-h">
       <div class="section-head">
         <p class="eyebrow">5 · How we'd know it worked</p>
-        <h2 id="measure-h">Success measure: time to a correct, send-ready message</h2>
+        <h2 id="measure-h">North star: time to a correct, send-ready message</h2>
+        <p>This prototype hasn't been timed with users, so nothing here claims the strip is faster. These are the metrics I'd run it against, picked with a north-star and STEDII pass.</p>
       </div>
-      <div class="grid-2">
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Proposed metric</span></div>
-          <p><strong>Median seconds from the end of a dictation to send</strong>, for mobile dictations the user corrected before sending. Measured weekly, per platform, for users with the strip available, compared to a holdout without it. Excludes dictations that were discarded or never sent.</p>
-          <p class="muted"><strong>Decision it controls:</strong> if corrected messages don't reach send faster than the holdout after four weeks, stop the strip and look at where the time goes instead.</p>
-          <p class="muted"><strong>Guardrails:</strong> share of strip replacements undone within 10 seconds (a sign of wrong edits), and share of corrected messages where the user still switched keyboards.</p>
-        </article>
-        <article class="block">
-          <h3>No numbers yet</h3>
-          <p class="muted">This prototype has not been timed with users. There is no baseline for how long a mobile correction takes today, and no claim here that the strip is faster. The device check in section 2 would be the first baseline: one person, one sentence.</p>
-        </article>
-      </div>
+      <div class="metrics" data-metrics="fixStrip"></div>
     </section>
 
     <section aria-labelledby="scope-h">

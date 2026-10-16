@@ -6,7 +6,7 @@ Part B of run 4 of the reviews work-sample series. The evidence comes from the
 
 | Route | What it is | Status |
 |---|---|---|
-| `/` | Overview: the two problems, evidence links, entry points | Done |
+| `/` | Overview: the two problems, evidence links, entry points, a 23-second demo video, and "Why listen to me" | Done |
 | `/fix-strip/` | Mobile Fix Strip: problem, evidence, what Flow ships, interactive phone demo, success measure | Demo done. iOS comparison waits for a device check |
 | `/fix-strip/?record` | Same demo with only the phone and step panel, for screen recording | Done |
 | `/thought-check/` | Thought Check: hypothesis, evidence, test workspace, results | Workspace done. Waiting on the ten recorded runs |
@@ -32,6 +32,19 @@ node --test tests/*.test.js
 
 Deploying: any static host works with `site/` as the root (Vercel: root directory `site`, no framework).
 Not deployed yet.
+
+## Success metrics
+
+Each feature page has a "How we'd know it worked" section: one proposed north star, four supporting
+metrics, five guardrails and kill criteria, chosen with the PM-OS north-star and STEDII skills. No Wispr
+baselines are available, so thresholds marked "proposed" are starting points; never-events are zero.
+Thought Check's metrics apply only if the experiment finds meaning losses.
+
+## Demo video
+
+Built with the /brag workflow and Hyperframes 0.8.163, rendered locally. Music: Happy Beats / Business
+Moves vol. 10 by ende.app (CC BY 4.0, credit optional, credited on the page). SFX: Kenney (CC0). The
+video shows simulated input, labeled on screen.
 
 ## What's simulated
 
@@ -106,6 +119,9 @@ Rules the results view applies:
 | `site/thought-check/index.html`, `site/assets/thoughtcheck.js`, `thoughtcheck.css` | Workspace and results UI |
 | `site/assets/thoughtcheck-core.js` | Passages, meaning units, tallies, CSV/JSON export, import (tested) |
 | `site/assets/evidence.js` | Review quotes and docs quotes |
+| `site/assets/metrics.js`, `metrics-view.js` | North star, supporting and guardrail metrics for both concepts (rendered on each page) |
+| `tools/metrics-md.js` | Prints the metrics as markdown (`node tools/metrics-md.js`) |
+| `site/assets/video/flow-prototypes.mp4` | Demo video (23s, 1080p). Source project: `PM-OS/projects/wispr-reviews/03-outputs/brag/` |
 | `site/assets/shared.js`, `styles.css` | Theme, helpers, shared tokens (Wispr palette, same as the dashboard) |
 | `RECORDING-SCRIPTS.md` | Video scripts |
 | `tests/` | `node --test` unit tests for both cores |

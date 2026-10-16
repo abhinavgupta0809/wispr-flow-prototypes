@@ -43,6 +43,20 @@
       <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
     </div>
 
+    <section aria-labelledby="video-h" class="video-section">
+      <div class="section-head">
+        <p class="eyebrow">See it work</p>
+        <h2 id="video-h">The Fix Strip in 23 seconds</h2>
+      </div>
+      <figure class="video-figure">
+        <video controls playsinline preload="metadata" poster="assets/video/flow-prototypes.jpg" width="1920" height="1080">
+          <source src="assets/video/flow-prototypes.mp4" type="video/mp4">
+          Your browser can't play this video. <a href="assets/video/flow-prototypes.mp4">Download it</a>.
+        </video>
+        <figcaption class="muted"><span class="tag tag-sim">Simulated</span> The dictation and the spoken "Thursday" are prepared text; nothing is recognized. Music: Happy Beats / Business Moves vol. 10 by <a href="https://ende.app/en" target="_blank" rel="noopener">ende.app</a> (CC BY 4.0). Sound effects: Kenney (CC0).</figcaption>
+      </figure>
+    </section>
+
     <section id="concepts" aria-label="The two prototypes" class="grid-2">
       <article class="block concept">
         <p class="eyebrow">Prototype 1</p>
@@ -51,6 +65,7 @@
           <div><dt>Problem</dt><dd>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards.</dd></div>
           <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="fs-evidence"></dd></div>
           <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Tap the wrong word in a strip showing your last dictation, say or type the fix, preview it, apply. Every other character stays as it was.</dd></div>
+          <div><dt><span class="tag tag-proposed">North star</span></dt><dd>Time to a correct, send-ready message, for dictations that needed a fix. <a href="fix-strip/#measure-h">Supporting metrics and guardrails</a></dd></div>
           <div><dt>Status</dt><dd>Interactive demo ready. The comparison with Flow's current iOS keyboard waits until it's observed on a phone.</dd></div>
         </dl>
         <div class="button-row"><a class="button primary" href="fix-strip/">Open Mobile Fix Strip</a><a class="button quiet" href="fix-strip/#demo">Jump to the demo</a></div>
@@ -64,6 +79,7 @@
           <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="tc-evidence"></dd></div>
           <div><dt>Method</dt><dd>Ten scripted passages read into the real Flow app, each checked unit by unit for what survived. Then repeats, then two unscripted brain dumps.</dd></div>
           <div><dt><span class="tag tag-finding">Experiment finding</span></dt><dd id="tc-progress">No results yet.</dd></div>
+          <div><dt><span class="tag tag-proposed">North star</span></dt><dd>Faithful sent drafts: the share of audited sent drafts that keep every meaning unit the speaker said. Only if the experiment shows losses. <a href="thought-check/#tc-measure-h">Supporting metrics and guardrails</a></dd></div>
           <div><dt>Status</dt><dd>Test workspace ready. The review interaction is designed only after the results are in.</dd></div>
         </dl>
         <div class="button-row"><a class="button primary" href="thought-check/">Open Thought Check</a><a class="button quiet" href="thought-check/#results">See results</a></div>
@@ -85,6 +101,33 @@
           <li>Thought Check's review interaction, once built, will use hand-prepared suggestions, labeled as such.</li>
         </ul>
       </article>
+    </section>
+
+    <section aria-labelledby="about-h">
+      <div class="section-head">
+        <p class="eyebrow">Why listen to me</p>
+        <h2 id="about-h">I use Flow every day, which is why I did this study</h2>
+      </div>
+      <div class="about">
+        <article class="block">
+          <p>I'm an avid Wispr Flow user. I've had two student accounts on it, and I connect deeply with the product. That's the reason for this work: I wanted to understand where it still lets people down, and test it properly instead of guessing.</p>
+          <div class="usage" aria-label="My Flow usage, self-reported">
+            <div><strong>26 days</strong><span>current streak, as of Oct 16, 2026</span></div>
+            <div><strong>~50,000</strong><span>words spoken on one account</span></div>
+            <div><strong>Much more</strong><span>on my second account</span></div>
+          </div>
+          <p class="muted">Self-reported from my own accounts. A heavy user isn't a typical one, so my experience isn't counted as evidence on these pages. The reviews and the experiment are.</p>
+        </article>
+        <article class="block">
+          <h3>Abhinav Gupta</h3>
+          <ul class="ticks">
+            <li>MS Product Management at Carnegie Mellon (Tepper), graduating December 2026. Aiming for AI product management.</li>
+            <li>About six years across Flipkart, ShareChat, Meesho and Tata 1mg, in product, growth, strategy and operations.</li>
+            <li>For this application: built the <a href="https://wispr-reviews-site.vercel.app/">reviews dashboard</a> (7,007 reviews), chose the two problems, designed the experiment and the metrics, and built both prototypes with Claude Code as a coding partner.</li>
+          </ul>
+          <div class="button-row"><a class="button small" href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a><a class="button small" href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></div>
+        </article>
+      </div>
     </section>
   </main>
 
