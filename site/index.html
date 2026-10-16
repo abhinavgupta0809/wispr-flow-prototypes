@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Flow prototypes</title>
+  <meta name="description" content="Two independent prototypes for Wispr Flow: Mobile Fix Strip and Thought Check, each grounded in public app reviews.">
+  <link rel="icon" href="data:,">
+  <meta name="theme-color" content="#034f46">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/shared.js"></script>
+  <script src="assets/evidence.js"></script>
+  <script src="assets/thoughtcheck-core.js"></script>
+  <script defer src="assets/overview.js"></script>
+</head>
+<body>
+  <a class="skip" href="#concepts">Skip to the prototypes</a>
+  <div class="masthead">
+    <div class="shell topbar">
+      <a class="site-name" href="./">Two Flow prototypes</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="./" aria-current="page">Overview</a>
+        <a href="fix-strip/">Mobile Fix Strip</a>
+        <a href="thought-check/">Thought Check</a>
+        <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
+      </nav>
+    </div>
+    <div class="shell page-intro">
+      <p class="independent">Independent prototypes · not made by or with Wispr</p>
+      <h1>Two problems from Flow's reviews, one prototype each</h1>
+      <p class="lede">People who love Flow's dictation describe two moments where it lets them down: fixing one wrong word on a phone, and trusting that a cleaned-up draft still says everything they said. One is ready to try. The other starts with an experiment.</p>
+    </div>
+  </div>
+
+  <main class="shell">
+    <div class="legend" aria-label="How to read these pages">
+      <span class="item"><span class="tag tag-evidence">Customer evidence</span> what reviewers wrote</span>
+      <span class="item"><span class="tag tag-finding">Experiment finding</span> measured in my test only</span>
+      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
+      <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
+    </div>
+
+    <section id="concepts" aria-label="The two prototypes" class="grid-2">
+      <article class="block concept">
+        <p class="eyebrow">Prototype 1</p>
+        <h2>Mobile Fix Strip</h2>
+        <dl>
+          <div><dt>Problem</dt><dd>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards.</dd></div>
+          <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="fs-evidence"></dd></div>
+          <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Tap the wrong word in a strip showing your last dictation, say or type the fix, preview it, apply. Every other character stays as it was.</dd></div>
+          <div><dt>Status</dt><dd>Interactive demo ready. The comparison with Flow's current iOS keyboard waits until it's observed on a phone.</dd></div>
+        </dl>
+        <div class="button-row"><a class="button primary" href="fix-strip/">Open Mobile Fix Strip</a><a class="button quiet" href="fix-strip/#demo">Jump to the demo</a></div>
+      </article>
+
+      <article class="block concept">
+        <p class="eyebrow">Prototype 2</p>
+        <h2>Thought Check</h2>
+        <dl>
+          <div><dt>Problem <span class="tag tag-hypothesis">hypothesis</span></dt><dd>When spoken thoughts become a cleaned-up draft, users may struggle to notice whether an important detail, condition, or instruction disappeared or changed.</dd></div>
+          <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="tc-evidence"></dd></div>
+          <div><dt>Method</dt><dd>Ten scripted passages read into the real Flow app, each checked unit by unit for what survived. Then repeats, then two unscripted brain dumps.</dd></div>
+          <div><dt><span class="tag tag-finding">Experiment finding</span></dt><dd id="tc-progress">No results yet.</dd></div>
+          <div><dt>Status</dt><dd>Test workspace ready. The review interaction is designed only after the results are in.</dd></div>
+        </dl>
+        <div class="button-row"><a class="button primary" href="thought-check/">Open Thought Check</a><a class="button quiet" href="thought-check/#results">See results</a></div>
+      </article>
+    </section>
+
+    <section aria-labelledby="src-h" class="grid-2">
+      <article class="block evidence">
+        <h3 id="src-h">Where the evidence comes from</h3>
+        <p>The <a href="https://wispr-reviews-site.vercel.app/">Wispr Flow app reviews dashboard</a>: 7,007 public Google Play and App Store reviews of the mobile apps, May 2025 to Oct 2026, each labeled by an LLM and checked against 120 hand-labeled reviews.</p>
+        <p class="muted">Quotes on these pages are copied verbatim from its export and identified by review ID. Store reviews are self-selected, so they show that a problem exists for someone. They don't show how common it is.</p>
+      </article>
+      <article class="block sim">
+        <h3>What's simulated</h3>
+        <ul class="ticks">
+          <li>Fix Strip: the dictated sentence and the spoken "Thursday" are prepared text. Nothing is recorded or recognized.</li>
+          <li>Fix Strip: the composer is a mock-up inside this page, not a keyboard that works in other apps.</li>
+          <li>Thought Check's test workspace: nothing is simulated. Every output in it is pasted from the real Flow app.</li>
+          <li>Thought Check's review interaction, once built, will use hand-prepared suggestions, labeled as such.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <p>Independent, unofficial prototypes by Abhinav Gupta (MS Product Management, CMU). Not affiliated with or endorsed by Wispr. No Wispr code, assets or data are used.</p>
+      <p><a href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+  </footer>
+</body>
+</html>
