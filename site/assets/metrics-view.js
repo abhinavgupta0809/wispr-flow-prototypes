@@ -27,8 +27,10 @@
     return el('article', {class: 'block proposed validation'},
       el('div', {class: 'button-row'}, el('span', {class: 'tag tag-proposed', text: 'Usability test'}), el('span', {class: 'muted', text: 'Next step, not yet run'})),
       el('h3', {class: 'm-star', text: v.question}),
-      el('dl', {class: 'm-def'}, row('Compare', v.compare), row('Tasks', v.tasks), ...v.measures.map(([k, d]) => row(k, d)), row('Decision', v.decision), row('Sample', v.sample)),
-      el('p', {class: 'muted'}, el('span', {class: 'tag tag-hypothesis', text: 'Watch for'}), ' ', v.caveat));
+      el('dl', {class: 'm-def'}, row('Decision', v.decision)),
+      el('details', {class: 'stedii'}, el('summary', {text: 'How the test works'}),
+        el('dl', {class: 'm-def'}, row('Compare', v.compare), row('Tasks', v.tasks), ...v.measures.map(([k, d]) => row(k, d)), row('Sample', v.sample)),
+        el('p', {class: 'muted'}, el('span', {class: 'tag tag-hypothesis', text: 'Watch for'}), ' ', v.caveat)));
   }
 
   function render(target) {
@@ -38,9 +40,10 @@
     const parts = [];
     if (c.validation) parts.push(validation(c.validation));
     if (c.gate) parts.push(el('p', {class: 'm-gate'}, el('span', {class: 'tag tag-unverified', text: 'Conditional'}), ' ', c.gate));
-    parts.push(el('h3', {class: 'm-sub', text: 'If it ships: north star, supporting metrics, guardrails'}));
+    const more = [];
+    parts.push(el('h3', {class: 'm-sub', text: 'If it ships: the north star'}));
     parts.push(ladder(c));
-    parts.push(el('article', {class: 'block proposed'},
+    more.push(el('article', {class: 'block proposed'},
       el('div', {class: 'button-row'}, el('span', {class: 'tag tag-proposed', text: 'Proposed north star'}), el('span', {class: 'muted', text: ns.direction})),
       el('h3', {class: 'm-star', text: ns.name}),
       el('dl', {class: 'm-def'}, row('Formula', ns.formula), row('Population', ns.population), row('Period', ns.period), row('Excludes', ns.exclusions), row('Decision it controls', ns.decision)),
@@ -48,12 +51,13 @@
       el('p', {class: 'muted'}, el('span', {class: 'tag tag-hypothesis', text: 'Assumption'}), ' ', ns.caveat.replace(/^Assumption: /, '')),
       el('details', {class: 'stedii'}, el('summary', {text: 'STEDII check'}),
         el('dl', {}, ...ns.stedii.map(([k, v]) => row(k, v))))));
-    parts.push(el('h3', {class: 'm-sub', text: 'Supporting metrics: the faster signals that drive it'}));
-    parts.push(el('div', {class: 'm-grid'}, ...c.supporting.map((s) => metricCard(s, [['Direction', s.direction], ['Decision', s.decision]]))));
-    parts.push(el('h3', {class: 'm-sub', text: 'Guardrails: must not get worse'}));
-    parts.push(el('div', {class: 'm-grid'}, ...c.guardrails.map((g) => metricCard(g, [['Threshold', g.threshold], ['If breached', g.action]]))));
-    parts.push(el('div', {class: 'block'}, el('h3', {text: 'Kill criteria'}), el('ul', {class: 'ticks'}, ...c.kill.map((k) => el('li', {text: k}))),
+    more.push(el('h3', {class: 'm-sub', text: 'Supporting metrics: the faster signals that drive it'}));
+    more.push(el('div', {class: 'm-grid'}, ...c.supporting.map((s) => metricCard(s, [['Direction', s.direction], ['Decision', s.decision]]))));
+    more.push(el('h3', {class: 'm-sub', text: 'Guardrails: must not get worse'}));
+    more.push(el('div', {class: 'm-grid'}, ...c.guardrails.map((g) => metricCard(g, [['Threshold', g.threshold], ['If breached', g.action]]))));
+    more.push(el('div', {class: 'block'}, el('h3', {text: 'Kill criteria'}), el('ul', {class: 'ticks'}, ...c.kill.map((k) => el('li', {text: k}))),
       el('p', {class: 'muted', text: 'No baselines: I don’t have Wispr’s data, so no current values are shown. Thresholds marked proposed are starting points to reset once baselines and their variance are known. Never-events are zero by definition.'})));
+    parts.push(el('details', {class: 'm-more'}, el('summary', {text: `The north star’s definition, supporting metrics, ${c.guardrails.length} guardrails and kill criteria`}), el('div', {class: 'metrics'}, ...more)));
     target.replaceChildren(...parts);
   }
 

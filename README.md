@@ -7,19 +7,20 @@ and from my own tests in the Flow app.
 
 Positioning: give people more control over how Flow turns speech into writing: quick corrections on
 mobile, faithful capture for personal reflection, and reviewable choices after complex revisions.
-All are proposed extensions of what Flow ships (desktop Transforms, Auto Cleanup, Snippets), sharing one
-Phrase Repair panel. Phrase Repair (grown from Mobile Fix Strip) leads: it has the most customer
-evidence. Voice Skills is a larger hypothesis with no direct customer evidence yet.
+One storyline, “Let your voice finish the job”: four moments where a daily Flow user still reaches for the keyboard,
+in this order: Voice Skills, Phrase Repair, Review Revisions, Journal Mode. All are proposed extensions of what Flow
+ships (Transforms, Auto Cleanup, Snippets) and share one Phrase Repair panel. Phrase Repair has the most customer
+evidence; Voice Skills is the largest hypothesis.
 
 | Route | What it is | Status |
 |---|---|---|
-| `/` | Overview: positioning, Flow today, the three proposals, demo video, evidence, “Why listen to me” | Done |
+| `/` | Overview: the storyline, the 54s film, four moments, metric tree, why listen to me | Done |
+| `/voice-skills/` | Voice Skills: discovery after three runs, editable draft, `/morning` run across simulated Gmail, Slack and Excel, `/prs` developer demo, four templates | Demo done (all connections and data simulated) |
 | `/phrase-repair/` | Phrase Repair: manual repair of any phrase plus optional “Check this phrase” marks. Scenarios: name, product term, multiple words, false alarm; iPhone and Android previews | Demo done. Phone comparison waits for a device check |
 | `/phrase-repair/?record&scenario=multi&platform=android` | Demo only, for screen recording | Done |
 | `/fix-strip/` | Redirects to `/phrase-repair/` | Done |
-| `/journal-mode/` | Journal Mode: triple-press fn or button, minimal-cleanup capture, Captured/Polished versions | Demo done (`?record` for recording) |
 | `/review-revisions/` | Review Revisions: scenarios A (guest list), B (linked revisions), C (unresolved), plus plain dictation | Demo done (`?record&scenario=…`) |
-| `/voice-skills/` | Voice Skills: discovery after three runs, editable draft, `/morning` run across simulated Gmail, Slack and Excel, `/prs` developer demo, four templates | Demo done (all connections and data simulated) |
+| `/journal-mode/` | Journal Mode: triple-press fn or button, minimal-cleanup capture, Captured/Polished versions | Demo done (`?record` for recording) |
 | `/research/` | Evidence records, the ten-passage test workspace, results | Done. Records need outputs and recordings |
 | `/thought-check/` | Redirects to `/research/` (Thought Check was replaced by Review Revisions) | Done |
 
@@ -144,7 +145,8 @@ The Research page keeps the original Thought Check experiment and adds evidence 
 
 | Path | What |
 |---|---|
-| `site/index.html`, `site/assets/overview.js` | Overview |
+| `site/index.html`, `site/assets/overview.js`, `overview.css` | Overview: the storyline, the film, four moments, metric tree, why listen to me |
+| `site/assets/story.js` | The thread across the four proposal pages: moment dots and previous/next |
 | `site/assets/fixstrip-core.js` | Phrase Repair core shared by every demo: selection, marks, alternatives, repeat, keep as written, apply, undo (tested) |
 | `site/assets/phrase-editor.js`, `phrase-editor.css` | The shared repair panel component |
 | `site/phrase-repair/index.html`, `site/assets/fixstrip.js`, `fixstrip.css` | Phrase Repair page and phone demo (iPhone and Android) |
@@ -156,7 +158,7 @@ The Research page keeps the original Thought Check experiment and adds evidence 
 | `site/assets/evidence.js` | Review quotes and Wispr docs quotes |
 | `site/assets/metrics.js`, `metrics-view.js` | Usability tests and metrics for every proposal |
 | `tools/metrics-md.js` | Prints the metrics as markdown (`node tools/metrics-md.js`) |
-| `site/assets/video/flow-prototypes.mp4` | Demo video (40s). Recorded before Phrase Repair and Voice Skills. Source: `PM-OS/projects/wispr-reviews/03-outputs/brag-2026-10-16-091029/` |
+| `site/assets/video/flow-prototypes.mp4` | Demo video (54s), all four proposals in story order. Source: `PM-OS/projects/wispr-reviews/03-outputs/brag-2026-10-16-100245/` |
 | `site/assets/shared.js`, `styles.css` | Theme, helpers, shared tokens (Wispr palette, same as the dashboard) |
 | `RECORDING-SCRIPTS.md` | Four video scripts and what each validates |
 | `tests/` | `node --test` unit tests for the cores |

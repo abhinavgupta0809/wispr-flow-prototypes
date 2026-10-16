@@ -1,26 +1,36 @@
-/* Overview: review links for the lead proposal and the docs lines Flow ships today. */
+/* Overview: the metric tree, drawn from metrics.js so the numbers on every page agree. */
 (function () {
-  const {el, fmtDate} = window.WFP;
-  const E = window.EVIDENCE;
-
-  const links = (items) => {
-    const out = [];
-    items.forEach((item, i) => {
-      if (i) out.push(' · ');
-      out.push(el('a', {href: E.deepDive(item.group), target: '_blank', rel: 'noopener', title: `Review ${item.id}`, text: `“${item.quote.length > 70 ? item.quote.slice(0, 68).replace(/\s+\S*$/, '') + '…' : item.quote}”`}));
-    });
-    return out;
-  };
+  const {el} = window.WFP;
+  const M = window.METRICS;
+  const ORDER = [
+    ['voiceSkills', 'Voice Skills', 'voice-skills/'],
+    ['fixStrip', 'Phrase Repair', 'phrase-repair/'],
+    ['reviewRevisions', 'Review Revisions', 'review-revisions/'],
+    ['journalMode', 'Journal Mode', 'journal-mode/'],
+  ];
 
   document.addEventListener('DOMContentLoaded', () => {
-    const d = E.docs;
-    document.getElementById('fs-evidence').replaceChildren(...links(E.fixStrip));
-    document.getElementById('read-on').textContent = `re-read ${fmtDate(d.readOn)}`;
-    const q = (text, doc) => el('li', {}, `“${text}” `, el('a', {href: doc.url, target: '_blank', rel: 'noopener', text: doc.title}));
-    document.getElementById('today-quotes').replaceChildren(
-      q(d.transforms.beta, d.transforms),
-      q(d.transforms.platforms, d.transforms),
-      q(d.commandMode.quote, d.commandMode),
-      el('li', {text: 'I haven’t yet checked the current iPhone keyboard myself, so no page here claims a capability is missing on mobile beyond what the docs say.'}));
+    const tree = document.getElementById('metric-tree');
+    tree.replaceChildren(
+      el('div', {class: 'root'}, el('span', {class: 'lab', text: 'Flow-level goal (my assumption)'}), el('strong', {text: M.anchor.metric})),
+      el('div', {class: 'branches'}, ...ORDER.map(([key, name, href], i) => {
+        const c = M[key];
+        return el('a', {class: 'branch', href: `${href}#${{voiceSkills: 'vs-measure-h', fixStrip: 'measure-h', reviewRevisions: 'rr-measure-h', journalMode: 'jm-measure-h'}[key]}`},
+          el('span', {class: 'b-n', text: String(i + 1).padStart(2, '0')}),
+          el('span', {class: 'b-name', text: name}),
+          el('span', {class: 'lab', text: 'North star'}),
+          el('strong', {class: 'b-star', text: c.northStar.name}),
+          el('span', {class: 'lab', text: 'Test first'}),
+          el('span', {class: 'b-q', text: c.validation.question}));
+      })));
   });
 })();
+
+/* The film: a clear play button first, native controls once it plays. */
+document.addEventListener('DOMContentLoaded', () => {
+  const v = document.getElementById('film-video');
+  const b = document.getElementById('film-play');
+  if (!v || !b) return;
+  b.addEventListener('click', () => { v.controls = true; b.hidden = true; v.play().catch(() => {}); });
+  v.addEventListener('play', () => { v.controls = true; b.hidden = true; });
+});

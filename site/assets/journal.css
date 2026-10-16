@@ -81,3 +81,6 @@
 /* Recording mode (?record): only the demo, for a clean screen capture. */
 body.record .masthead, body.record footer, body.record .legend, body.record main > section:not(#demo), body.record #demo .section-head { display: none; }
 body.record main { padding-block: 24px; }
+
+.dev > summary { cursor: pointer; font-weight: 600; color: var(--text-1); }
+.dev[open] > summary { margin-bottom: 8px; }

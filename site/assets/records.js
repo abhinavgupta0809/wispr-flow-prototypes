@@ -54,8 +54,8 @@
       el('p', {class: 'record-reading'}, el('span', {class: 'record-label', text: 'My reading, reported ' + fmtDate(R.REPORTED_ON) + ': '}), rec.reading),
       el('p', {class: 'muted'}, el('strong', {text: 'What it changed: '}), rec.changed),
       rec.quoted ? el('div', {class: 'quoted'}, el('span', {class: 'record-label', text: 'Lines quoted in the brief, not yet matched to the recording'}), ...rec.quoted.map((q) => el('blockquote', {text: `“${q}”`}))) : null,
-      el('details', {class: 'record-fields', open: rec.id === 'R5' ? true : null},
-        el('summary', {text: 'Source fields'}),
+      el('details', {class: 'record-fields'},
+        el('summary', {text: 'Source details'}),
         el('div', {class: 'evidence-grid'},
           ...R.FIELDS.map(([k, label, hint]) => field(rec, k, label, hint)),
           el('div', {class: 'field-wrap'}, el('label', {text: 'Source independently verified?'}), el('span', {class: 'hint', text: 'Checked by listening again, or against a separate transcript.'}), verified))));
@@ -64,7 +64,7 @@
   function render() {
     const recs = R.merge(overrides);
     const missing = recs.filter((r) => !r.output).length;
-    $('records-summary').textContent = `${recs.length} records. ${recs.filter((r) => r.verified !== 'no').length} checked against a source. ${missing} still need the actual Flow output pasted in.`;
+    $('records-summary').textContent = `${recs.length} records from my own runs. Next: match each to its recording and paste the exact output (${missing} to go).`;
     $('records-list').replaceChildren(...recs.map(card));
     recs.forEach((r) => syncState(r.id));
   }

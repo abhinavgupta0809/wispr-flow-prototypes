@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Voice Skills · Flow prototypes</title>
   <meta name="description" content="An independent prototype: turn a workflow you repeat into a named skill, invoke it by voice, and let Flow follow your saved process across connected tools.">
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#034f46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,32 +24,66 @@
   <script defer src="../assets/phrase-editor.js"></script>
   <script defer src="../assets/voice-skills.js"></script>
   <script defer src="../assets/voice-skills-static.js"></script>
+  <script defer src="../assets/story.js"></script>
 </head>
-<body>
+<body data-page="voice-skills">
   <a class="skip" href="#pm-demo">Skip to the demo</a>
   <div class="masthead">
     <div class="shell topbar">
       <a class="site-name" href="../">Flow prototypes</a>
       <nav class="nav" aria-label="Pages">
         <a href="../">Overview</a>
-        <a href="../phrase-repair/">Phrase Repair</a>
-        <a href="../journal-mode/">Journal Mode</a>
-        <a href="../review-revisions/">Review Revisions</a>
         <a href="./" aria-current="page">Voice Skills</a>
+        <a href="../phrase-repair/">Phrase Repair</a>
+        <a href="../review-revisions/">Review Revisions</a>
+        <a href="../journal-mode/">Journal Mode</a>
         <a href="../research/">Research</a>
         <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
       </nav>
     </div>
     <div class="shell page-intro">
-      <p class="independent">Proposed extension · not made by or with Wispr</p>
+      <p class="independent">Moment 1 of 4 · independent, not made by or with Wispr</p>
       <h1>Voice Skills</h1>
-      <p class="kicker">Repeatable professional workflows, run by voice</p>
+      <p class="kicker"><em>When the work is a routine.</em></p>
       <p class="lede">Turn a workflow you repeat into a named skill. Invoke it by voice, supply anything that changes, and let Flow follow your saved process across connected tools.</p>
+      <div class="hero-cta"><a class="button hero-try" href="#pm-demo">Try the prototype ↓</a></div>
     </div>
   </div>
 
   <main class="shell">
-    <div class="legend" aria-label="How to read this page">
+
+    <section id="pm-demo" aria-labelledby="pm-h">
+      <div class="section-head">
+        <p class="eyebrow">Product manager demo</p>
+        <h2 id="pm-h">From three repeated briefs to <code>/morning</code></h2>
+        <p>Accept Thursday's brief, and the suggestion appears. Review it, change the window, rename it <code>/morning</code>, save, then run it by voice across Gmail, Slack and Excel.</p>
+      </div>
+      <div class="vs-demo">
+        <div class="vs-window">
+          <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
+          <div class="vs-body" id="pm-main"></div>
+        </div>
+        <aside class="vs-side">
+          <div class="block">
+            <h3>Steps</h3>
+            <ol class="checklist" id="pm-steps"></ol>
+            <div class="button-row"><button type="button" class="button primary" id="pm-skip">Skip to the voice run</button><button type="button" class="button" id="pm-reset">Reset demo</button></div>
+          </div>
+          <div class="block sim">
+            <div class="button-row"><span class="tag tag-sim">Simulated</span></div>
+            <p class="small">Task history, discovery, connections, emails, Slack messages, the workbook and every number are sample data. Today is Fri, Oct 16, 2026; the last brief ran Thu, Oct 15 at 9:04 a.m. Nothing connects to Gmail, Slack or Excel, and nothing is posted anywhere.</p>
+          </div>
+          <div class="block">
+            <h3>Connections (simulated)</h3>
+            <div class="conn" id="connections"></div>
+            <p class="muted small">Turn one off to see a setup action, or a run that can only partly finish.</p>
+            <h4 class="small-h">Saved skills</h4>
+            <ul class="plain small" id="registry"></ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <div class="legend legend-below" aria-label="How to read this page">
       <span class="item"><span class="tag tag-hypothesis">Hypothesis</span> no direct customer evidence yet</span>
       <span class="item"><span class="tag tag-evidence">Adjacent signal</span> reviews about related features</span>
       <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
@@ -59,7 +93,7 @@
 
     <section aria-labelledby="how-h">
       <div class="section-head">
-        <p class="eyebrow">1 · How it works</p>
+        <p class="eyebrow">How it works</p>
         <h2 id="how-h">Say the skill's name first, then whatever changes</h2>
       </div>
       <div class="grid-2">
@@ -83,11 +117,48 @@
       </div>
     </section>
 
-    <section aria-labelledby="rules-h">
+    <section aria-labelledby="vs-measure-h">
       <div class="section-head">
-        <p class="eyebrow">2 · The proposed behavior</p>
-        <h2 id="rules-h">Suggested after three runs, saved only when you say so</h2>
+        <p class="eyebrow">How we'd know it worked</p>
+        <h2 id="vs-measure-h">Time saved, right inputs, and skills people actually reuse</h2>
       </div>
+      <div class="metrics" data-metrics="voiceSkills"></div>
+    </section>
+    <section class="fold-sec" id="dev-demo" aria-labelledby="dev-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">Developer demo</p>
+        <h2 id="dev-h">A saved <code>/prs</code> review queue</h2>
+        <p>The same components, a different job: find the pull requests waiting on you, check CI, and explain the order. Reviewing, commenting, approving and merging stay separate actions.</p>
+        </summary>
+      <div class="vs-window">
+        <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
+        <div class="vs-body" id="dev-main"></div>
+        <div class="vs-foot"><button type="button" class="button small" id="dev-reset">Reset</button><span class="muted small">Repository, pull requests, people and links are fictional sample data.</span></div>
+      </div>
+      </details>
+    </section>
+
+    <section class="fold-sec" aria-labelledby="tpl-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">Templates</p>
+        <h2 id="tpl-h">Four more skills to start from</h2>
+        <p>Each lists what it needs and what it produces. A missing connection leads to a setup action first. <span class="muted">/inbox already exists, so saving that template shows the name-clash choice.</span></p>
+        </summary>
+      <div class="grid-2" id="templates"></div>
+      <p class="saved-note" id="tpl-saved" role="status"></p>
+      <div class="vs-window tpl-editor-wrap"><div class="vs-body editor" id="tpl-editor" hidden></div></div>
+      </details>
+    </section>
+
+
+    <section class="fold-sec" aria-labelledby="rules-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">The proposed behavior</p>
+        <h2 id="rules-h">Suggested after three runs, saved only when you say so</h2>
+        </summary>
       <div class="grid-3">
         <article class="block proposed">
           <h3>Discovery</h3>
@@ -117,70 +188,16 @@
           </ul>
         </article>
       </div>
+      </details>
     </section>
 
-    <section id="pm-demo" aria-labelledby="pm-h">
-      <div class="section-head">
-        <p class="eyebrow">3 · Product manager demo</p>
-        <h2 id="pm-h">From three repeated briefs to <code>/morning</code></h2>
-        <p>Accept Thursday's brief, and the suggestion appears. Review it, change the window, rename it <code>/morning</code>, save, then run it by voice across Gmail, Slack and Excel.</p>
-      </div>
-      <div class="vs-demo">
-        <div class="vs-window">
-          <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
-          <div class="vs-body" id="pm-main"></div>
-        </div>
-        <aside class="vs-side">
-          <div class="block">
-            <h3>Steps</h3>
-            <ol class="checklist" id="pm-steps"></ol>
-            <div class="button-row"><button type="button" class="button" id="pm-reset">Reset demo</button></div>
-          </div>
-          <div class="block sim">
-            <div class="button-row"><span class="tag tag-sim">Simulated</span></div>
-            <p class="small">Task history, discovery, connections, emails, Slack messages, the workbook and every number are sample data. Today is Fri, Oct 16, 2026; the last brief ran Thu, Oct 15 at 9:04 a.m. Nothing connects to Gmail, Slack or Excel, and nothing is posted anywhere.</p>
-          </div>
-          <div class="block">
-            <h3>Connections (simulated)</h3>
-            <div class="conn" id="connections"></div>
-            <p class="muted small">Turn one off to see a setup action, or a run that can only partly finish.</p>
-            <h4 class="small-h">Saved skills</h4>
-            <ul class="plain small" id="registry"></ul>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="dev-demo" aria-labelledby="dev-h">
-      <div class="section-head">
-        <p class="eyebrow">4 · Developer demo</p>
-        <h2 id="dev-h">A saved <code>/prs</code> review queue</h2>
-        <p>The same components, a different job: find the pull requests waiting on you, check CI, and explain the order. Reviewing, commenting, approving and merging stay separate actions.</p>
-      </div>
-      <div class="vs-window">
-        <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
-        <div class="vs-body" id="dev-main"></div>
-        <div class="vs-foot"><button type="button" class="button small" id="dev-reset">Reset</button><span class="muted small">Repository, pull requests, people and links are fictional sample data.</span></div>
-      </div>
-    </section>
-
-    <section aria-labelledby="tpl-h">
-      <div class="section-head">
-        <p class="eyebrow">5 · Templates</p>
-        <h2 id="tpl-h">Four more skills to start from</h2>
-        <p>Each lists what it needs and what it produces. A missing connection leads to a setup action first. <span class="muted">/inbox already exists, so saving that template shows the name-clash choice.</span></p>
-      </div>
-      <div class="grid-2" id="templates"></div>
-      <p class="saved-note" id="tpl-saved" role="status"></p>
-      <div class="vs-window tpl-editor-wrap"><div class="vs-body editor" id="tpl-editor" hidden></div></div>
-    </section>
-
-    <section aria-labelledby="q-h">
-      <div class="section-head">
-        <p class="eyebrow">6 · Setup questions</p>
+    <section class="fold-sec" aria-labelledby="q-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">Setup questions</p>
         <h2 id="q-h">Ask only what the runs can't answer</h2>
         <p>Observed choices are prefilled and easy to change. Nobody re-describes the whole workflow.</p>
-      </div>
+        </summary>
       <article class="block proposed">
         <ul class="ticks">
           <li>“Which Gmail label contains the customer feedback?”</li>
@@ -192,21 +209,15 @@
           <li>“For PRs, should this include your repositories, assigned reviews, or both?”</li>
         </ul>
       </article>
+      </details>
     </section>
 
-    <section aria-labelledby="vs-measure-h">
-      <div class="section-head">
-        <p class="eyebrow">7 · How we'd know it worked</p>
-        <h2 id="vs-measure-h">Time saved, right inputs, and skills people actually reuse</h2>
-      </div>
-      <div class="metrics" data-metrics="voiceSkills"></div>
-    </section>
-
-    <section aria-labelledby="scope-h">
-      <div class="section-head">
-        <p class="eyebrow">8 · Scope boundary</p>
+    <section class="fold-sec" aria-labelledby="scope-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">Scope boundary</p>
         <h2 id="scope-h">What this prototype does not show</h2>
-      </div>
+        </summary>
       <article class="block">
         <ul class="ticks">
           <li>No real connections. Gmail, Slack, Excel and GitHub are simulated, and every item they return is fictional sample data.</li>
@@ -216,6 +227,7 @@
           <li>It has not been tested with users.</li>
         </ul>
       </article>
+      </details>
     </section>
   </main>
 

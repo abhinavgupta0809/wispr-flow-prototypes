@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Phrase Repair · Flow prototypes</title>
   <meta name="description" content="An independent prototype: fix the words that need attention by choosing an alternative or repeating just that phrase.">
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#034f46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,105 +20,37 @@
   <script defer src="../assets/metrics-view.js"></script>
   <script defer src="../assets/phrase-editor.js"></script>
   <script defer src="../assets/fixstrip.js"></script>
+  <script defer src="../assets/story.js"></script>
 </head>
-<body>
+<body data-page="phrase-repair">
   <a class="skip" href="#demo">Skip to the demo</a>
   <div class="masthead">
     <div class="shell topbar">
       <a class="site-name" href="../">Flow prototypes</a>
       <nav class="nav" aria-label="Pages">
         <a href="../">Overview</a>
-        <a href="./" aria-current="page">Phrase Repair</a>
-        <a href="../journal-mode/">Journal Mode</a>
-        <a href="../review-revisions/">Review Revisions</a>
         <a href="../voice-skills/">Voice Skills</a>
+        <a href="./" aria-current="page">Phrase Repair</a>
+        <a href="../review-revisions/">Review Revisions</a>
+        <a href="../journal-mode/">Journal Mode</a>
         <a href="../research/">Research</a>
         <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
       </nav>
     </div>
     <div class="shell page-intro">
-      <p class="independent">Proposed extension 1 · not made by or with Wispr</p>
+      <p class="independent">Moment 2 of 4 · independent, not made by or with Wispr</p>
       <h1>Phrase Repair</h1>
-      <p class="kicker">Grown from Mobile Fix Strip</p>
+      <p class="kicker"><em>When one phrase comes out wrong.</em></p>
       <p class="lede">Fix the words that need attention by choosing an alternative or repeating just that phrase.</p>
+      <div class="hero-cta"><a class="button hero-try" href="#demo">Try the prototype ↓</a></div>
     </div>
   </div>
 
   <main class="shell">
-    <div class="legend" aria-label="How to read this page">
-      <span class="item"><span class="tag tag-evidence">Customer evidence</span> what reviewers wrote</span>
-      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
-      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
-      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
-      <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
-    </div>
-
-    <section aria-labelledby="problem-h">
-      <div class="section-head">
-        <p class="eyebrow">1 · The problem</p>
-        <h2 id="problem-h">Reviewers praise the dictation, then describe the edit</h2>
-        <p>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards. Three recent iOS reviews from the <a id="dash-link" href="#">reviews dashboard</a> export show the problem exists for some people. They don't say how many. Of the proposals here, this one has the most customer evidence behind it.</p>
-      </div>
-      <div class="grid-3" id="fix-evidence"></div>
-      <article class="block finding first-hand">
-        <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
-        <p>It happened to me too. I said “Mobile Fix Strip” and Flow wrote “mobile fix trip.” Fixing those words on a phone shouldn't mean re-dictating the sentence. That error is the product-term demo below. <a href="../research/">Evidence record R7</a></p>
-      </article>
-    </section>
-
-    <section aria-labelledby="today-h">
-      <div class="section-head">
-        <p class="eyebrow">2 · What Flow ships today</p>
-        <h2 id="today-h">Flow already edits by voice on desktop. On iPhone, in-place editing isn't currently working</h2>
-        <p>This proposal is about repairing a phrase on mobile, not voice editing in general.</p>
-      </div>
-      <div class="grid-2">
-        <article class="block shipping" id="docs-block"></article>
-        <article class="block" id="observe-block">
-          <div class="button-row"><span class="tag tag-unverified">Not yet observed</span></div>
-          <h3>The phone comparison waits for a device check</h3>
-          <p class="muted">I have read Wispr's docs, not used the current mobile keyboards for this task. Nothing here compares with them until it's recorded on a phone.</p>
-          <p class="muted" id="voice-edit-claim"></p>
-          <ol class="steps">
-            <li>Dictate “Send the proposal to Risha.” into Messages with the Flow keyboard, on iPhone and on Android.</li>
-            <li>Change “Risha” to “Rishav” the fastest way each app allows. Note each tap, keyboard switch and the seconds taken.</li>
-            <li>Check whether either keyboard offers alternatives, a voice edit or Polish on a one-word selection. iOS Polish's documented minimum is 10 words.</li>
-            <li>Record app versions, OS versions and date. Then add the comparison.</li>
-          </ol>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="idea-h">
-      <div class="section-head">
-        <p class="eyebrow">3 · The proposed behavior</p>
-        <h2 id="idea-h">Repair by hand, or check what Flow marked</h2>
-      </div>
-      <div class="grid-2">
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Manual correction</span></div>
-          <ul class="ticks">
-            <li><strong>Select any word or phrase</strong> in your latest dictation. It appears as tappable words right under the message, so the message stays in view.</li>
-            <li><strong>One compact repair panel:</strong> suggested alternatives when there are any, Say it again, and Type replacement.</li>
-            <li><strong>Repeat just that phrase.</strong> The new words are shown in place before anything changes.</li>
-            <li><strong>Exact replacement.</strong> Only the selected span changes. Nothing is regenerated, and Undo puts the old text back.</li>
-          </ul>
-        </article>
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Suggested review</span></div>
-          <ul class="ticks">
-            <li><strong>A subtle underline</strong> on a phrase that may be wrong, labeled “Check this phrase.” It covers exactly the words that need attention: one word or several.</li>
-            <li><strong>Tap it</strong> to open the same repair panel. Choose an alternative, repeat the phrase, or Keep as written.</li>
-            <li><strong>Never a gate.</strong> You can send with a mark still showing.</li>
-          </ul>
-          <p class="muted"><span class="tag tag-sim">Simulated</span> In this prototype, every mark and alternative is written into the demo data. It doesn't show that Flow can measure word-level confidence. That would need its own evaluation: how often a mark is right, and how often real errors go unmarked.</p>
-        </article>
-      </div>
-    </section>
 
     <section id="demo" aria-labelledby="demo-h">
       <div class="section-head">
-        <p class="eyebrow">4 · Try it</p>
+        <p class="eyebrow">Try it</p>
         <h2 id="demo-h">Four repairs, on iPhone or Android</h2>
         <p>A simulated message composer. Editing stays inside this page; it doesn't connect to Flow or to any other app.</p>
       </div>
@@ -176,32 +108,107 @@
         </aside>
       </div>
     </section>
+    <div class="legend legend-below" aria-label="How to read this page">
+      <span class="item"><span class="tag tag-evidence">Customer evidence</span> what reviewers wrote</span>
+      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
+      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
+      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
+      <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
+    </div>
 
-    <section aria-labelledby="platform-h">
+    <section aria-labelledby="problem-h">
       <div class="section-head">
-        <p class="eyebrow">5 · Feasibility</p>
-        <h2 id="platform-h">The same interaction on both platforms; other apps are a separate question</h2>
+        <p class="eyebrow">The problem</p>
+        <h2 id="problem-h">Reviewers praise the dictation, then describe the edit</h2>
+        <p>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards. Three recent iOS reviews from the <a id="dash-link" href="#">reviews dashboard</a> export show the problem exists for some people. They don't say how many. Of the proposals here, this one has the most customer evidence behind it.</p>
       </div>
-      <article class="block">
-        <div class="button-row"><span class="tag tag-unverified">Needs a native check</span></div>
-        <p>The prototype edits text inside its own composer. In a real keyboard on iOS or Android, the repair panel would have to find the latest dictated span in another app's text field and replace exactly that range, even after the user or autocorrect has moved the cursor. Whether each platform's keyboard APIs allow that reliably is untested here. It's a feasibility requirement to settle before building, not something this demo shows.</p>
+      <div class="grid-3" id="fix-evidence"></div>
+      <article class="block finding first-hand">
+        <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
+        <p>It happened to me too. I said “Mobile Fix Strip” and Flow wrote “mobile fix trip.” Fixing those words on a phone shouldn't mean re-dictating the sentence. That error is the product-term demo below. <a href="../research/">Evidence record R7</a></p>
       </article>
+    </section>
+
+    <section aria-labelledby="idea-h">
+      <div class="section-head">
+        <p class="eyebrow">The proposed behavior</p>
+        <h2 id="idea-h">Repair by hand, or check what Flow marked</h2>
+      </div>
+      <div class="grid-2">
+        <article class="block proposed">
+          <div class="button-row"><span class="tag tag-proposed">Manual correction</span></div>
+          <ul class="ticks">
+            <li><strong>Select any word or phrase</strong> in your latest dictation. It appears as tappable words right under the message, so the message stays in view.</li>
+            <li><strong>One compact repair panel:</strong> suggested alternatives when there are any, Say it again, and Type replacement.</li>
+            <li><strong>Repeat just that phrase.</strong> The new words are shown in place before anything changes.</li>
+            <li><strong>Exact replacement.</strong> Only the selected span changes. Nothing is regenerated, and Undo puts the old text back.</li>
+          </ul>
+        </article>
+        <article class="block proposed">
+          <div class="button-row"><span class="tag tag-proposed">Suggested review</span></div>
+          <ul class="ticks">
+            <li><strong>A subtle underline</strong> on a phrase that may be wrong, labeled “Check this phrase.” It covers exactly the words that need attention: one word or several.</li>
+            <li><strong>Tap it</strong> to open the same repair panel. Choose an alternative, repeat the phrase, or Keep as written.</li>
+            <li><strong>Never a gate.</strong> You can send with a mark still showing.</li>
+          </ul>
+          <p class="muted"><span class="tag tag-sim">Simulated</span> In this prototype, every mark and alternative is written into the demo data. It doesn't show that Flow can measure word-level confidence. That would need its own evaluation: how often a mark is right, and how often real errors go unmarked.</p>
+        </article>
+      </div>
     </section>
 
     <section aria-labelledby="measure-h">
       <div class="section-head">
-        <p class="eyebrow">6 · How we'd know it worked</p>
+        <p class="eyebrow">How we'd know it worked</p>
         <h2 id="measure-h">Test it against today's keyboards first</h2>
         <p>Nothing here has been timed with users, so nothing claims the repair is faster. First a usability test, then, if it ships, the north star: time to a correct, send-ready message.</p>
       </div>
       <div class="metrics" data-metrics="fixStrip"></div>
     </section>
 
-    <section aria-labelledby="scope-h">
-      <div class="section-head">
-        <p class="eyebrow">7 · Scope boundary</p>
-        <h2 id="scope-h">What this prototype does not show</h2>
+    <section class="fold-sec" aria-labelledby="today-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">What Flow ships today</p>
+        <h2 id="today-h">Flow already edits by voice on desktop. On iPhone, in-place editing isn't currently working</h2>
+        <p>This proposal is about repairing a phrase on mobile, not voice editing in general.</p>
+        </summary>
+      <div class="grid-2">
+        <article class="block shipping" id="docs-block"></article>
+        <article class="block" id="observe-block">
+          <div class="button-row"><span class="tag tag-unverified">Not yet observed</span></div>
+          <h3>The phone comparison waits for a device check</h3>
+          <p class="muted">I have read Wispr's docs, not used the current mobile keyboards for this task. Nothing here compares with them until it's recorded on a phone.</p>
+          <p class="muted" id="voice-edit-claim"></p>
+          <ol class="steps">
+            <li>Dictate “Send the proposal to Risha.” into Messages with the Flow keyboard, on iPhone and on Android.</li>
+            <li>Change “Risha” to “Rishav” the fastest way each app allows. Note each tap, keyboard switch and the seconds taken.</li>
+            <li>Check whether either keyboard offers alternatives, a voice edit or Polish on a one-word selection. iOS Polish's documented minimum is 10 words.</li>
+            <li>Record app versions, OS versions and date. Then add the comparison.</li>
+          </ol>
+        </article>
       </div>
+      </details>
+    </section>
+
+    <section class="fold-sec" aria-labelledby="platform-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">Feasibility</p>
+        <h2 id="platform-h">The same interaction on both platforms; other apps are a separate question</h2>
+        </summary>
+      <article class="block">
+        <div class="button-row"><span class="tag tag-unverified">Needs a native check</span></div>
+        <p>The prototype edits text inside its own composer. In a real keyboard on iOS or Android, the repair panel would have to find the latest dictated span in another app's text field and replace exactly that range, even after the user or autocorrect has moved the cursor. Whether each platform's keyboard APIs allow that reliably is untested here. It's a feasibility requirement to settle before building, not something this demo shows.</p>
+      </article>
+      </details>
+    </section>
+
+    <section class="fold-sec" aria-labelledby="scope-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">Scope boundary</p>
+        <h2 id="scope-h">What this prototype does not show</h2>
+        </summary>
       <article class="block">
         <ul class="ticks">
           <li>It does not work in other apps (see Feasibility).</li>
@@ -210,6 +217,7 @@
           <li>It has not been tested with users.</li>
         </ul>
       </article>
+      </details>
     </section>
   </main>
 

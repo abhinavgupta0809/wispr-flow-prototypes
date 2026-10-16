@@ -72,3 +72,11 @@ body.record main { padding-block: 24px; }
 .phone.android .navbar { display: flex; justify-content: center; padding: 6px 0 8px; background: var(--ph-kb); }
 .phone.android .navbar span { width: 108px; height: 4px; border-radius: 4px; background: var(--ph-sub); opacity: 0.6; }
 .phone.android .kb { padding-bottom: 10px; }
+
+/* Keep the whole repair interaction in one desktop viewport */
+@media (min-width: 901px) { .phone-screen { height: 700px; } .phone .thread { padding-block: 8px; } }
+/* Dark phone: dark text on the light blue accent so labels stay readable */
+:root[data-theme="dark"] .phone { --pe-on-accent: #0b1730; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .phone { --pe-on-accent: #0b1730; } }
+:root[data-theme="dark"] .phone .send { color: #0b1730; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .phone .send { color: #0b1730; } }

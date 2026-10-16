@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Journal Mode · Flow prototypes</title>
   <meta name="description" content="An independent prototype: capture a journal entry with minimal cleanup, then choose whether to polish it. Both versions are kept.">
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#034f46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,108 +22,37 @@
   <script defer src="../assets/metrics-view.js"></script>
   <script defer src="../assets/phrase-editor.js"></script>
   <script defer src="../assets/journal.js"></script>
+  <script defer src="../assets/story.js"></script>
 </head>
-<body>
+<body data-page="journal-mode">
   <a class="skip" href="#demo">Skip to the demo</a>
   <div class="masthead">
     <div class="shell topbar">
       <a class="site-name" href="../">Flow prototypes</a>
       <nav class="nav" aria-label="Pages">
         <a href="../">Overview</a>
-        <a href="../phrase-repair/">Phrase Repair</a>
-        <a href="./" aria-current="page">Journal Mode</a>
-        <a href="../review-revisions/">Review Revisions</a>
         <a href="../voice-skills/">Voice Skills</a>
+        <a href="../phrase-repair/">Phrase Repair</a>
+        <a href="../review-revisions/">Review Revisions</a>
+        <a href="./" aria-current="page">Journal Mode</a>
         <a href="../research/">Research</a>
         <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
       </nav>
     </div>
     <div class="shell page-intro">
-      <p class="independent">Proposed extension 2 · not made by or with Wispr</p>
+      <p class="independent">Moment 4 of 4 · independent, not made by or with Wispr</p>
       <h1>Journal Mode</h1>
-      <p class="kicker">Capture with minimal cleanup, polish afterward if you want</p>
+      <p class="kicker"><em>When the words are the point.</em></p>
       <p class="lede">Capture your thoughts in your own words. Clean them up when you're ready.</p>
+      <div class="hero-cta"><a class="button hero-try" href="#demo">Try the prototype ↓</a></div>
     </div>
   </div>
 
   <main class="shell">
-    <div class="legend" aria-label="How to read this page">
-      <span class="item"><span class="tag tag-hypothesis">Hypothesis</span> not yet tested with users</span>
-      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
-      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
-      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
-      <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
-    </div>
-
-    <section aria-labelledby="why-h">
-      <div class="section-head">
-        <p class="eyebrow">1 · Why</p>
-        <h2 id="why-h">A preference for control, not a fix for lost personality</h2>
-      </div>
-      <div class="grid-2">
-        <article class="block">
-          <div class="button-row"><span class="tag tag-hypothesis">Preference hypothesis</span></div>
-          <p>When people journal or think aloud, some would rather keep the way they said it: the hedges, the restarts, the word they'd never write. Then decide later whether to tidy it. If that's true, they need a way to say “keep it raw this time” before they speak, and a polish step they choose afterwards.</p>
-          <p class="muted">Untested. The test below measures which version people keep and whether they report edits they didn't want. It doesn't claim better transcription.</p>
-        </article>
-        <article class="block finding">
-          <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
-          <h3>Flow mostly kept my voice</h3>
-          <p>In my journal comparison, the output largely kept my tone and the story's details. So this isn't a claim that Flow strips personality. It's a proposal to let people choose how much cleanup a recording gets. <a href="../research/">Evidence record R2</a></p>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="ships-h">
-      <div class="section-head">
-        <p class="eyebrow">2 · What Flow ships today</p>
-        <h2 id="ships-h">Flow already has cleanup controls and Transforms on desktop</h2>
-        <p>Journal Mode builds on these. What's new is a switch for one recording, and keeping the captured and polished versions side by side.</p>
-      </div>
-      <div class="grid-2">
-        <article class="block shipping">
-          <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
-          <h3>Transforms</h3>
-          <blockquote class="doc-quote" id="tr-quote"></blockquote>
-          <p class="muted">Source: <a id="tr-link" target="_blank" rel="noopener">Rewrite text with Transforms and custom prompts</a></p>
-        </article>
-        <article class="block shipping">
-          <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
-          <h3>Auto Cleanup</h3>
-          <blockquote class="doc-quote" id="ac-quote"></blockquote>
-          <p class="muted"><span id="ac-note"></span> Source: <a id="ac-link" target="_blank" rel="noopener">Auto Cleanup</a></p>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="idea-h">
-      <div class="section-head">
-        <p class="eyebrow">3 · The proposed behavior</p>
-        <h2 id="idea-h">One recording, minimal cleanup, both versions kept</h2>
-      </div>
-      <div class="grid-2">
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Proposed</span></div>
-          <ul class="ticks">
-            <li><strong>Turn it on before you speak.</strong> Triple-press fn (proposed shortcut), or click Journal Mode.</li>
-            <li><strong>Always visible.</strong> A “Journal Mode · Minimal cleanup” indicator, shown apart from the microphone status, so “which mode” and “is it listening” never blur.</li>
-            <li><strong>This recording only.</strong> When it ends, Flow goes back to normal capture and says so.</li>
-            <li><strong>After recording:</strong> Keep this version, Polish, or Edit a phrase.</li>
-            <li><strong>Polish makes a second version.</strong> Labeled Captured and Polished. Compare them, keep one, switch back. The capture is never silently replaced.</li>
-          </ul>
-        </article>
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Proposed capture rules</span></div>
-          <p>Keep what makes it yours. Add only punctuation and paragraph breaks.</p>
-          <ul class="ticks" id="preserved"></ul>
-          <p class="muted">This is the intended behavior, not a promise of word-for-word recognition. A word that couldn't be made out stays marked instead of guessed.</p>
-        </article>
-      </div>
-    </section>
 
     <section id="demo" aria-labelledby="demo-h">
       <div class="section-head">
-        <p class="eyebrow">4 · Try it</p>
+        <p class="eyebrow">Try it</p>
         <h2 id="demo-h">Capture an entry, polish it, go back to your own words</h2>
         <p>A simulated desktop window. Nothing is recorded: Stop inserts a prepared entry.</p>
       </div>
@@ -171,46 +100,120 @@
             <p>Recording, the captured entry and the Polish result are prepared text. The Polished version was written by hand for this demo; it is not output from Flow or any model.</p>
             <details><summary>Where each line of the entry comes from</summary><ul class="sources" id="sources"></ul></details>
           </div>
-          <div class="block dev">
-            <h3>Development setting</h3>
-            <label for="press-window">Triple-press window: first to third press</label>
+          <details class="block dev">
+            <summary>Development setting: triple-press timing</summary>
+            <label for="press-window">Window from first to third press</label>
             <input type="range" id="press-window" min="300" max="1500" step="50">
             <output id="press-window-out" for="press-window"></output>
-            <p class="muted">A web page can't reliably read the physical fn key, so use the on-screen key. A real fn press is counted too if your browser reports it.</p>
-          </div>
+            <p class="muted">A web page can't reliably read the physical fn key, so use the on-screen key.</p>
+          </details>
         </aside>
+      </div>
+    </section>
+    <div class="legend legend-below" aria-label="How to read this page">
+      <span class="item"><span class="tag tag-hypothesis">Hypothesis</span> not yet tested with users</span>
+      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
+      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
+      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
+      <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
+    </div>
+
+    <section aria-labelledby="why-h">
+      <div class="section-head">
+        <p class="eyebrow">Why</p>
+        <h2 id="why-h">A preference for control, not a fix for lost personality</h2>
+      </div>
+      <div class="grid-2">
+        <article class="block">
+          <div class="button-row"><span class="tag tag-hypothesis">Preference hypothesis</span></div>
+          <p>When people journal or think aloud, some would rather keep the way they said it: the hedges, the restarts, the word they'd never write. Then decide later whether to tidy it. If that's true, they need a way to say “keep it raw this time” before they speak, and a polish step they choose afterwards.</p>
+          <p class="muted">Untested. The test below measures which version people keep and whether they report edits they didn't want. It doesn't claim better transcription.</p>
+        </article>
+        <article class="block finding">
+          <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
+          <h3>Flow mostly kept my voice</h3>
+          <p>In my journal comparison, the output largely kept my tone and the story's details. So this isn't a claim that Flow strips personality. It's a proposal to let people choose how much cleanup a recording gets. <a href="../research/">Evidence record R2</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="idea-h">
+      <div class="section-head">
+        <p class="eyebrow">The proposed behavior</p>
+        <h2 id="idea-h">One recording, minimal cleanup, both versions kept</h2>
+      </div>
+      <div class="grid-2">
+        <article class="block proposed">
+          <div class="button-row"><span class="tag tag-proposed">Proposed</span></div>
+          <ul class="ticks">
+            <li><strong>Turn it on before you speak.</strong> Triple-press fn (proposed shortcut), or click Journal Mode.</li>
+            <li><strong>Always visible.</strong> A “Journal Mode · Minimal cleanup” indicator, shown apart from the microphone status, so “which mode” and “is it listening” never blur.</li>
+            <li><strong>This recording only.</strong> When it ends, Flow goes back to normal capture and says so.</li>
+            <li><strong>After recording:</strong> Keep this version, Polish, or Edit a phrase.</li>
+            <li><strong>Polish makes a second version.</strong> Labeled Captured and Polished. Compare them, keep one, switch back. The capture is never silently replaced.</li>
+          </ul>
+        </article>
+        <article class="block proposed">
+          <div class="button-row"><span class="tag tag-proposed">Proposed capture rules</span></div>
+          <p>Keep what makes it yours. Add only punctuation and paragraph breaks.</p>
+          <ul class="ticks" id="preserved"></ul>
+          <p class="muted">This is the intended behavior, not a promise of word-for-word recognition. A word that couldn't be made out stays marked instead of guessed.</p>
+        </article>
       </div>
     </section>
 
     <section aria-labelledby="conflict-h">
       <div class="section-head">
-        <p class="eyebrow">5 · Open question</p>
+        <p class="eyebrow">Open question</p>
         <h2 id="conflict-h">Triple-press fn already means something in Flow</h2>
       </div>
       <article class="block shipping conflict">
         <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span><span class="tag tag-unverified">Conflicts with the proposed shortcut</span></div>
-        <p>Flow's hands-free docs say a quick double-tap of the push-to-talk key starts hands-free dictation:</p>
         <blockquote class="doc-quote" id="hf-double"></blockquote>
-        <p>And a third quick tap has its own meaning:</p>
         <blockquote class="doc-quote" id="hf-quote"></blockquote>
-        <p>So a triple-press of fn would start hands-free and then cancel it, unless Flow changes that gesture. I've kept triple-press in the prototype because it's the shortcut being proposed. It's labeled proposed, and the visible Journal Mode button is the dependable path. A dedicated binding (fn plus another key) or a setting may fit better. That needs Wispr's input. Source: <a id="hf-link" target="_blank" rel="noopener">Use Flow hands-free</a></p>
+        <p>So a triple-press of fn would start hands-free, then cancel it. The prototype keeps it as the proposed shortcut, with the Journal Mode button as the dependable path; a dedicated binding may fit better. Source: <a id="hf-link" target="_blank" rel="noopener">Use Flow hands-free</a></p>
       </article>
     </section>
 
     <section aria-labelledby="jm-measure-h">
       <div class="section-head">
-        <p class="eyebrow">6 · How we'd know it worked</p>
+        <p class="eyebrow">How we'd know it worked</p>
         <h2 id="jm-measure-h">Measure preference and unwanted edits, not transcription</h2>
         <p>Journal Mode is a preference hypothesis, so the test asks which version people keep and why. It makes no claim that recognition gets better.</p>
       </div>
       <div class="metrics" data-metrics="journalMode"></div>
     </section>
 
-    <section aria-labelledby="scope-h">
-      <div class="section-head">
-        <p class="eyebrow">7 · Scope boundary</p>
-        <h2 id="scope-h">What this prototype does not show</h2>
+    <section class="fold-sec" aria-labelledby="ships-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">What Flow ships today</p>
+        <h2 id="ships-h">Flow already has cleanup controls and Transforms on desktop</h2>
+        <p>Journal Mode builds on these. What's new is a switch for one recording, and keeping the captured and polished versions side by side.</p>
+        </summary>
+      <div class="grid-2">
+        <article class="block shipping">
+          <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
+          <h3>Transforms</h3>
+          <blockquote class="doc-quote" id="tr-quote"></blockquote>
+          <p class="muted">Source: <a id="tr-link" target="_blank" rel="noopener">Rewrite text with Transforms and custom prompts</a></p>
+        </article>
+        <article class="block shipping">
+          <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
+          <h3>Auto Cleanup</h3>
+          <blockquote class="doc-quote" id="ac-quote"></blockquote>
+          <p class="muted"><span id="ac-note"></span> Source: <a id="ac-link" target="_blank" rel="noopener">Auto Cleanup</a></p>
+        </article>
       </div>
+      </details>
+    </section>
+
+    <section class="fold-sec" aria-labelledby="scope-h">
+      <details class="fold">
+        <summary class="section-head">
+        <p class="eyebrow">Scope boundary</p>
+        <h2 id="scope-h">What this prototype does not show</h2>
+        </summary>
       <article class="block">
         <ul class="ticks">
           <li>It doesn't record or recognize speech. The entry is prepared text, two lines of it quoted from my own journal comparison.</li>
@@ -220,6 +223,7 @@
           <li>It has not been tested with users.</li>
         </ul>
       </article>
+      </details>
     </section>
   </main>
 

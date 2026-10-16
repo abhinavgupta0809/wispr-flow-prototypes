@@ -100,7 +100,7 @@
       parts.push(kbLabel('Voice'), el('div', {class: 'kb-main'}, mic, el('span', {class: 'sim-note', text: ui.listening ? 'Simulated listening' : 'Simulated: inserts a prepared sentence'})));
       focus = mic;
     } else if (s.phase === 'idle') {
-      const fix = el('button', {type: 'button', class: 'key', onclick: () => ed.dispatch({type: 'OPEN_STRIP'})}, 'Fix a phrase');
+      const fix = el('button', {type: 'button', class: 'key', onclick: () => ed.dispatch({type: 'OPEN_STRIP'})}, 'Edit a phrase');
       if (open.length) {
         const check = el('button', {type: 'button', class: 'key fix', onclick: () => ed.dispatch({type: 'OPEN_HIGHLIGHT', id: open[0].id})}, FS.HIGHLIGHT_LABEL);
         parts.push(kbLabel('Voice'), el('div', {class: 'kb-main'},
@@ -163,7 +163,7 @@
       const cls = isDone ? 'done' : nowSet ? '' : 'now';
       if (!isDone) nowSet = true;
       return el('li', {class: cls, text: label});
-    }), el('li', {class: ev.includes('cancel') ? 'done' : '', text: 'Also: select any other phrase with Fix a phrase, and cancel'}));
+    }), el('li', {class: ev.includes('cancel') ? 'done' : '', text: 'Also: select any other phrase with Edit a phrase, and cancel'}));
   }
 
   function renderIntegrity() {

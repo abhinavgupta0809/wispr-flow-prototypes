@@ -490,7 +490,7 @@
       el('div', {class: 'say-grid'}, ...utterances().map((u) => el('button', {type: 'button', class: 'say', onclick: () => { dictate(u); pmRender(); }}, el('span', {class: 'say-label', text: u.label}), el('span', {class: 'say-text', text: `“${u.text}”`})))),
       el('div', {class: 'typed'}, typed, el('button', {type: 'button', class: 'button small', onclick: () => { if (typed.value.trim()) { dictate({id: 'typed', text: typed.value.trim()}); pmRender(); } }, text: 'Run typed command'})),
       el('div', {class: 'cmd-box'}, el('span', {class: 'eyebrow', text: 'Dictation'}), commandLine()),
-      el('div', {class: 'pe-panel', id: 'cmd-panel', hidden: !cmdEd.isEditing()}, el('div', {class: 'pe-panel-head'}, el('span', {text: 'Phrase Repair'}), el('span', {class: 'muted', text: 'Repeat only the word, not the command'})), cmdWords, cmdControls),
+      el('div', {class: 'pe-panel', id: 'cmd-panel', hidden: !cmdEd.isEditing()}, el('div', {class: 'pe-panel-head'}, el('span', {text: 'Edit a phrase'}), el('span', {class: 'muted', text: 'Repeat only the word, not the command'})), cmdWords, cmdControls),
       interpretation(),
       impactNote(),
       r ? runView(r, pre) : null,
@@ -655,6 +655,19 @@
         else if (action.type !== 'SET_REPLACEMENT') pmRender();
       }});
     $('pm-reset').addEventListener('click', () => { pmReset(); pmRender(); });
+    $('pm-skip').addEventListener('click', () => {
+      /* Same outcome as steps 1 to 5 done by hand: accept the third run, answer the two questions, save as /morning. */
+      pmReset();
+      pm.history = pm.history.map((x) => (x.id === 'r3' ? {...x, status: 'completed', accepted: true} : x));
+      const d = K.inferDraft(pm.history);
+      d.command = '/morning'; d.inputs.window.value = 'since-last'; d.inputs.window.confirmed = true; d.metrics.threshold = 2;
+      const skill = clone({...d, id: 'morning'});
+      registry = registry.filter((s) => s.id !== 'morning').concat(skill);
+      pm.skill = skill; pm.stage = 'invoke';
+      ['three', 'suggested', 'editor', 'edited', 'saved'].forEach((f) => pm.flags.add(f));
+      renderAll();
+      $('pm-demo').scrollIntoView({behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start'});
+    });
     $('dev-reset').addEventListener('click', () => { devReset(); devRender(); });
     renderAll();
   });

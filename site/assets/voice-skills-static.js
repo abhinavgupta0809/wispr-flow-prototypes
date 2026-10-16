@@ -7,9 +7,12 @@
     document.getElementById('snip-quote').textContent = d.quote;
     document.getElementById('snip-link').href = d.url;
     document.getElementById('snip-read').textContent = `(${d.platforms}; read ${fmtDate('2026-10-16')})`;
-    document.getElementById('adjacent').replaceChildren(...E.voiceSkills.map((r) => el('li', {},
+    const item = (r) => el('li', {},
       el('span', {class: 'tag tag-evidence', text: 'Adjacent signal'}), ' ',
       el('q', {text: r.quote}), ' ',
-      el('span', {class: 'muted small', text: `${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)} · ${fmtDate(r.date)} · ${r.platform === 'ios' ? 'iOS' : 'Android'} · review ${r.id}. ${r.context}`}))));
+      el('span', {class: 'muted small', text: `${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)} · ${fmtDate(r.date)} · ${r.platform === 'ios' ? 'iOS' : 'Android'} · review ${r.id}. ${r.context}`}));
+    const [first, ...others] = E.voiceSkills;
+    document.getElementById('adjacent').replaceChildren(item(first),
+      el('li', {}, el('details', {}, el('summary', {class: 'muted small', text: `${others.length} more adjacent signals`}), el('ul', {class: 'plain adjacent'}, ...others.map(item)))));
   });
 })();

@@ -3,195 +3,154 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Flow prototypes</title>
-  <meta name="description" content="Proposed extensions for Wispr Flow: Phrase Repair, Journal Mode, Review Revisions and Voice Skills, grounded in public app reviews and my own tests.">
-  <link rel="icon" href="data:,">
+  <title>Let your voice finish the job · Flow prototypes</title>
+  <meta name="description" content="Four proposals for Wispr Flow from someone who dictates with it every day: Voice Skills, Phrase Repair, Review Revisions and Journal Mode.">
+  <meta property="og:title" content="Let your voice finish the job">
+  <meta property="og:description" content="Four proposals for Wispr Flow, with working prototypes. Independent, not made by or with Wispr.">
+  <meta property="og:image" content="assets/video/flow-prototypes.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#034f46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/overview.css">
   <script src="assets/shared.js"></script>
   <script src="assets/evidence.js"></script>
+  <script src="assets/metrics.js"></script>
   <script defer src="assets/overview.js"></script>
 </head>
-<body>
-  <a class="skip" href="#concepts">Skip to the prototypes</a>
-  <div class="masthead">
+<body class="ov">
+  <a class="skip" href="#film">Skip to the video</a>
+  <div class="masthead ov-mast">
     <div class="shell topbar">
       <a class="site-name" href="./">Flow prototypes</a>
       <nav class="nav" aria-label="Pages">
         <a href="./" aria-current="page">Overview</a>
-        <a href="phrase-repair/">Phrase Repair</a>
-        <a href="journal-mode/">Journal Mode</a>
-        <a href="review-revisions/">Review Revisions</a>
         <a href="voice-skills/">Voice Skills</a>
+        <a href="phrase-repair/">Phrase Repair</a>
+        <a href="review-revisions/">Review Revisions</a>
+        <a href="journal-mode/">Journal Mode</a>
         <a href="research/">Research</a>
         <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
       </nav>
     </div>
-    <div class="shell page-intro">
-      <p class="independent">Independent proposals · not made by or with Wispr</p>
-      <h1>More control over how Flow turns speech into writing</h1>
-      <p class="lede">Give people more control over how Flow turns speech into writing: quick corrections on mobile, faithful capture for personal reflection, and reviewable choices after complex revisions.</p>
-    </div>
+    <header class="shell ov-hero">
+      <p class="independent">Four proposals for Wispr Flow · independent, not made by or with Wispr</p>
+      <h1>Let your voice<br><em>finish the job.</em></h1>
+      <p class="ov-sub">I dictate with Flow every day. Here are four moments where my voice still stops short, and what I'd build so it doesn't.</p>
+    </header>
   </div>
 
-  <main class="shell">
-    <div class="legend" aria-label="How to read these pages">
-      <span class="item"><span class="tag tag-evidence">Customer evidence</span> what reviewers wrote</span>
-      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
-      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
-      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
-      <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
-    </div>
-
-    <section aria-labelledby="today-h" class="grid-2">
-      <article class="block shipping">
-        <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" id="read-on"></span></div>
-        <h2 id="today-h" class="h3">Where Flow is today</h2>
-        <p>Wispr Flow already offers desktop tools for transforming text. This proposal explores how editing can work on mobile and how users could control cleanup and revisit decisions made while speaking.</p>
-        <ul class="ticks muted" id="today-quotes"></ul>
-      </article>
-      <article class="block proposed">
-        <div class="button-row"><span class="tag tag-proposed">Proposed extensions</span></div>
-        <h2 class="h3">Connected ideas, one shared repair panel</h2>
-        <p>Each is a proposed extension of what Flow ships, not a replacement. They share one Phrase Repair panel: after a mobile dictation, a journal capture, a revision review or a spoken skill command, a wrong word is one tap away.</p>
-        <p class="muted">They have different amounts of evidence behind them, and each page says how much.</p>
-      </article>
-    </section>
-
-    <section id="concepts" aria-labelledby="concepts-h">
-      <div class="section-head">
-        <p class="eyebrow">The proposals</p>
-        <h2 id="concepts-h">Start with Phrase Repair</h2>
-      </div>
-      <article class="block concept lead-concept">
-        <div class="lead-grid">
-          <div class="lead-copy">
-            <div class="button-row"><span class="eyebrow">1 · Lead proposal</span><span class="tag tag-evidence">Strongest customer evidence</span></div>
-            <h2>Phrase Repair</h2>
-            <p class="concept-kicker">Grown from Mobile Fix Strip</p>
-            <dl>
-              <div><dt>Problem</dt><dd>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards.</dd></div>
-              <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="fs-evidence"></dd></div>
-              <div><dt><span class="tag tag-finding">My test</span></dt><dd>Flow heard “Mobile Fix Strip” as “mobile fix trip.” That error is one of the demos.</dd></div>
-              <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Fix the words that need attention by choosing an alternative or repeating just that phrase. Select any phrase yourself, or tap one Flow marked “Check this phrase.” Marks are optional and dismissible; only the selected span changes. iPhone and Android previews.</dd></div>
-              <div><dt>Next step</dt><dd>Time it against today's mobile keyboards. That comparison waits until I've observed them on a phone.</dd></div>
-            </dl>
-            <div class="button-row"><a class="button primary" href="phrase-repair/">Open Phrase Repair</a><a class="button quiet" href="phrase-repair/?scenario=product#demo">Try the “fix trip” demo</a></div>
-          </div>
-        </div>
-      </article>
-
-      <div class="grid-2 extensions">
-        <article class="block concept">
-          <div class="button-row"><span class="eyebrow">2 · Related extension</span><span class="tag tag-hypothesis">Preference hypothesis</span></div>
-          <h2>Journal Mode</h2>
-          <p class="concept-kicker">Capture with minimal cleanup, polish afterward</p>
-          <dl>
-            <div><dt>Idea</dt><dd>Capture your thoughts in your own words. Clean them up when you're ready.</dd></div>
-            <div><dt><span class="tag tag-finding">My test</span></dt><dd>My journal comparison largely kept my tone and story details. So this is about choice, not a fix for lost personality.</dd></div>
-            <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Turn it on for one recording (triple-press fn, or a button), then keep the capture or polish a separate copy. Both versions stay.</dd></div>
-            <div><dt>Open question</dt><dd>Flow already uses a third quick tap to cancel hands-free dictation, so the shortcut needs Wispr's input.</dd></div>
-          </dl>
-          <div class="button-row"><a class="button primary" href="journal-mode/">Open Journal Mode</a></div>
-        </article>
-        <article class="block concept">
-          <div class="button-row"><span class="eyebrow">3 · Related extension</span><span class="tag tag-finding">Evidence: my tests only</span></div>
-          <h2>Review Revisions</h2>
-          <p class="concept-kicker">Inspect final choices, revisit earlier alternatives</p>
-          <dl>
-            <div><dt>Idea</dt><dd>Check the choices you changed while speaking.</dd></div>
-            <div><dt><span class="tag tag-finding">My test</span></dt><dd>Most corrections landed. One kept Sam on a guest list I'd meant to leave Sam off; one wrote “the smaller group” without naming it.</dd></div>
-            <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>An optional control after dictations with revisions: one card per decision, change any one, preview, apply, undo.</dd></div>
-            <div><dt>Replaces</dt><dd>Thought Check. My scripted passages mostly kept their meaning, so a broad omission check had little to catch.</dd></div>
-          </dl>
-          <div class="button-row"><a class="button primary" href="review-revisions/">Open Review Revisions</a></div>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="vs-h">
-      <article class="block concept proposed vs-card">
-        <div class="button-row"><span class="eyebrow">4 · A larger proposal</span><span class="tag tag-hypothesis">Hypothesis: no direct customer evidence yet</span></div>
-        <h2 id="vs-h">Voice Skills</h2>
-        <p class="concept-kicker">Repeatable professional workflows, run by voice</p>
-        <dl>
-          <div><dt>Idea</dt><dd>Turn a workflow you repeat into a named skill. Invoke it by voice, supply anything that changes, and let Flow follow your saved process across connected tools.</dd></div>
-          <div><dt><span class="tag tag-shipping">Builds on</span></dt><dd>Flow's Snippets, which already save repeated text behind a spoken trigger. A few reviews ask for Snippets you can type and browse, and for a list of commands. None asks for cross-tool workflows.</dd></div>
-          <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>After three accepted runs of the same process, Flow offers to save it. You review the draft, then say “slash morning, focus on onboarding.” Connections and sample data are simulated.</dd></div>
-        </dl>
-        <div class="button-row"><a class="button primary" href="voice-skills/">Open Voice Skills</a><a class="button quiet" href="voice-skills/#dev-demo">See the developer demo</a></div>
-      </article>
-    </section>
-
-    <section aria-labelledby="video-h" class="video-section">
-      <div class="section-head">
-        <p class="eyebrow">See it work</p>
-        <h2 id="video-h">The first three prototypes in 40 seconds</h2>
-        <p>Recorded before Mobile Fix Strip became Phrase Repair and before Voice Skills was added.</p>
-      </div>
-      <figure class="video-figure">
-        <video controls playsinline preload="metadata" poster="assets/video/flow-prototypes.jpg" width="1920" height="1080">
+  <main class="ov-main">
+    <section id="film" class="shell ov-film" aria-label="The prototypes in about a minute">
+      <figure>
+        <div class="film-wrap">
+        <video id="film-video" playsinline preload="metadata" poster="assets/video/flow-prototypes.jpg" width="1920" height="1080">
           <source src="assets/video/flow-prototypes.mp4" type="video/mp4">
           Your browser can't play this video. <a href="assets/video/flow-prototypes.mp4">Download it</a>.
         </video>
-        <figcaption class="muted"><span class="tag tag-sim">Simulated</span> Every dictation, spoken replacement and Polish result in the video is prepared text; nothing is recognized. Music: Happy Beats / Business Moves vol. 10 by <a href="https://ende.app/en" target="_blank" rel="noopener">ende.app</a> (CC BY 4.0). Sound effects: Kenney (CC0).</figcaption>
+        <button type="button" class="film-play" id="film-play" aria-label="Play the 54-second video"><span class="tri" aria-hidden="true"></span><span class="lbl">Watch the 54-second tour</span></button>
+        </div>
+        <figcaption><span id="film-len">54 seconds</span> · all four prototypes · input is simulated · music by <a href="https://ende.app/en" target="_blank" rel="noopener">ende.app</a> (CC BY 4.0), sound effects Kenney (CC0)</figcaption>
       </figure>
     </section>
 
-    <section aria-labelledby="src-h" class="grid-2">
-      <article class="block evidence">
-        <h3 id="src-h">Where the evidence comes from</h3>
-        <p>The <a href="https://wispr-reviews-site.vercel.app/">Wispr Flow app reviews dashboard</a>: 7,007 public Google Play and App Store reviews of the mobile apps, May 2025 to Oct 2026, each labeled by an LLM and checked against 120 hand-labeled reviews. Plus <a href="research/">my own tests</a> in the real Flow app.</p>
-        <p class="muted">Review quotes are verbatim and identified by review ID. Store reviews are self-selected, so they show that a problem exists for someone, not how common it is. My tests are one speaker and aren't yet checked against their recordings.</p>
-      </article>
-      <article class="block sim">
-        <h3>What's simulated</h3>
-        <ul class="ticks">
-          <li>No prototype records or recognizes speech. Dictations, “Say it again” replacements and the journal entry are prepared text.</li>
-          <li>Phrase Repair's “Check this phrase” marks and their alternatives are demo data, not a confidence score.</li>
-          <li>Voice Skills' connections, task history, discovery and every email, message, number and pull request are fictional sample data.</li>
-          <li>Journal Mode's Polished version is written by hand, not produced by Flow or any model.</li>
-          <li>Review Revisions' cards and earlier choices are prepared. Scenario A is rebuilt from what I reported; B and C use scripted input.</li>
-          <li>The research workspace simulates nothing: every output in it is pasted from the real Flow app.</li>
-        </ul>
-      </article>
+    <section class="shell ov-moments" aria-labelledby="moments-h">
+      <div class="ov-head">
+        <h2 id="moments-h">Four moments, one idea</h2>
+        <p>Your voice does the work. You stay in control. One “Edit a phrase” panel runs through all four.</p>
+      </div>
+      <ol class="moments" id="moments">
+        <li>
+          <a class="moment" href="voice-skills/">
+            <span class="m-n">01</span>
+            <span class="m-when">When the work is a routine</span>
+            <span class="m-name">Voice Skills</span>
+            <span class="m-line">Say “slash morning.” Flow runs your saved routine across Gmail, Slack and Excel.</span>
+            <span class="m-ev ev-hyp">Hypothesis to test</span>
+            <span class="m-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li>
+          <a class="moment" href="phrase-repair/">
+            <span class="m-n">02</span>
+            <span class="m-when">When one phrase comes out wrong</span>
+            <span class="m-name">Phrase Repair</span>
+            <span class="m-line">Tap the words, pick an alternative or say just them again. Nothing else changes.</span>
+            <span class="m-ev ev-strong">Strongest evidence</span>
+            <span class="m-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li>
+          <a class="moment" href="review-revisions/">
+            <span class="m-n">03</span>
+            <span class="m-when">When you change your mind mid-sentence</span>
+            <span class="m-name">Review Revisions</span>
+            <span class="m-line">Check the choices you changed while speaking, and fix one without touching the rest.</span>
+            <span class="m-ev ev-test">Seen in my tests</span>
+            <span class="m-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li>
+          <a class="moment" href="journal-mode/">
+            <span class="m-n">04</span>
+            <span class="m-when">When the words are the point</span>
+            <span class="m-name">Journal Mode</span>
+            <span class="m-line">Capture a thought in your own words. Polish it later, if you want.</span>
+            <span class="m-ev ev-hyp">Preference to test</span>
+            <span class="m-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ol>
     </section>
 
-    <section aria-labelledby="about-h">
-      <div class="section-head">
-        <p class="eyebrow">Why listen to me</p>
-        <h2 id="about-h">I use Flow every day, which is why I did this study</h2>
+    <section class="ov-metrics" aria-labelledby="metrics-h">
+      <div class="shell">
+        <div class="ov-head">
+          <h2 id="metrics-h">How we'd know it worked</h2>
+          <p>Test each with users first. If it ships, one number decides it, and every number rolls up to one Flow-level goal.</p>
+        </div>
+        <div class="tree" id="metric-tree"></div>
+        <p class="ov-fine">No Wispr data was available, so there are no baselines; thresholds on each page are proposed. The Flow-level goal is my assumption.</p>
       </div>
-      <div class="about">
-        <article class="block">
-          <p>I'm an avid Wispr Flow user. I've had two student accounts on it, and I connect deeply with the product. That's the reason for this work: I wanted to understand where it still gets in people's way, and test it properly instead of guessing.</p>
-          <div class="usage" aria-label="My Flow usage, self-reported">
-            <div><strong>26 days</strong><span>current streak, as of Oct 16, 2026</span></div>
-            <div><strong>~50,000</strong><span>words spoken on one account</span></div>
-            <div><strong>Much more</strong><span>on my second account</span></div>
-          </div>
-          <p class="muted">Self-reported from my own accounts. A heavy user isn't a typical one, so my experience isn't counted as evidence on these pages. The reviews and the recorded tests are.</p>
-        </article>
-        <article class="block">
-          <h3>Abhinav Gupta</h3>
-          <ul class="ticks">
-            <li>MS Product Management at Carnegie Mellon (Tepper), graduating December 2026. Aiming for AI product management.</li>
-            <li>About six years across Flipkart, ShareChat, Meesho and Tata 1mg, in product, growth, strategy and operations.</li>
-            <li>For this application: built the <a href="https://wispr-reviews-site.vercel.app/">reviews dashboard</a> (7,007 reviews), ran the tests in my own Flow app, designed the proposals and their metrics, and built the prototypes with Claude Code as a coding partner.</li>
-          </ul>
-          <div class="button-row"><a class="button small" href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a><a class="button small" href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></div>
-        </article>
+    </section>
+
+    <section class="shell ov-about" aria-labelledby="about-h">
+      <div class="about-grid">
+        <div class="about-copy">
+          <h2 id="about-h">Why listen to me</h2>
+          <p class="about-lede">I'm a heavy Flow user, across two student accounts. I care about this product, so I tested where it gets in the way instead of guessing.</p>
+          <p class="who">How: I read 7,007 public app reviews in a <a href="https://wispr-reviews-site.vercel.app/">labeled dashboard</a>, then checked my hunches in the real app before designing anything (<a href="research/">research notes</a>).</p>
+          <p class="who"><strong>Abhinav Gupta.</strong> MS Product Management at Carnegie Mellon (Tepper), December 2026. About six years in product, growth and strategy at Flipkart, ShareChat, Meesho and Tata 1mg. I built the reviews dashboard, ran the tests and built these prototypes, with Claude Code as a coding partner.</p>
+          <div class="button-row"><a class="button primary" href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a><a class="button" href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></div>
+        </div>
+        <dl class="stats" aria-label="By the numbers">
+          <div><dt>26</dt><dd>day streak on Flow, as of Oct 16, 2026</dd></div>
+          <div><dt>~50k</dt><dd>words spoken on one account, more on the other</dd></div>
+          <div><dt>7,007</dt><dd>app reviews read and labeled</dd></div>
+          <div><dt>4</dt><dd>working prototypes, one shared repair panel</dd></div>
+        </dl>
       </div>
+      <p class="ov-fine">Usage numbers are self-reported. A heavy user isn't a typical one, so my own usage isn't counted as evidence anywhere on this site.</p>
+    </section>
+
+    <section class="shell ov-real" aria-label="What's real and what's simulated">
+      <details>
+        <summary>What's real and what's simulated</summary>
+        <ul>
+          <li><strong>Real:</strong> review quotes (verbatim, by review ID), Wispr docs quotes (re-read Oct 16, 2026), and my own test outputs in the Research page.</li>
+          <li><strong>Simulated:</strong> no prototype records or recognizes speech. Dictations, replacements, marks, the journal entry and its Polish are prepared. Voice Skills' connections, history and every email, number and pull request are fictional.</li>
+          <li><strong>Not yet done:</strong> testing with users, and comparing with Flow's current mobile keyboards on a phone.</li>
+        </ul>
+      </details>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="shell">
-      <p>Independent, unofficial prototypes by Abhinav Gupta (MS Product Management, CMU). Not affiliated with or endorsed by Wispr. No Wispr code, assets or data are used.</p>
-      <p><a href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></p>
+      <p>Independent, unofficial prototypes by Abhinav Gupta. Not affiliated with or endorsed by Wispr. No Wispr code, assets or data are used.</p>
     </div>
   </footer>
 </body>

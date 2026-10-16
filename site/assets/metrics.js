@@ -15,7 +15,7 @@
     northStar: {
       name: 'Time to a correct, send-ready message',
       formula: 'Median seconds from the moment a dictation is inserted to the moment the message is send-ready, over mobile dictations the user edited at least once before sending.',
-      population: 'iOS Flow keyboard users eligible for the strip, compared with a randomized holdout without it.',
+      population: 'iPhone and Android Flow keyboard users eligible for Phrase Repair, compared with a randomized holdout without it.',
       period: 'Weekly, read after four full weeks.',
       exclusions: 'Dictations deleted entirely; fields where iOS swaps in the system keyboard (number, phone, email); gaps over two minutes between dictation and send.',
       direction: 'Down is good.',
