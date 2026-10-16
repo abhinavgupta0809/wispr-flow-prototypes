@@ -32,7 +32,8 @@
 .field .caret { display: inline-block; width: 2px; height: 1.1em; vertical-align: -0.15em; background: var(--ph-blue); animation: blink 1s steps(1) infinite; margin-left: 1px; }
 @keyframes blink { 50% { opacity: 0; } }
 .field del, .field ins { color: var(--ph-ink); }
-.send { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--ph-blue); color: #fff; font-size: 18px; opacity: 0.35; }
+.send { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--ph-blue); color: #fff; font-size: 18px; cursor: pointer; }
+.send[disabled] { opacity: 0.35; cursor: default; }
 
 .strip { border-top: 1px solid var(--ph-line); background: color-mix(in srgb, var(--ph-bg) 70%, var(--hl)); padding: 8px 10px 10px; animation: rise 220ms var(--ease-out); }
 @keyframes rise { from { transform: translateY(8px); opacity: 0; } }
@@ -51,3 +52,23 @@ body.record main { padding-block: 24px; }
 .phone :where(.pe-controls, .kb) button.key, .phone .pe-input { font-family: -apple-system, system-ui, var(--font-sans); }
 .phone .pe-words { max-height: 96px; }
 .scenario-pick { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.bubble.out { background: var(--ph-blue); color: #fff; align-self: flex-end; border-bottom-right-radius: 6px; border-bottom-left-radius: 18px; }
+.sb-icons, .navbar { display: none; }
+.phone .kb { min-height: 236px; }
+
+/* Android preview: same repair interaction, platform chrome only. No Google or Apple branding. */
+.phone.android { --ph-blue: #0b57d0; --ph-kb: #e9eef6; --ph-key: #ffffff; --ph-bg: #fbfbfe; --ph-line: #dde3ea; border-radius: 30px; padding: 8px; }
+:root[data-theme="dark"] .phone.android { --ph-blue: #a8c7fa; --ph-kb: #1f2329; --ph-key: #2d3138; --ph-bg: #111317; --ph-line: #2b2f36; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .phone.android { --ph-blue: #a8c7fa; --ph-kb: #1f2329; --ph-key: #2d3138; --ph-bg: #111317; --ph-line: #2b2f36; } }
+.phone.android .phone-screen { border-radius: 24px; font-family: "Roboto", system-ui, var(--font-sans); }
+.phone.android .statusbar { padding: 10px 18px 4px; font-size: 13px; }
+.phone.android .sb-icons { display: inline; letter-spacing: 2px; color: var(--ph-sub); }
+.phone.android .field { border-radius: 24px; background: color-mix(in srgb, var(--ph-line) 55%, var(--ph-bg)); border-color: transparent; }
+.phone.android .send { border-radius: 14px; width: 40px; }
+.phone.android :where(.pe-controls, .kb) button.key { border-radius: 999px; box-shadow: none; border: 1px solid var(--ph-line); }
+.phone.android :where(.pe-controls, .kb) button.key.primary { border-color: transparent; }
+.phone.android .bubble.in { border-radius: 20px 20px 20px 6px; }
+.phone.android .navbar { display: flex; justify-content: center; padding: 6px 0 8px; background: var(--ph-kb); }
+.phone.android .navbar span { width: 108px; height: 4px; border-radius: 4px; background: var(--ph-sub); opacity: 0.6; }
+.phone.android .kb { padding-bottom: 10px; }

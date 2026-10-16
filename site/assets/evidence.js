@@ -59,6 +59,32 @@
     },
   ];
 
+  /* Adjacent signals for Voice Skills: reviews about Snippets and commands, not about cross-tool workflows.
+     No review in the export asks for repeatable workflows across tools. */
+  const voiceSkills = [
+    {
+      id: 'play_f0b8992f-1b77-4f33-96ae-fdbd25ca1015', platform: 'android', country: '', date: '2026-06-10', rating: 2, version: '2.0.1',
+      theme: 'Snippets used for repeated replies',
+      quote: 'I mainly got this for the "snippets" feature so that I could quickly send FAQ answers.',
+      context: 'The rest of the review is about long Snippets being deleted after use.',
+      group: 'Reliability & Bugs',
+    },
+    {
+      id: 'play_8c1a0c1f-1e1b-49a4-8885-0b20ccd9e516', platform: 'android', country: '', date: '2026-09-21', rating: 4, version: '2.5.2',
+      theme: 'Typed activation and a list to browse',
+      quote: 'snippets! they must be also typing activated and not just voice activated I have a lot of snippets and I need to be able to browse them.',
+      context: 'A pro user who says they won’t renew without it.',
+      group: 'Other',
+    },
+    {
+      id: 'ios_12796430925', platform: 'ios', country: 'HK', date: '2025-06-20', rating: 4, version: '1.9',
+      theme: 'Commands that can’t be discovered',
+      quote: 'It took me ages to discover that it has voice commands, but I was never able to find a listing of what commands it accepts.',
+      context: 'Older (June 2025, app 1.9). About finding commands, not workflows.',
+      group: 'UI / UX',
+    },
+  ];
+
   /* What Wispr documents today. First read 2026-10-15, re-read 2026-10-16 from docs.wisprflow.ai and
      checked against the raw page text; pages show only relative "last updated" dates. Quotes are verbatim. */
   const docs = {
@@ -81,6 +107,12 @@
       doubleTap: 'Double-tap your push-to-talk shortcut within half a second of starting: Fn (Mac), Ctrl + Win (Windows), or Ctrl + Opt on Macs without Fn.',
       quote: 'A third rapid push-to-talk tap cancels instead of pasting.',
     },
+    snippets: {
+      url: 'https://docs.wisprflow.ai/articles/5784437944-create-and-use-snippets',
+      title: 'Create and use snippets',
+      quote: 'If you keep retyping signatures, addresses, or replies, save them as snippets and speak a trigger phrase to insert them.',
+      platforms: 'Available on: Mac, Windows, iOS, Android',
+    },
     voiceEditClaim: 'A web search summary says the iOS Flow Keyboard has a “Voice Edit” button. I could not find it in Wispr’s docs on Oct 15 or Oct 16 (keyboard setup, navigation, Command Mode and Transforms pages). Unverified until checked on a phone.',
     keyboard: {
       url: 'https://docs.wisprflow.ai/articles/7453988911-Set-up-the-Flow-keyboard-on-iPhone',
@@ -99,5 +131,5 @@
     },
   };
 
-  root.EVIDENCE = {DASHBOARD, deepDive, STORES, EXPORT_CSV, fixStrip, thoughtCheck, docs};
+  root.EVIDENCE = {DASHBOARD, deepDive, STORES, EXPORT_CSV, fixStrip, thoughtCheck, voiceSkills, docs};
 })(typeof window !== 'undefined' ? window : globalThis);

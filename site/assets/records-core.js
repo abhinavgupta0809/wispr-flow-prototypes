@@ -41,9 +41,9 @@
       reading: 'The output kept the final date and time, but wrote “the smaller group” without saying who was in it.',
       changed: 'Scenario B names the group explicitly in the final sentence.',
       said: '', intended: '', output: '', reference: '', correction: 'Name the people in “the smaller group”', verified: 'no'},
-    {id: 'R7', title: 'Recognition error', informs: 'Mobile Fix Strip, second demo',
+    {id: 'R7', title: 'Recognition error', informs: 'Phrase Repair, product-term demo',
       reading: 'I said “Mobile Fix Strip.” Flow wrote “mobile fix trip.”',
-      changed: 'Basis for the Fix Strip’s second demo: select “fix trip,” supply “Fix Strip.”',
+      changed: 'Basis for Phrase Repair’s product-term demo (it began as the Mobile Fix Strip’s second demo).',
       said: '', intended: 'Mobile Fix Strip', output: '', reference: '', correction: 'Change “fix trip” to “Fix Strip”', verified: 'no'},
   ];
 

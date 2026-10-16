@@ -35,13 +35,15 @@
       {name: 'Keyboard-switch rate on edited dictations', formula: 'Edited dictations where the user left the Flow keyboard before send-ready ÷ edited dictations', direction: 'Down', decision: 'If it doesn’t fall, people still prefer another keyboard to fix things; look at what they type after switching.'},
       {name: 'Strip reach', formula: 'Edited dictations where the strip was opened ÷ edited dictations', direction: 'Up', decision: 'Low reach means the Fix control is missed; test its placement before judging the strip.'},
       {name: 'Strip success', formula: 'Replacements applied and not undone within 10 seconds ÷ strip opens', direction: 'Up', decision: 'Low success means people open the strip and give up; review where they cancel.'},
-      {name: 'Spoken share of replacements', formula: 'Replacements supplied by voice ÷ applied replacements', direction: 'Informational', decision: 'If most fixes are typed, the typing path inside the strip matters more than voice input; prioritize it.'},
+      {name: 'How repairs are made', formula: 'Applied repairs by source (alternative, said again, typed) ÷ applied repairs', direction: 'Informational', decision: 'If most repairs are typed, the typing path matters more than voice or suggestions; prioritize it.'},
+      {name: 'Mark precision', formula: '“Check this phrase” marks the user changed ÷ marks shown (Keep as written counts as a miss)', direction: 'Up', decision: 'Marks people mostly keep as written teach them to ignore marks; raise the bar for showing one.'},
     ],
     guardrails: [
       {name: 'Text outside the selection changed', formula: 'Applied replacements where any character outside the selected range differs before and after ÷ applied replacements', threshold: 'Zero (never-event)', action: 'Turn the strip off and fix before re-enabling.'},
       {name: 'Quick undo', formula: 'Replacements undone within 10 seconds ÷ applied replacements', threshold: 'At most 10% (proposed)', action: 'Sample undone edits to check for wrong ranges or wrong recognition.'},
       {name: 'Dictations that end up sent', formula: 'Dictations that reach send-ready ÷ dictations started', threshold: 'No more than 1 point below holdout (proposed)', action: 'The strip may be adding friction; check strip opens on dictations that were then abandoned.'},
       {name: 'Strip closed with no action', formula: 'Strip opens closed with no selection ÷ strip opens', threshold: 'At most 40% (proposed)', action: 'Accidental or curious opens; revisit the Fix control’s size and position.'},
+      {name: 'False marks', formula: 'Marks resolved with Keep as written, per 100 dictations', threshold: 'At most 3 (proposed)', action: 'Show fewer marks; false alarms cost attention on every message.'},
       {name: 'Keyboard stability', formula: 'Keyboard crashes and terminations ÷ keyboard sessions', threshold: 'No worse than holdout', action: 'Roll back the strip build.'},
     ],
     kill: ['Any text-integrity never-event in production.', 'Quick undo above 20% for a week (proposed).', 'Dictations that end up sent fall 2 or more points below holdout for a week (proposed).'],
@@ -49,8 +51,8 @@
 
   fixStrip.validation = {
     question: 'Is completing the correction faster and easier?',
-    compare: 'The same correction made two ways by the same person, order counterbalanced: the fastest path the current Flow iOS keyboard allows (observed on a phone first), and the Fix Strip prototype.',
-    tasks: 'Fix “Tuesday” → “Thursday” and “fix trip” → “Fix Strip” in a dictated message.',
+    compare: 'The same correction made two ways by the same person, order counterbalanced: the fastest path today’s Flow keyboard allows on that phone (observed first), and the Phrase Repair prototype.',
+    tasks: 'Repair “Risha” → “Rishav”, “mobile fix trip” → “Mobile Fix Strip” and “Tuesday at three” → “Thursday at two thirty”, on iPhone and Android; dismiss one false mark.',
     measures: [
       ['Primary', 'Seconds from the dictation appearing to a correct message.'],
       ['Effort', 'Taps, keyboard switches and re-dictations per correction.'],
@@ -58,8 +60,8 @@
       ['Integrity', 'Any change outside the intended phrase counts as a failure.'],
     ],
     caveat: 'The prototype’s “Say it” is instant and always right. Time it with typed replacements, or add a realistic recognition delay, so the comparison isn’t flattered.',
-    decision: 'Go to a native feasibility spike if the strip is faster and rated easier for most participants with no integrity failures. Otherwise, find out where the time goes before building anything.',
-    sample: '6 to 8 iPhone Flow users (proposed). Enough to find usability problems, not to estimate an effect size.',
+    decision: 'Go to a native feasibility spike if repair is faster and rated easier for most participants with no integrity failures. Otherwise, find out where the time goes before building anything.',
+    sample: '6 to 8 Flow users split across iPhone and Android (proposed). Enough to find usability problems, not to estimate an effect size.',
   };
 
   const journalMode = {
@@ -163,5 +165,55 @@
     kill: ['Any never-event.', 'The usability test shows re-dictation is as accurate and as fast.', 'No correctness gain over holdout after four weeks.'],
   };
 
-  root.METRICS = {anchor, fixStrip, journalMode, reviewRevisions};
+  const voiceSkills = {
+    gate: 'Voice Skills has no direct customer evidence yet. Run the usability test before any of these production metrics matter.',
+    validation: {
+      question: 'Does a saved skill save time and run the right workflow?',
+      compare: 'The same morning task done two ways by the same person: re-describing it to an assistant and doing the steps, versus saying the saved skill with today’s details.',
+      tasks: 'Accept the third run, review and save the suggested skill, then run it with a new focus; recover from an unavailable workbook; reject an unknown command.',
+      measures: [
+        ['Primary', 'Minutes from starting to a brief you’d post, versus re-describing the workflow.'],
+        ['Inputs', 'Whether the focus, window and destination were interpreted as intended.'],
+        ['Suggestions', 'Whether participants accept the suggestion, and why or why not.'],
+        ['Errors', 'Accidental triggers, unnecessary questions, wrong destinations, duplicate posts.'],
+      ],
+      caveat: 'Every connection in the prototype is simulated and the brief is built by fixed rules. It can test the interaction and trust, not whether a model would summarize these sources well.',
+      decision: 'Build a narrow version (one persona, two connectors) only if participants save time, the inputs come out right, and nobody posts something they didn’t mean to.',
+      sample: '6 to 8 PMs and developers who repeat a morning routine across tools (proposed).',
+    },
+    northStar: {
+      name: 'Weekly successful skill reuse',
+      formula: 'Skill runs completed (not partial) and accepted, from skills created at least a week earlier ÷ weekly active users who have a saved skill.',
+      population: 'Flow users with at least one saved skill, in a randomized rollout.',
+      period: 'Weekly, read after six weeks.',
+      exclusions: 'Trials with sample data; runs that were cancelled or only partly completed; internal accounts.',
+      direction: 'Up is good.',
+      decision: 'If saved skills aren’t reused after the first week, the suggestion is creating skills nobody needs; tighten discovery before adding connectors.',
+      why: 'A skill is worth something only when it runs again and its output gets used. Creating skills is easy to inflate; reuse isn’t.',
+      caveat: 'Assumption: “accepted” can be measured as the user posting, sending or keeping the output without rewriting most of it. That definition needs a check against what users actually do.',
+      stedii: [
+        ['Sensitive', 'Counts only reuse, so better suggestions and fewer failures show up.'],
+        ['Timely', 'Weekly, but needs a week of history per skill.'],
+        ['Easy', 'Are people running their skills again, successfully?'],
+        ['Directional', 'Higher is better.'],
+        ['Implementable', 'Needs run status and an acceptance signal.'],
+        ['Independent', 'Rollout cohorts absorb seasonality.'],
+      ],
+    },
+    supporting: [
+      {name: 'Suggestion acceptance', formula: 'Suggestions saved as skills ÷ suggestions shown', direction: 'Read with reuse', decision: 'High acceptance with low reuse means the suggestion is too eager.'},
+      {name: 'Input accuracy', formula: 'Runs whose interpreted inputs the user didn’t change before or during the run ÷ runs', direction: 'Up', decision: 'Low accuracy points to the invocation grammar or Phrase Repair on inputs.'},
+      {name: 'Setup questions per skill', formula: 'Questions asked while drafting ÷ skills drafted', direction: 'Down', decision: 'Many questions means inference is weak; fewer, better-targeted questions.'},
+      {name: 'Time saved', formula: 'Median minutes, re-described task minus skill run, in periodic timed sessions', direction: 'Up', decision: 'If the saving is small, a skill isn’t worth its setup for that workflow.'},
+    ],
+    guardrails: [
+      {name: 'Duplicate external actions', formula: 'Posts or sends repeated for the same run ÷ posts or sends', threshold: 'Zero (never-event)', action: 'Turn off posting from skills.'},
+      {name: 'Accidental triggers', formula: 'Runs started from dictation the user then cancels as unintended ÷ runs', threshold: 'At most 1% (proposed)', action: 'Require the command at the very start, and confirm before running.'},
+      {name: 'Partial reported as success', formula: 'Runs with a failed step shown as completed ÷ runs with a failed step', threshold: 'Zero (never-event)', action: 'Fix the status logic before anything else.'},
+      {name: 'Wrong destination', formula: 'Outputs sent somewhere the user then deletes or moves ÷ outputs sent', threshold: 'At most 0.5% (proposed)', action: 'Make destinations confirm before every send.'},
+    ],
+    kill: ['Any never-event.', 'No time saved over re-describing in the usability test.', 'Under 20% of saved skills reused in their second week (proposed).'],
+  };
+
+  root.METRICS = {anchor, fixStrip, journalMode, reviewRevisions, voiceSkills};
 })(typeof window !== 'undefined' ? window : globalThis);

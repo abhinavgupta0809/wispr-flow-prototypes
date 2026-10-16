@@ -1,5 +1,6 @@
-/* The phrase editor: one component shared by Mobile Fix Strip, Journal Mode and Review Revisions.
-   Tap words to select a phrase, say (simulated) or type the replacement, preview, then apply or cancel.
+/* The Phrase Repair panel: one component shared by Phrase Repair, Journal Mode, Review Revisions and
+   Voice Skills. Tap words (or a marked “Check this phrase” span), then choose a suggested alternative,
+   say it again (simulated) or type the replacement, preview, then apply, cancel or keep as written.
    State lives in the tested core (fixstrip-core.js). The host page owns the text view and, after Apply,
    decides where the change goes and how Undo works.
 
@@ -8,6 +9,7 @@
      dispatch(action)      any FixStrip core action
      isEditing()           a phrase is being chosen, replaced or previewed
      textNodes()           the host's text with the selection or preview marked, or null
+     markedText(onCheck)   the text with open highlights as tappable underlines (idle phase)
      reset()               back to empty */
 (function () {
   const {el} = window.WFP;
@@ -60,9 +62,22 @@
       return null;
     };
 
+    ed.markedText = (onCheck) => {
+      const s = ed.state;
+      const open = FS.openHighlights(s).slice().sort((a, b) => a.start - b.start);
+      const out = [];
+      let at = 0;
+      open.forEach((h) => {
+        out.push(s.text.slice(at, h.start));
+        out.push(el('button', {type: 'button', class: 'uncertain', title: FS.HIGHLIGHT_LABEL, 'aria-label': `${FS.HIGHLIGHT_LABEL}: ${h.phrase}`, onclick: () => onCheck(h.id), text: s.text.slice(h.start, h.end)}));
+        at = h.end;
+      });
+      out.push(s.text.slice(at));
+      return out;
+    };
+
     function say() {
-      const range = FS.selectionRange(ed.state);
-      const phrase = range && FS.simulatedReplacementFor(range.phrase, ed.state.simulated);
+      const phrase = FS.sayAgainFor(ed.state);
       if (!phrase || ed.listening) return;
       if (reduceMotion()) { ed.dispatch({type: 'SET_REPLACEMENT', text: phrase, simulated: true}); ed.dispatch({type: 'PREVIEW'}); return; }
       ed.listening = true; ed.render();
@@ -84,7 +99,10 @@
       opts.words.replaceChildren(...FS.dictationTokens(ed.state).map((t, i) => {
         if (!t.word) return el('span', {class: 'p', text: t.text});
         const on = sel && i >= sel.from && i <= sel.to;
-        return el('button', {type: 'button', class: `w${t.text === '[unclear]' ? ' unclear' : ''}`, 'aria-pressed': on ? 'true' : 'false', disabled: !interactive && !on, tabindex: interactive ? null : '-1', onclick: () => ed.dispatch({type: 'TAP', index: i}), 'data-i': String(i), text: t.text});
+        const off = ed.state.dictation.start;
+        const h = FS.openHighlights(ed.state).find((x) => t.start + off >= x.start && t.end + off <= x.end);
+        const onclick = () => (h && !sel ? ed.dispatch({type: 'OPEN_HIGHLIGHT', id: h.id}) : ed.dispatch({type: 'TAP', index: i}));
+        return el('button', {type: 'button', class: `w${t.text === '[unclear]' ? ' unclear' : ''}${h ? ' marked' : ''}`, title: h ? FS.HIGHLIGHT_LABEL : null, 'aria-pressed': on ? 'true' : 'false', disabled: !interactive && !on, tabindex: interactive ? null : '-1', onclick, 'data-i': String(i), text: t.text});
       }));
       if (focusedIndex !== null && interactive) opts.words.querySelector(`[data-i="${focusedIndex}"]`)?.focus({preventScroll: true});
     }
@@ -101,24 +119,32 @@
       let focus = null;
       const phase = ed.state.phase;
       if (phase === 'strip') {
-        const replace = button('Replace selection', {class: 'primary', disabled: !range, onclick: () => ed.dispatch({type: 'START_REPLACE'})});
-        body = frame('Fix', el('div', {class: 'pe-body'},
-          el('p', {class: 'hint', text: range ? `Selected “${range.phrase}”. Tap another word to extend the phrase.` : 'Tap the word to change.'}),
+        const replace = button('Repair selection', {class: 'primary', disabled: !range, onclick: () => ed.dispatch({type: 'START_REPLACE'})});
+        const marked = FS.openHighlights(ed.state).length;
+        body = frame('Repair', el('div', {class: 'pe-body'},
+          el('p', {class: 'hint', text: range ? `Selected “${range.phrase}”. Tap another word to extend the phrase.` : marked ? 'Tap any word to select it, or a marked phrase to check it.' : 'Tap the word to change.'}),
           el('div', {class: 'kb-row'}, replace, button('Close', {onclick: () => ed.dispatch({type: 'CLOSE_STRIP'})}))));
         focus = range ? replace : null;
       } else if (phase === 'replace') {
-        const prepared = FS.simulatedReplacementFor(range.phrase, ed.state.simulated);
-        const mic = el('button', {type: 'button', class: `mic${ed.listening ? ' listening' : ''}`, disabled: !prepared, onclick: say, 'aria-label': 'Say the replacement (simulated)'}, ed.listening ? '…' : 'Say it');
-        const input = el('input', {type: 'text', class: 'pe-input', placeholder: 'or type the replacement', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Type the replacement'});
-        input.value = ed.state.replacement;
+        const h = FS.activeHighlight(ed.state);
+        const alts = FS.alternativesFor(ed.state);
+        const prepared = FS.sayAgainFor(ed.state);
+        const mic = el('button', {type: 'button', class: `mic${ed.listening ? ' listening' : ''}`, disabled: !prepared, onclick: say, 'aria-label': 'Say it again (simulated)'}, ed.listening ? '…' : 'Say it again');
+        const input = el('input', {type: 'text', class: 'pe-input', placeholder: 'Type replacement', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Type replacement'});
+        input.value = ed.state.source === 'typed' ? ed.state.replacement : '';
         input.addEventListener('input', () => ed.dispatch({type: 'SET_REPLACEMENT', text: input.value}));
         input.addEventListener('keydown', (e) => { if (e.key === 'Enter') ed.dispatch({type: 'PREVIEW'}); });
-        body = frame('Replace', el('div', {class: 'pe-body'},
-          el('p', {class: 'replace-target'}, 'Replace ', el('b', {text: range.phrase}), ' with…'),
-          el('div', {class: 'pe-say'}, mic, el('span', {class: 'sim-note', text: ed.listening ? 'Simulated listening' : prepared ? `Simulated: fills in “${prepared}”` : 'No prepared phrase for this selection: type instead'})),
-          input,
-          el('div', {class: 'kb-row'}, button('Preview', {class: 'primary', 'data-pe': 'preview', onclick: () => ed.dispatch({type: 'PREVIEW'})}), button('Cancel', {onclick: () => ed.dispatch({type: 'CANCEL'})}))));
-        focus = prepared && !opts.compact ? mic : input;
+        const chips = alts.map((t) => el('button', {type: 'button', class: 'alt', onclick: () => ed.dispatch({type: 'CHOOSE', text: t}), text: t}));
+        body = frame(h ? FS.HIGHLIGHT_LABEL : 'Repair', el('div', {class: 'pe-body pe-repair'},
+          el('p', {class: 'replace-target'}, h ? 'Check ' : 'Repair ', el('b', {text: range.phrase})),
+          el('div', {class: 'pe-alts', role: 'group', 'aria-label': 'Suggested alternatives'},
+            chips.length ? chips : el('span', {class: 'hint', text: 'No suggestions for this phrase.'})),
+          el('div', {class: 'pe-say'}, mic, el('span', {class: 'sim-note', text: ed.listening ? 'Simulated listening' : prepared ? `Simulated: fills in “${prepared}”` : 'No prepared repeat: type instead'})),
+          el('div', {class: 'pe-type'}, input, button('Preview', {class: 'primary', 'data-pe': 'preview', onclick: () => ed.dispatch({type: 'PREVIEW'})})),
+          el('div', {class: 'kb-row'},
+            h ? button('Keep as written', {onclick: () => ed.dispatch({type: 'DISMISS'})}) : null,
+            button('Cancel', {onclick: () => ed.dispatch({type: 'CANCEL'})}))));
+        focus = chips[0] || (prepared && !opts.compact ? mic : input);
       } else if (phase === 'preview') {
         const apply = button('Apply', {class: 'primary', onclick: () => ed.dispatch({type: 'APPLY'})});
         body = frame('Preview', el('div', {class: 'pe-body'},

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Flow prototypes</title>
-  <meta name="description" content="Three proposed extensions for Wispr Flow: Mobile Fix Strip, Journal Mode and Review Revisions, grounded in public app reviews and my own tests.">
+  <meta name="description" content="Proposed extensions for Wispr Flow: Phrase Repair, Journal Mode, Review Revisions and Voice Skills, grounded in public app reviews and my own tests.">
   <link rel="icon" href="data:,">
   <meta name="theme-color" content="#034f46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,9 +22,10 @@
       <a class="site-name" href="./">Flow prototypes</a>
       <nav class="nav" aria-label="Pages">
         <a href="./" aria-current="page">Overview</a>
-        <a href="fix-strip/">Mobile Fix Strip</a>
+        <a href="phrase-repair/">Phrase Repair</a>
         <a href="journal-mode/">Journal Mode</a>
         <a href="review-revisions/">Review Revisions</a>
+        <a href="voice-skills/">Voice Skills</a>
         <a href="research/">Research</a>
         <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
       </nav>
@@ -54,8 +55,8 @@
       </article>
       <article class="block proposed">
         <div class="button-row"><span class="tag tag-proposed">Proposed extensions</span></div>
-        <h2 class="h3">Three connected ideas, one shared editor</h2>
-        <p>Each is a proposed extension of what Flow ships, not a replacement. They share one phrase editor: after a mobile dictation, a journal capture or a revision review, a wrong word is one tap away.</p>
+        <h2 class="h3">Connected ideas, one shared repair panel</h2>
+        <p>Each is a proposed extension of what Flow ships, not a replacement. They share one Phrase Repair panel: after a mobile dictation, a journal capture, a revision review or a spoken skill command, a wrong word is one tap away.</p>
         <p class="muted">They have different amounts of evidence behind them, and each page says how much.</p>
       </article>
     </section>
@@ -63,22 +64,22 @@
     <section id="concepts" aria-labelledby="concepts-h">
       <div class="section-head">
         <p class="eyebrow">The proposals</p>
-        <h2 id="concepts-h">Start with Mobile Fix Strip</h2>
+        <h2 id="concepts-h">Start with Phrase Repair</h2>
       </div>
       <article class="block concept lead-concept">
         <div class="lead-grid">
           <div class="lead-copy">
             <div class="button-row"><span class="eyebrow">1 · Lead proposal</span><span class="tag tag-evidence">Strongest customer evidence</span></div>
-            <h2>Mobile Fix Strip</h2>
-            <p class="concept-kicker">Precise phrase editing</p>
+            <h2>Phrase Repair</h2>
+            <p class="concept-kicker">Grown from Mobile Fix Strip</p>
             <dl>
               <div><dt>Problem</dt><dd>Mobile users can enjoy Flow's dictation quality but lose the time-saving benefit when correcting a phrase requires awkward selection, typing, or switching keyboards.</dd></div>
               <div><dt><span class="tag tag-evidence">Customer evidence</span></dt><dd id="fs-evidence"></dd></div>
-              <div><dt><span class="tag tag-finding">My test</span></dt><dd>Flow heard “Mobile Fix Strip” as “mobile fix trip.” That error is the second demo.</dd></div>
-              <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Tap the wrong words, say or type the fix, preview, apply, undo. Only the selected phrase changes; nothing is regenerated.</dd></div>
-              <div><dt>Next step</dt><dd>Time it against today's iOS keyboard. That comparison waits until I've observed the current keyboard on a phone.</dd></div>
+              <div><dt><span class="tag tag-finding">My test</span></dt><dd>Flow heard “Mobile Fix Strip” as “mobile fix trip.” That error is one of the demos.</dd></div>
+              <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>Fix the words that need attention by choosing an alternative or repeating just that phrase. Select any phrase yourself, or tap one Flow marked “Check this phrase.” Marks are optional and dismissible; only the selected span changes. iPhone and Android previews.</dd></div>
+              <div><dt>Next step</dt><dd>Time it against today's mobile keyboards. That comparison waits until I've observed them on a phone.</dd></div>
             </dl>
-            <div class="button-row"><a class="button primary" href="fix-strip/">Open Mobile Fix Strip</a><a class="button quiet" href="fix-strip/?scenario=fix-trip#demo">Try the “fix trip” demo</a></div>
+            <div class="button-row"><a class="button primary" href="phrase-repair/">Open Phrase Repair</a><a class="button quiet" href="phrase-repair/?scenario=product#demo">Try the “fix trip” demo</a></div>
           </div>
         </div>
       </article>
@@ -111,10 +112,25 @@
       </div>
     </section>
 
+    <section aria-labelledby="vs-h">
+      <article class="block concept proposed vs-card">
+        <div class="button-row"><span class="eyebrow">4 · A larger proposal</span><span class="tag tag-hypothesis">Hypothesis: no direct customer evidence yet</span></div>
+        <h2 id="vs-h">Voice Skills</h2>
+        <p class="concept-kicker">Repeatable professional workflows, run by voice</p>
+        <dl>
+          <div><dt>Idea</dt><dd>Turn a workflow you repeat into a named skill. Invoke it by voice, supply anything that changes, and let Flow follow your saved process across connected tools.</dd></div>
+          <div><dt><span class="tag tag-shipping">Builds on</span></dt><dd>Flow's Snippets, which already save repeated text behind a spoken trigger. A few reviews ask for Snippets you can type and browse, and for a list of commands. None asks for cross-tool workflows.</dd></div>
+          <div><dt><span class="tag tag-proposed">Proposed</span></dt><dd>After three accepted runs of the same process, Flow offers to save it. You review the draft, then say “slash morning, focus on onboarding.” Connections and sample data are simulated.</dd></div>
+        </dl>
+        <div class="button-row"><a class="button primary" href="voice-skills/">Open Voice Skills</a><a class="button quiet" href="voice-skills/#dev-demo">See the developer demo</a></div>
+      </article>
+    </section>
+
     <section aria-labelledby="video-h" class="video-section">
       <div class="section-head">
         <p class="eyebrow">See it work</p>
-        <h2 id="video-h">The three prototypes in 40 seconds</h2>
+        <h2 id="video-h">The first three prototypes in 40 seconds</h2>
+        <p>Recorded before Mobile Fix Strip became Phrase Repair and before Voice Skills was added.</p>
       </div>
       <figure class="video-figure">
         <video controls playsinline preload="metadata" poster="assets/video/flow-prototypes.jpg" width="1920" height="1080">
@@ -134,7 +150,9 @@
       <article class="block sim">
         <h3>What's simulated</h3>
         <ul class="ticks">
-          <li>No prototype records or recognizes speech. Dictations, “Say it” replacements and the journal entry are prepared text.</li>
+          <li>No prototype records or recognizes speech. Dictations, “Say it again” replacements and the journal entry are prepared text.</li>
+          <li>Phrase Repair's “Check this phrase” marks and their alternatives are demo data, not a confidence score.</li>
+          <li>Voice Skills' connections, task history, discovery and every email, message, number and pull request are fictional sample data.</li>
           <li>Journal Mode's Polished version is written by hand, not produced by Flow or any model.</li>
           <li>Review Revisions' cards and earlier choices are prepared. Scenario A is rebuilt from what I reported; B and C use scripted input.</li>
           <li>The research workspace simulates nothing: every output in it is pasted from the real Flow app.</li>
@@ -162,7 +180,7 @@
           <ul class="ticks">
             <li>MS Product Management at Carnegie Mellon (Tepper), graduating December 2026. Aiming for AI product management.</li>
             <li>About six years across Flipkart, ShareChat, Meesho and Tata 1mg, in product, growth, strategy and operations.</li>
-            <li>For this application: built the <a href="https://wispr-reviews-site.vercel.app/">reviews dashboard</a> (7,007 reviews), ran the tests in my own Flow app, designed the three proposals and their metrics, and built the prototypes with Claude Code as a coding partner.</li>
+            <li>For this application: built the <a href="https://wispr-reviews-site.vercel.app/">reviews dashboard</a> (7,007 reviews), ran the tests in my own Flow app, designed the proposals and their metrics, and built the prototypes with Claude Code as a coding partner.</li>
           </ul>
           <div class="button-row"><a class="button small" href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a><a class="button small" href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></div>
         </article>

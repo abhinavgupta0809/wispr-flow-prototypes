@@ -3,12 +3,12 @@ require('../site/assets/metrics.js');
 const M = globalThis.METRICS;
 const out = [];
 const p = (s = '') => out.push(s);
-p('# Usability tests and success metrics: Mobile Fix Strip, Journal Mode, Review Revisions');
+p('# Usability tests and success metrics: Phrase Repair, Journal Mode, Review Revisions, Voice Skills');
 p();
 p('Generated from `wispr-flow-prototypes/site/assets/metrics.js` (the site renders the same file). Chosen with /define-north-star and /feature-metrics (STEDII). No Wispr baselines are available, so thresholds marked proposed are starting points; never-events are zero by definition.');
 p();
 p(`**Flow-level anchor (${M.anchor.label})** ${M.anchor.metric}: ${M.anchor.definition}`);
-for (const [title, c] of [['Mobile Fix Strip', M.fixStrip], ['Journal Mode', M.journalMode], ['Review Revisions', M.reviewRevisions]]) {
+for (const [title, c] of [['Phrase Repair (was Mobile Fix Strip)', M.fixStrip], ['Journal Mode', M.journalMode], ['Review Revisions', M.reviewRevisions], ['Voice Skills', M.voiceSkills]]) {
   const n = c.northStar;
   p(); p(`## ${title}`); p();
   if (c.validation) {

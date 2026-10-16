@@ -176,7 +176,7 @@
     const t = $('r-toast');
     t.hidden = !ui.toast;
     if (!ui.toast) return;
-    t.replaceChildren(el('span', {text: ui.toast.text}), ui.toast.undo && state.undo.length ? el('button', {type: 'button', class: 'button small', onclick: () => dispatch({type: 'UNDO'}), text: 'Undo'}) : null);
+    t.replaceChildren(...[el('span', {text: ui.toast.text}), ui.toast.undo && state.undo.length ? el('button', {type: 'button', class: 'button small', onclick: () => dispatch({type: 'UNDO'}), text: 'Undo'}) : null].filter(Boolean));
   }
 
   /* Phrase editor (shared component) */

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Voice Skills · Flow prototypes</title>
+  <meta name="description" content="An independent prototype: turn a workflow you repeat into a named skill, invoke it by voice, and let Flow follow your saved process across connected tools.">
+  <link rel="icon" href="data:,">
+  <meta name="theme-color" content="#034f46">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <link rel="stylesheet" href="../assets/thoughtcheck.css">
+  <link rel="stylesheet" href="../assets/phrase-editor.css">
+  <link rel="stylesheet" href="../assets/voice-skills.css">
+  <script src="../assets/shared.js"></script>
+  <script src="../assets/evidence.js"></script>
+  <script src="../assets/fixstrip-core.js"></script>
+  <script src="../assets/skills-data.js"></script>
+  <script src="../assets/skills-core.js"></script>
+  <script src="../assets/metrics.js"></script>
+  <script defer src="../assets/metrics-view.js"></script>
+  <script defer src="../assets/phrase-editor.js"></script>
+  <script defer src="../assets/voice-skills.js"></script>
+  <script defer src="../assets/voice-skills-static.js"></script>
+</head>
+<body>
+  <a class="skip" href="#pm-demo">Skip to the demo</a>
+  <div class="masthead">
+    <div class="shell topbar">
+      <a class="site-name" href="../">Flow prototypes</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="../">Overview</a>
+        <a href="../phrase-repair/">Phrase Repair</a>
+        <a href="../journal-mode/">Journal Mode</a>
+        <a href="../review-revisions/">Review Revisions</a>
+        <a href="./" aria-current="page">Voice Skills</a>
+        <a href="../research/">Research</a>
+        <button id="theme" type="button" aria-label="Switch color theme">Theme</button>
+      </nav>
+    </div>
+    <div class="shell page-intro">
+      <p class="independent">Proposed extension · not made by or with Wispr</p>
+      <h1>Voice Skills</h1>
+      <p class="kicker">Repeatable professional workflows, run by voice</p>
+      <p class="lede">Turn a workflow you repeat into a named skill. Invoke it by voice, supply anything that changes, and let Flow follow your saved process across connected tools.</p>
+    </div>
+  </div>
+
+  <main class="shell">
+    <div class="legend" aria-label="How to read this page">
+      <span class="item"><span class="tag tag-hypothesis">Hypothesis</span> no direct customer evidence yet</span>
+      <span class="item"><span class="tag tag-evidence">Adjacent signal</span> reviews about related features</span>
+      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
+      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
+      <span class="item"><span class="tag tag-sim">Simulated</span> sample data, no real connections</span>
+    </div>
+
+    <section aria-labelledby="how-h">
+      <div class="section-head">
+        <p class="eyebrow">1 · How it works</p>
+        <h2 id="how-h">Say the skill's name first, then whatever changes</h2>
+      </div>
+      <div class="grid-2">
+        <article class="block proposed">
+          <div class="button-row"><span class="tag tag-proposed">Proposed</span></div>
+          <p>A skill has a slash name, such as <code>/morning</code>. Say “slash morning” at the start of a dictation to run it. You can also type the command.</p>
+          <p>After the trigger, add the details that change: <q>Slash morning, focus on onboarding this week.</q></p>
+          <ul class="ticks">
+            <li>Only a command at the very start counts. Dictation that just mentions a task is ordinary text.</li>
+            <li>Flow shows the matched skill as a chip right away, kept apart from the rest of what you said.</li>
+            <li>An unknown command offers Choose a skill, Create a skill, or Keep as text. Flow never guesses a workflow.</li>
+            <li>A misheard detail can be fixed with Phrase Repair: repeat that word, not the command.</li>
+          </ul>
+        </article>
+        <article class="block">
+          <div class="button-row"><span class="tag tag-hypothesis">Hypothesis</span><span class="tag tag-shipping">Builds on Snippets</span></div>
+          <p>Flow already saves repeated <em>text</em>. Its docs: <q id="snip-quote"></q> <a id="snip-link" target="_blank" rel="noopener">Create and use snippets</a> <span class="muted" id="snip-read"></span></p>
+          <p>Voice Skills would extend that from text to a repeated <em>process</em>. No review in the dashboard asks for cross-tool workflows, so this is a hypothesis. The reviews below are adjacent signals about Snippets and commands.</p>
+          <ul class="plain adjacent" id="adjacent"></ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="rules-h">
+      <div class="section-head">
+        <p class="eyebrow">2 · The proposed behavior</p>
+        <h2 id="rules-h">Suggested after three runs, saved only when you say so</h2>
+      </div>
+      <div class="grid-3">
+        <article class="block proposed">
+          <h3>Discovery</h3>
+          <ul class="ticks small">
+            <li>After you complete and accept the same process three times, Flow offers to save it. Three is a starting heuristic.</li>
+            <li>Retries, cancelled runs and repeated corrections don't count as separate runs. Changing inputs (dates, weeks, PRs) still count as the same process.</li>
+            <li>Flow learns only from tasks run through Flow and sources you connect. It doesn't watch other apps.</li>
+            <li>Review suggestion, Not now, or Don't suggest this again. Nothing is created until you accept.</li>
+          </ul>
+        </article>
+        <article class="block proposed">
+          <h3>The draft skill</h3>
+          <ul class="ticks small">
+            <li>Name, slash command, sources, ordered steps, changing inputs, output, destination, and what happens at the end.</li>
+            <li>Dates you typed become a rule (“since the previous successful run”) when that matches what you meant.</li>
+            <li>Inferred recipients, destinations and reporting windows are marked for review. Flow asks only what it can't infer.</li>
+            <li>Try with sample data before saving. A clashing command name asks you to pick another or update that skill on purpose.</li>
+          </ul>
+        </article>
+        <article class="block proposed">
+          <h3>Running it</h3>
+          <ul class="ticks small">
+            <li>Visible states: recognized, inputs ready or a missing detail, reading each source, preparing, ready for review, completed or partially completed.</li>
+            <li>Cancel any time. If one source fails, the rest is kept and only the failed step is retried.</li>
+            <li>Posting is explicit, and never repeats. A skill takes only the actions saved in it.</li>
+            <li>A partial run is never shown as a success.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="pm-demo" aria-labelledby="pm-h">
+      <div class="section-head">
+        <p class="eyebrow">3 · Product manager demo</p>
+        <h2 id="pm-h">From three repeated briefs to <code>/morning</code></h2>
+        <p>Accept Thursday's brief, and the suggestion appears. Review it, change the window, rename it <code>/morning</code>, save, then run it by voice across Gmail, Slack and Excel.</p>
+      </div>
+      <div class="vs-demo">
+        <div class="vs-window">
+          <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
+          <div class="vs-body" id="pm-main"></div>
+        </div>
+        <aside class="vs-side">
+          <div class="block">
+            <h3>Steps</h3>
+            <ol class="checklist" id="pm-steps"></ol>
+            <div class="button-row"><button type="button" class="button" id="pm-reset">Reset demo</button></div>
+          </div>
+          <div class="block sim">
+            <div class="button-row"><span class="tag tag-sim">Simulated</span></div>
+            <p class="small">Task history, discovery, connections, emails, Slack messages, the workbook and every number are sample data. Today is Fri, Oct 16, 2026; the last brief ran Thu, Oct 15 at 9:04 a.m. Nothing connects to Gmail, Slack or Excel, and nothing is posted anywhere.</p>
+          </div>
+          <div class="block">
+            <h3>Connections (simulated)</h3>
+            <div class="conn" id="connections"></div>
+            <p class="muted small">Turn one off to see a setup action, or a run that can only partly finish.</p>
+            <h4 class="small-h">Saved skills</h4>
+            <ul class="plain small" id="registry"></ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="dev-demo" aria-labelledby="dev-h">
+      <div class="section-head">
+        <p class="eyebrow">4 · Developer demo</p>
+        <h2 id="dev-h">A saved <code>/prs</code> review queue</h2>
+        <p>The same components, a different job: find the pull requests waiting on you, check CI, and explain the order. Reviewing, commenting, approving and merging stay separate actions.</p>
+      </div>
+      <div class="vs-window">
+        <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
+        <div class="vs-body" id="dev-main"></div>
+        <div class="vs-foot"><button type="button" class="button small" id="dev-reset">Reset</button><span class="muted small">Repository, pull requests, people and links are fictional sample data.</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="tpl-h">
+      <div class="section-head">
+        <p class="eyebrow">5 · Templates</p>
+        <h2 id="tpl-h">Four more skills to start from</h2>
+        <p>Each lists what it needs and what it produces. A missing connection leads to a setup action first. <span class="muted">/inbox already exists, so saving that template shows the name-clash choice.</span></p>
+      </div>
+      <div class="grid-2" id="templates"></div>
+      <p class="saved-note" id="tpl-saved" role="status"></p>
+      <div class="vs-window tpl-editor-wrap"><div class="vs-body editor" id="tpl-editor" hidden></div></div>
+    </section>
+
+    <section aria-labelledby="q-h">
+      <div class="section-head">
+        <p class="eyebrow">6 · Setup questions</p>
+        <h2 id="q-h">Ask only what the runs can't answer</h2>
+        <p>Observed choices are prefilled and easy to change. Nobody re-describes the whole workflow.</p>
+      </div>
+      <article class="block proposed">
+        <ul class="ticks">
+          <li>“Which Gmail label contains the customer feedback?”</li>
+          <li>“Which Slack channels should this include?”</li>
+          <li>“Which Excel workbook, sheet, and table contain the dashboard?”</li>
+          <li>“Should this cover the last 24 hours or everything since your previous run?”</li>
+          <li>“Which metrics and thresholds should the summary highlight?”</li>
+          <li>“Should the result stay private, become a draft in Slack, or be posted after approval?”</li>
+          <li>“For PRs, should this include your repositories, assigned reviews, or both?”</li>
+        </ul>
+      </article>
+    </section>
+
+    <section aria-labelledby="vs-measure-h">
+      <div class="section-head">
+        <p class="eyebrow">7 · How we'd know it worked</p>
+        <h2 id="vs-measure-h">Time saved, right inputs, and skills people actually reuse</h2>
+      </div>
+      <div class="metrics" data-metrics="voiceSkills"></div>
+    </section>
+
+    <section aria-labelledby="scope-h">
+      <div class="section-head">
+        <p class="eyebrow">8 · Scope boundary</p>
+        <h2 id="scope-h">What this prototype does not show</h2>
+      </div>
+      <article class="block">
+        <ul class="ticks">
+          <li>No real connections. Gmail, Slack, Excel and GitHub are simulated, and every item they return is fictional sample data.</li>
+          <li>No real discovery. The task history is prepared; how Flow would recognize “the same process” across runs is an open design and privacy question.</li>
+          <li>No speech recognition. Dictations are prepared; the misheard word is marked in the demo data.</li>
+          <li>The summaries are written from sample data by fixed rules, not by a model. They show the intended shape, including keeping observed changes apart from possible explanations.</li>
+          <li>It has not been tested with users.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <p>Independent, unofficial prototype by Abhinav Gupta (MS Product Management, CMU). Not affiliated with or endorsed by Wispr, Google, Slack, Microsoft or GitHub. No real accounts or data are used.</p>
+    </div>
+  </footer>
+</body>
+</html>

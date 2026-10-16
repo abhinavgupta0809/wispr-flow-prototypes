@@ -14,22 +14,6 @@ function selectPhrase(state, words) {
   return words.reduce((s, w) => FS.reduce(s, {type: 'TAP', index: tokens.findIndex((t) => t.text === w)}), state);
 }
 
-test('fix trip becomes Fix Strip and the sentence around it is kept', () => {
-  const sc = FS.scenarioById('fix-trip');
-  let s = run(FS.reduce, [{type: 'LOAD', text: sc.text}, {type: 'OPEN_STRIP'}], FS.initialState());
-  s = selectPhrase(s, ['fix', 'trip']);
-  assert.equal(FS.selectionRange(s).phrase, 'fix trip');
-  assert.equal(FS.simulatedReplacementFor('fix trip', s.simulated), 'Fix Strip');
-  s = run(FS.reduce, [{type: 'START_REPLACE'}, {type: 'SET_REPLACEMENT', text: 'Fix Strip', simulated: true}, {type: 'PREVIEW'}], s);
-  assert.equal(s.text, sc.text, 'preview does not change the text');
-  s = FS.reduce(s, {type: 'APPLY'});
-  assert.equal(s.text, 'Here’s the link to the mobile Fix Strip prototype. Can you try it before Friday’s review?');
-  const c = s.lastChange;
-  assert.ok(FS.preservedOutside(c.before, c.after, c.start, c.end, c.inserted));
-  s = FS.reduce(s, {type: 'UNDO'});
-  assert.equal(s.text, sc.text);
-});
-
 test('typed replacement works when no simulated phrase exists', () => {
   let s = run(FS.reduce, [{type: 'LOAD', text: 'Meet at the cafe.', phrases: {}}, {type: 'OPEN_STRIP'}], FS.initialState());
   s = selectPhrase(s, ['cafe']);

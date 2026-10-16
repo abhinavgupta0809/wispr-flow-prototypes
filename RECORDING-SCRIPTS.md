@@ -1,35 +1,40 @@
 # Recording scripts
 
-Three short videos, one per proposal. Mobile Fix Strip leads; the other two are related extensions
-with less evidence behind them, and the scripts say so. Spoken lines are written for about 150 words a
+Four short videos. Phrase Repair (grown from Mobile Fix Strip) leads; Journal Mode and Review Revisions
+are related extensions with less evidence, and Voice Skills is a larger hypothesis. The scripts say so. Spoken lines are written for about 150 words a
 minute. Screen directions are in brackets. Press each demo's Reset button before every take.
 
 | Video | Main demonstration | Question to validate |
 |---|---|---|
-| Mobile Fix Strip | Correct “fix trip” to “Fix Strip.” | Is completing the correction faster and easier? |
+| Phrase Repair | Flow marks a phrase, the user repeats only those words, and the sentence is corrected. | Is completing the correction faster and easier? |
 | Journal Mode | Activate the mode, capture an entry, optionally polish, and return to the captured version. | Which version would the user save, and why? |
 | Review Revisions | Exclude Sam while retaining Leo, then change a date without changing the time or guests. | Can users inspect and adjust their final decisions accurately? |
+| Voice Skills | The third repeated workflow prompts a suggestion; the user edits and saves /morning, then invokes it to produce a brief across Gmail, Slack and Excel. | Does a saved skill save time and run the right workflow? |
 
-Before any take: every dictation, “Say it” replacement, journal entry and Polish result in these demos
-is prepared text. Say so on camera, as the scripts do.
+Before any take: every dictation, “Say it again” replacement, journal entry and Polish result in these
+demos is prepared text, and every Voice Skills connection and data item is fictional. Say so on camera,
+as the scripts do.
 
-## 1. Mobile Fix Strip (about 45 seconds)
+## 1. Phrase Repair (about 45 seconds)
 
-Set up: `/fix-strip/?record&scenario=fix-trip`, browser about 1280 px wide, light theme. Second tab:
-`/fix-strip/` scrolled to review `ios_14588888578`.
+Set up: `/phrase-repair/?record&scenario=multi`, browser about 1280 px wide, light theme. Second tab:
+`/phrase-repair/` scrolled to review `ios_14588888578`. Record once on iPhone; optionally switch the
+preview to Android for the last beat.
 
 | Time | Screen | Say |
 |---|---|---|
-| 0:00 | Second tab, first review card | “Flow's dictation gets praised in the same reviews that complain about fixing one word on a phone. One iPhone user asked for ‘a seamless keyboard between voice-to-text and minor edits.’” |
-| 0:10 | `?record` tab. Tap **Dictate** | “It happened to me too. I said ‘Mobile Fix Strip,’ and Flow wrote ‘mobile fix trip.’ This sentence is prepared; nothing here is recognized.” |
-| 0:18 | **Fix a phrase**, tap “fix”, then “trip” | “I tap Fix, then the two wrong words.” |
-| 0:23 | **Replace selection**, **Say it** | “The replacement is simulated: ‘Fix Strip.’” |
-| 0:27 | Preview shows. Pause a beat. **Apply** | “I see the change before it lands. Only those two words change. The rest of the sentence is untouched, and the text check confirms it.” |
-| 0:35 | **Undo** in the bar | “One tap undoes it, exactly.” |
-| 0:38 | Stay on the phone | “The question to test: is finishing the correction faster and easier than today's keyboard? I'd time both with real users before claiming it is.” |
+| 0:00 | Second tab, first review card | “Flow's dictation gets praised in the same reviews that complain about fixing a word on a phone. One iPhone user asked for ‘a seamless keyboard between voice-to-text and minor edits.’” |
+| 0:10 | `?record` tab. Tap **Dictate** | “Here's a prepared dictation. Nothing is recognized in this prototype.” |
+| 0:14 | Point at the wavy underline on “Tuesday at three” | “Flow marks a phrase it might have wrong. In this demo the mark is prepared data, not a confidence score. It covers exactly the three words that need checking.” |
+| 0:22 | Tap the underline. The repair panel opens | “Tapping it opens one small panel: suggested alternatives, say it again, or type.” |
+| 0:27 | **Say it again** (simulated “Thursday at two thirty”) | “I repeat just those words, not the whole sentence.” |
+| 0:31 | Preview shows. Pause a beat. **Apply** | “I see the change before it lands. Only that span changes; the text check confirms it.” |
+| 0:37 | **Undo** in the bar | “Undo puts it back exactly.” |
+| 0:40 | Switch to **False alarm**, Dictate, tap “Priya”, **Keep as written** | “And when the mark is wrong, Keep as written changes nothing. Marks never block sending.” |
+| 0:48 | Stay on the phone | “The question to test: is finishing the correction faster and easier than today's keyboards?” |
 
-Leave out any side-by-side with Flow's current iOS keyboard until it has been observed on a phone and
-recorded (app version, iOS version, date, taps and seconds).
+Leave out any side-by-side with Flow's current keyboards until it has been observed on a phone and
+recorded (app version, OS version, date, taps and seconds).
 
 ## 2. Journal Mode (about 45 seconds)
 
@@ -62,3 +67,23 @@ Set up: `/review-revisions/?record&scenario=guests`, about 1280 px wide.
 
 Scenario C (choose Thursday, then confirm as a separate step) is on the page for anyone who wants to
 try it; it's left out of the video to keep it short.
+
+## 4. Voice Skills (about 60 seconds)
+
+Set up: `/voice-skills/`, about 1280 px wide, scrolled to the product manager demo. Press **Reset demo**
+first. The run takes about nine seconds; keep talking over it.
+
+| Time | Screen | Say |
+|---|---|---|
+| 0:00 | Task history, “2 of 3” | “Voice Skills is a bigger, untested idea. Everything here is simulated: the history, the connections, the emails and numbers.” |
+| 0:07 | **Accept draft** on Thursday's run. The suggestion appears | “That's the third time I've built the same morning brief. Retries and cancelled runs didn't count. Flow offers to save it, and nothing is created until I accept.” |
+| 0:16 | **Review suggestion**. Point at an inferred tag | “It drafted the skill from my runs: Gmail, Slack and Excel steps, in order. Anything inferred, like the destination, is marked for review.” |
+| 0:24 | Answer **Everything since my previous run**, then **2 points or more**; rename to `/morning` | “It only asks what it couldn't infer: the reporting window and the threshold. I rename it slash morning.” |
+| 0:32 | **Save skill**, then **Use it now** | “Saved. Now I just say it.” |
+| 0:35 | “Slash morning, focus on onboarding.” then **Run /morning** | “The command is recognized as a chip, and the part that changes, onboarding, is read as an input. Nothing posts until I approve.” |
+| 0:42 | Steps run | “Each source shows its own progress.” |
+| 0:47 | Brief | “One customer theme, one metric change kept apart from what might explain it, and one open question.” |
+| 0:54 | Edit the draft; **Post to #product-onboarding (simulated)**, then **Post again** | “I edit, then post on purpose. Running it twice never posts twice. The question to test: does this save time and run the right workflow?” |
+
+Optional cut-ins: the misheard input (repeat “retention” only), the workbook-unavailable recovery, and
+the `/prs` developer demo.

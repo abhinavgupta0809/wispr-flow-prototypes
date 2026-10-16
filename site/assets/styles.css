@@ -237,3 +237,4 @@ footer.site-footer .shell { display: grid; gap: 6px; }
 .lead-concept { border-left-width: 6px; --kind: var(--evidence); padding: 28px; }
 .lead-concept h2 { font-size: 38px; line-height: 42px; }
 .extensions { margin-top: 16px; }
+.vs-card { margin-top: 0; }
