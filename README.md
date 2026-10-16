@@ -138,7 +138,7 @@ The Research page keeps the original Thought Check experiment and adds evidence 
 | `site/assets/evidence.js` | Review quotes and Wispr docs quotes |
 | `site/assets/metrics.js`, `metrics-view.js` | Usability tests and metrics for the three proposals |
 | `tools/metrics-md.js` | Prints the metrics as markdown (`node tools/metrics-md.js`) |
-| `site/assets/video/flow-prototypes.mp4` | Demo video. Source project: `PM-OS/projects/wispr-reviews/03-outputs/brag/` |
+| `site/assets/video/flow-prototypes.mp4` | Demo video (40s, 1080p, all three prototypes). Source project: `PM-OS/projects/wispr-reviews/03-outputs/brag-2026-10-16-091029/` |
 | `site/assets/shared.js`, `styles.css` | Theme, helpers, shared tokens (Wispr palette, same as the dashboard) |
 | `RECORDING-SCRIPTS.md` | The three video scripts and what each validates |
 | `tests/` | `node --test` unit tests for the cores |
