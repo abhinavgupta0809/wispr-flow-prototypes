@@ -51,9 +51,9 @@ cd ~/Desktop/Projects/wispr-flow-prototypes
 node --test tests/*.test.js
 ```
 
-Live: https://wispr-flow-prototypes.vercel.app/ (Vercel project `wispr-flow-prototypes`, team `abhinav-d561`, deployed
-from the CLI with `site/` as the project folder: `cd site && npx vercel deploy --prod`). Not connected to Git, so each
-change needs that command. Vercel Web Analytics is enabled; every page loads `/_vercel/insights/script.js`.
+Live: https://wispr-flow-prototypes.vercel.app/ (Vercel project `wispr-flow-prototypes`, team `abhinav-d561`, connected to
+GitHub repo `abhinavgupta0809/wispr-flow-prototypes`, root directory `site`). Every push to `master` deploys to
+production; other branches get preview URLs. Vercel Web Analytics is enabled; every page loads `/_vercel/insights/script.js`.
 `site/.vercelignore` keeps `.env*` files out of deployments.
 
 ## Usability tests and metrics
