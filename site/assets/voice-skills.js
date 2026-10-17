@@ -8,7 +8,7 @@
   const $ = (id) => document.getElementById(id);
   const clone = (x) => JSON.parse(JSON.stringify(x));
   const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const TICK_MS = 850;
+  const TICK_MS = 600;
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
   const pct = (n) => `${n.toFixed(1)}%`;
   const pts = (n) => `${n > 0 ? '+' : n < 0 ? '−' : ''}${Math.abs(n).toFixed(1)} pts`;
@@ -16,8 +16,16 @@
   /* Shared, simulated state: connections and the skill registry */
   const conn = {...D.CONNECTIONS};
   let registry = clone(K.SAVED);
+  /* Product marks so each tool reads at a glance. Static strings, drawn after the public logos. */
+  const LOGOS = {
+    gmail: '<svg viewBox="52 42 88 66" aria-hidden="true"><path fill="#4285f4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"/><path fill="#34a853" d="M120 108h14c3.32 0 6-2.690 6-6V59l-20 15"/><path fill="#fbbc04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"/><path fill="#ea4335" d="M72 74V48l24 18 24-18v26L96 92"/><path fill="#c5221f" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"/></svg>',
+    slack: '<svg viewBox="0 0 127 127" aria-hidden="true"><path fill="#e01e5a" d="M27.2 80c0 7.3-5.9 13.2-13.2 13.2C6.7 93.2.8 87.3.8 80c0-7.3 5.9-13.2 13.2-13.2h13.2V80zm6.6 0c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2v33c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V80z"/><path fill="#36c5f0" d="M47 27c-7.3 0-13.2-5.9-13.2-13.2C33.8 6.5 39.7.6 47 .6c7.3 0 13.2 5.9 13.2 13.2V27H47zm0 6.7c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H13.9C6.6 60.1.7 54.2.7 46.9c0-7.3 5.9-13.2 13.2-13.2H47z"/><path fill="#2eb67d" d="M99.9 46.9c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H99.9V46.9zm-6.6 0c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V13.8C66.9 6.5 72.8.6 80.1.6c7.3 0 13.2 5.9 13.2 13.2v33.1z"/><path fill="#ecb22e" d="M80.1 99.8c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V99.8h13.2zm0-6.6c-7.3 0-13.2-5.9-13.2-13.2 0-7.3 5.9-13.2 13.2-13.2h33.1c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H80.1z"/></svg>',
+    excel: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="15" height="20" rx="2" fill="#21a366"/><path fill="#107c41" d="M7 12h15v8a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path fill="#33c481" d="M9 2h11a2 2 0 0 1 2 2v3H7V4a2 2 0 0 1 2-2z"/><path fill="#185c37" d="M7 7h7.5v10H7z" opacity=".35"/><rect x="2" y="6" width="12" height="12" rx="1.6" fill="#107c41"/><path fill="#fff" d="M4.6 8.8h2.1l1.3 2.4 1.4-2.4h2l-2.3 3.4 2.3 3.6h-2.1L8 13.3l-1.4 2.5H4.5l2.4-3.6z"/></svg>',
+    github: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.840 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3"/></svg>',
+  };
+  const logo = (tool) => { const s = el('span', {class: 'tool-logo'}); s.innerHTML = LOGOS[tool] || ''; return s; };
   const toolChip = (tool, detail) => el('span', {class: `tool tool-${tool}${conn[tool] ? '' : ' off'}`},
-    el('b', {text: D.TOOL_NAMES[tool]}), detail ? ` ${detail}` : '', conn[tool] ? null : el('em', {text: ' · not connected'}));
+    logo(tool), el('b', {text: D.TOOL_NAMES[tool]}), detail ? ` ${detail}` : '', conn[tool] ? null : el('em', {text: ' · not connected'}));
   const inferredTag = (what) => el('span', {class: 'inferred', title: 'Inferred from your runs. Review before saving.', text: what || 'Inferred: review'});
   const windowLabel = (v) => (K.WINDOWS.find(([k]) => k === v) || [v, v])[1];
   const windowDetail = (v) => (v === 'since-last' ? `since your previous successful run (${D.LAST_RUN})` : v === '24h' ? 'the last 24 hours' : 'the last 7 days');
@@ -181,29 +189,28 @@
   }
 
   /* ================= Product manager demo: discovery to execution ================= */
+  /* Kept short on purpose: one color per tool, one decision per screen. The same colors mark the repeated parts
+     of each past request and the routine Flow suggests saving. */
   const pm = {};
   let cmdEd;
   let cmdWords;
   let cmdControls;
   function pmReset() {
     clearInterval(pm.timer);
-    Object.assign(pm, {history: clone(D.HISTORY), prefs: {}, stage: 'history', draft: null, editor: null, skill: null, utter: null, parsed: null, interp: null, plain: null,
-      unavailable: false, run: null, timer: null, draftText: '', replyText: '', flags: new Set(), impact: null, postNote: null, posts: []});
+    Object.assign(pm, {history: D.HISTORY.map((x) => (x.id === 'r3' ? {...x, status: 'completed', accepted: true} : x)), prefs: {}, stage: 'history', draft: null, skill: null, parsed: null, interp: null, plain: null,
+      run: null, timer: null, draftText: '', replyText: '', flags: new Set(), impact: null, postNote: null, posts: [], reviewError: null, justSaved: false});
     registry = registry.filter((s) => s.id !== 'morning' && !(s.basedOn && s.basedOn.length));
     if (cmdEd) cmdEd.reset();
+    if (composer) composer.clear();
+    pm.invokeShell = null;
   }
 
   const PM_STEPS = [
-    ['three', 'Three morning-brief runs completed'],
-    ['suggested', 'Flow suggests saving it as a skill'],
-    ['editor', 'Open the inferred skill'],
-    ['edited', 'Change the reporting window and rename it /morning'],
-    ['saved', 'Save the skill'],
-    ['dictated', 'Say “slash morning, focus on onboarding”'],
-    ['matched', 'See the matched skill and its inputs'],
-    ['progress', 'Watch each source run'],
-    ['brief', 'Read the brief and the Slack draft'],
-    ['posted', 'Edit the draft and post it'],
+    ['suggested', 'Flow spots a routine'],
+    ['saved', 'Save it as /morning'],
+    ['dictated', 'Say “slash morning”'],
+    ['brief', 'Watch it run'],
+    ['posted', 'Approve and post'],
   ];
   function pmStepper() {
     let nowSet = false;
@@ -215,59 +222,96 @@
     }));
   }
 
+  /* The repeated parts, colored by where they come from. */
+  const REPEATS = [
+    {key: 'gmail', re: /customer feedback (?:label|email)/i},
+    {key: 'slack', re: /#onboarding-feedback/},
+    {key: 'excel', re: /(?:Onboarding )?KPIs funnel table/i},
+    {key: 'out', re: /#product-onboarding/},
+  ];
+  function marked(text) {
+    const all = new RegExp(REPEATS.map((r) => `(${r.re.source})`).join('|'), 'gi');
+    const out = [];
+    let at = 0;
+    for (const m of text.matchAll(all)) {
+      out.push(text.slice(at, m.index));
+      const key = REPEATS[m.slice(1).findIndex(Boolean)].key;
+      out.push(el('mark', {class: `rp rp-${key}`, text: m[0]}));
+      at = m.index + m[0].length;
+    }
+    out.push(text.slice(at));
+    return out;
+  }
+  const ROUTINE = [
+    {key: 'gmail', tool: 'gmail', text: 'Customer feedback emails'},
+    {key: 'slack', tool: 'slack', text: '#onboarding-feedback'},
+    {key: 'excel', tool: 'excel', text: 'Onboarding KPIs funnel table'},
+    {key: 'out', tool: 'slack', text: 'Draft an update for #product-onboarding'},
+  ];
+  const routineList = () => el('ol', {class: 'routine'}, ...ROUTINE.map((r) => el('li', {class: `rp-${r.key}`},
+    el('span', {class: 'routine-dash', 'aria-hidden': 'true', text: r.key === 'out' ? '→' : '—'}), logo(r.tool), el('span', {text: r.text}))));
+
   function pmHistory() {
     const sig = 'morning-brief';
     const s = K.suggestionState(pm.history, sig, pm.prefs);
-    if (s.n >= 3) pm.flags.add('three');
-    if (s.show) pm.flags.add('suggested');
-    const rows = pm.history.map((r) => {
-      const why = r.signature !== sig ? 'Different workflow, not counted' : K.whyNotCounted(r);
-      const counts = !why;
-      return el('li', {class: `hist${counts ? ' counts' : ''}`},
-        el('span', {class: 'when', text: r.when}),
-        el('span', {class: 'req', text: r.request}),
-        r.status === 'ready'
-          ? el('span', {class: 'hstat'}, el('span', {class: 'badge wait', text: 'Draft ready for review'}), el('button', {type: 'button', class: 'button small primary', onclick: () => { pm.history = pm.history.map((x) => (x.id === r.id ? {...x, status: 'completed', accepted: true} : x)); pmRender(); }, text: 'Accept draft'}))
-          : el('span', {class: `badge ${counts ? 'ok' : 'no'}`, text: counts ? 'Completed and accepted · counts' : why}));
-    });
+    pm.flags.add('suggested');
+    const runs = K.qualifyingRuns(pm.history, sig);
     const sug = s.show ? el('div', {class: 'suggestion', role: 'status'},
-      el('p', {class: 'sug-title', text: 'You’ve created this morning brief three times. Save it as a skill?'}),
-      el('p', {text: 'Review customer emails, summarize the onboarding workbook, and draft an update for Slack.'}),
+      el('p', {class: 'sug-title', text: 'Same routine, three mornings in a row. Save it as a skill?'}),
+      routineList(),
       el('div', {class: 'button-row'},
-        el('button', {type: 'button', class: 'button primary', onclick: () => { pm.draft = K.inferDraft(pm.history); pm.editor = {key: 'pm-ed'}; pm.stage = 'editor'; pm.flags.add('editor'); pmRender(); }, text: 'Review suggestion'}),
-        el('button', {type: 'button', class: 'button', onclick: () => { pm.prefs.snoozedAt = s.n; pmRender(); }, text: 'Not now'}),
-        el('button', {type: 'button', class: 'button quiet', onclick: () => { pm.prefs.never = true; pmRender(); }, text: 'Don’t suggest this again'})),
-      el('p', {class: 'muted small', text: 'Nothing is saved or bound to a command until you accept. Based on your Flow task history only (simulated).'})) : null;
-    const note = s.reason === 'snoozed' ? el('p', {class: 'muted small'}, 'Suggestion hidden for now. It can come back after your next similar run. ', el('button', {type: 'button', class: 'link', onclick: () => { delete pm.prefs.snoozedAt; pmRender(); }, text: 'Show it again (demo)'}))
-      : s.reason === 'never' ? el('p', {class: 'muted small'}, 'Flow won’t suggest this workflow again. ', el('button', {type: 'button', class: 'link', onclick: () => { delete pm.prefs.never; pmRender(); }, text: 'Undo'})) : null;
+        el('button', {type: 'button', class: 'button primary', onclick: () => { pm.draft = {name: 'Morning Product Brief', command: '/morning', window: 'since-last'}; pm.stage = 'review'; pmRender(); }, text: 'Save as a skill'}),
+        el('button', {type: 'button', class: 'button quiet', onclick: () => { pm.prefs.snoozedAt = s.n; pmRender(); }, text: 'Not now'})))
+      : el('p', {class: 'muted small'}, 'Suggestion hidden. ', el('button', {type: 'button', class: 'link', onclick: () => { delete pm.prefs.snoozedAt; pmRender(); }, text: 'Show it again'}));
     return el('div', {class: 'stage'},
-      el('div', {class: 'stage-head'}, el('h3', {text: 'Your recent Flow tasks'}), el('span', {class: 'counter', text: `Similar morning briefs that count: ${Math.min(s.n, 3)} of ${K.SUGGEST_AFTER}`})),
-      sug, note,
-      el('ul', {class: 'history'}, ...rows),
-      el('p', {class: 'muted small', text: 'A run counts when you completed and accepted the same process. Retries, cancelled runs and other tasks don’t. Dates and other inputs can differ.'}));
+      el('div', {class: 'stage-head'}, el('h3', {text: 'Flow noticed a routine'}), el('span', {class: 'counter', text: `${runs.length} of ${K.SUGGEST_AFTER} mornings`})),
+      el('ul', {class: 'history'}, ...runs.map((r) => el('li', {class: 'hist'},
+        el('span', {class: 'when', text: r.when.split(',').slice(0, 2).join(',')}),
+        el('span', {class: 'req'}, ...marked(r.request)),
+        el('span', {class: 'tick', 'aria-label': 'Completed', text: '✓'})))),
+      sug);
   }
 
-  function pmEditor() {
-    const box = el('div', {class: 'stage editor'});
+  function pmReview() {
     const d = pm.draft;
-    renderEditor(box, Object.assign(pm.editor, {
-      draft: d, mode: 'suggestion',
-      title: 'Review the suggested skill',
-      subtitle: `Built from your runs on ${pm.history.filter((r) => d.basedOn.includes(r.id)).map((r) => r.when.split(',').slice(0, 2).join(',')).join('; ')}. Marked settings were inferred.`,
-      onChange: () => { if (d.command === '/morning' && d.inputs.window.confirmed) pm.flags.add('edited'); pmStepper(); },
-      onSaved: (skill) => { pm.skill = skill; pm.stage = 'saved'; pm.flags.add('saved'); if (skill.command === '/morning' && skill.inputs.window.confirmed) pm.flags.add('edited'); pmRender(); },
-      onCancel: () => { pm.stage = 'history'; pmRender(); },
-    }));
-    return box;
-  }
-
-  function pmSaved() {
-    const sk = pm.skill;
-    return el('div', {class: 'stage'},
-      el('div', {class: 'saved-banner', role: 'status'}, el('strong', {text: `${sk.name} is ready.`}), ` Say “${K.spokenForm(sk.command)}” to run it.`),
-      el('div', {class: 'skill-card'}, el('span', {class: 'skill-chip', text: sk.command}), el('span', {text: ` ${sk.name}`}),
-        el('p', {class: 'muted small', text: `${sk.steps.length} steps · ${windowLabel(sk.inputs.window.value)} · ${sk.destination.value} · ${K.COMPLETIONS.find(([k]) => k === sk.completion.value)[1]}`})),
-      el('div', {class: 'button-row'}, el('button', {type: 'button', class: 'button primary', onclick: () => { pm.stage = 'invoke'; pmRender(); }, text: 'Use it now'})));
+    const nameIn = el('input', {type: 'text', 'aria-label': 'Skill name'});
+    nameIn.value = d.name;
+    nameIn.addEventListener('input', () => { d.name = nameIn.value; });
+    const cmdIn = el('input', {type: 'text', 'aria-label': 'Voice command', class: 'mono-in'});
+    cmdIn.value = d.command;
+    const spoken = el('span', {class: 'hint'});
+    const say = () => { spoken.textContent = K.validateCommand(d.command, []).ok ? `Say “${K.spokenForm(d.command)}”` : ''; };
+    cmdIn.addEventListener('input', () => { d.command = cmdIn.value.trim().toLowerCase(); say(); });
+    say();
+    const save = () => {
+      const v = K.validateCommand(d.command, registry);
+      pm.reviewError = !d.name.trim() ? 'Give it a name.' : v.conflict ? `${d.command} is taken. Pick another.` : !v.ok ? 'Use a slash and a short word, like /morning.' : !d.window ? 'Pick what each run should cover.' : null;
+      if (pm.reviewError) { pmRender(); return; }
+      const base = K.inferDraft(pm.history);
+      base.inputs.window.value = d.window; base.inputs.window.confirmed = true; base.metrics.threshold = 2; base.completion.inferred = false;
+      const skill = clone({...base, id: d.command.slice(1), name: d.name.trim(), command: d.command});
+      registry = registry.filter((x) => x.id !== skill.id).concat(skill);
+      pm.skill = skill; pm.stage = 'invoke'; pm.justSaved = true; pm.flags.add('saved');
+      renderAll();
+    };
+    return el('div', {class: 'stage review'},
+      el('div', {class: 'stage-head'}, el('h3', {text: 'Save your skill'})),
+      el('div', {class: 'editor-grid'},
+        el('div', {class: 'field-wrap'}, el('label', {text: 'Name'}), nameIn),
+        el('div', {class: 'field-wrap'}, el('label', {text: 'Voice command'}), cmdIn, spoken)),
+      routineList(),
+      el('div', {class: 'ask'},
+        el('p', {class: 'ask-q'}, 'Each run covers', el('span', {class: 'guess', text: 'Flow’s guess from your runs'})),
+        el('div', {class: 'pills', role: 'radiogroup', 'aria-label': 'What each run covers'}, ...[['since-last', 'Since my last brief'], ['24h', 'Last 24 hours']].map(([k, l]) => {
+          const i = el('input', {type: 'radio', name: 'pm-window', value: k, checked: d.window === k});
+          i.addEventListener('change', () => { d.window = k; pm.reviewError = null; });
+          return el('label', {class: 'pill'}, i, el('span', {text: l}));
+        }))),
+      el('p', {class: 'muted small', text: 'Drafts to Slack. Nothing posts until you approve.'}),
+      pm.reviewError ? el('p', {class: 'form-error', role: 'alert', text: pm.reviewError}) : null,
+      el('div', {class: 'button-row'},
+        el('button', {type: 'button', class: 'button primary', onclick: save, text: 'Save skill'}),
+        el('button', {type: 'button', class: 'button quiet', onclick: () => { pm.stage = 'history'; pmRender(); }, text: 'Back'})));
   }
 
   /* Invocation */
@@ -275,41 +319,37 @@
     const say = pm.skill ? cap(K.spokenForm(pm.skill.command)) : 'Slash morning';
     return [
       {id: 'onboarding', label: 'Run with a focus', text: `${say}, focus on onboarding.`},
-      {id: 'activation', label: 'Misheard input', text: `${say}, focus on activation.`, highlights: [{phrase: 'activation', alternatives: ['retention', 'activity'], repeat: 'retention'}]},
-      {id: 'unknown', label: 'Unknown command', text: 'Slash standup, keep it short.'},
-      {id: 'ordinary', label: 'Ordinary dictation', text: 'I’ll send the morning brief after lunch.'},
+      {id: 'activation', label: 'A misheard word', text: `${say}, focus on activation.`, highlights: [{phrase: 'activation', alternatives: ['retention', 'activity'], repeat: 'retention'}]},
+      {id: 'unknown', label: 'An unknown skill', text: 'Slash standup, keep it short.'},
+      {id: 'ordinary', label: 'Plain dictation', text: 'I’ll send the morning brief after lunch.'},
     ];
   }
 
   function dictate(u) {
     clearInterval(pm.timer);
-    pm.run = null; pm.impact = null; pm.plain = null; pm.postNote = null;
+    pm.run = null; pm.impact = null; pm.plain = null; pm.postNote = null; pm.justSaved = false;
     cmdEd.reset();
     cmdEd.dispatch({type: 'LOAD', text: u.text, highlights: u.highlights || []});
-    pm.flags.add(u.id === 'onboarding' || u.id === 'activation' ? 'dictated' : 'tried-other');
+    pm.lastCase = u.id;
     parse();
+    if (pm.parsed.kind === 'skill' && pm.skill && pm.parsed.skill.id === pm.skill.id) pm.flags.add('dictated');
+    if (composer) composer.sync();
   }
 
   function parse() {
-    const text = cmdEd.state.text;
-    pm.parsed = K.parseInvocation(text, registry);
+    pm.parsed = K.parseInvocation(cmdEd.state.text, registry);
     pm.interp = pm.parsed.kind === 'skill' ? K.interpret(pm.parsed.skill, pm.parsed.rest) : null;
-    if (pm.parsed.kind === 'skill' && pm.parsed.skill.id === (pm.skill && pm.skill.id)) pm.flags.add('matched');
   }
 
   function commandLine() {
     const s = cmdEd.state;
-    if (!s.text) return el('p', {class: 'cmd-empty', text: 'Choose a prepared dictation, or type a command.'});
-    const marked = cmdEd.textNodes();
-    if (marked) return el('p', {class: 'cmd-text pe-text'}, ...marked);
+    if (!s.text) return null;
     const p = pm.parsed;
     const nodes = [];
     let from = 0;
     if (p && (p.kind === 'skill' || p.kind === 'unknown')) {
-      const triggerLen = s.text.indexOf(p.trigger) + p.trigger.length;
-      nodes.push(el('span', {class: `skill-chip${p.kind === 'unknown' ? ' unknown' : ''}`, title: p.kind === 'skill' ? 'Recognized skill trigger' : 'Not a saved skill'},
-        p.kind === 'skill' ? `${p.command} · ${p.skill.name}` : `${p.command} · unknown`), ' ');
-      from = triggerLen;
+      nodes.push(el('span', {class: `skill-chip${p.kind === 'unknown' ? ' unknown' : ''}`, title: p.kind === 'skill' ? 'Recognized skill' : 'Not a saved skill'}, p.command), ' ');
+      from = s.text.indexOf(p.trigger) + p.trigger.length;
     }
     const open = FS.openHighlights(s).filter((h) => h.start >= from).sort((a, b) => a.start - b.start);
     let at = from;
@@ -325,39 +365,33 @@
   function interpretation() {
     const p = pm.parsed;
     if (!p) return null;
-    if (pm.plain) return el('div', {class: 'interp neutral'}, el('p', {}, el('strong', {text: 'Inserted as text. '}), `“${pm.plain}” Nothing ran.`));
-    if (p.kind === 'text') return el('div', {class: 'interp neutral'}, el('p', {}, el('strong', {text: 'Ordinary dictation. '}), 'There’s no command at the start, so it’s inserted as text and nothing runs, even though it mentions a brief.'));
+    if (pm.plain) return el('p', {class: 'interp neutral'}, 'Inserted as text. Nothing ran.');
+    if (p.kind === 'text') return el('p', {class: 'interp neutral'}, 'No command at the start, so it’s just text. Nothing runs.');
     if (p.kind === 'unknown') {
       return el('div', {class: 'interp warn'},
-        el('p', {}, el('strong', {text: `No skill called ${p.command}. `}), 'Nothing will run. Flow won’t guess a workflow.'),
+        el('p', {}, el('strong', {text: `No skill called ${p.command}.`}), ' Flow won’t guess.'),
         el('div', {class: 'button-row'},
-          el('details', {class: 'choose'}, el('summary', {class: 'button small', text: 'Choose a skill'}),
-            el('ul', {class: 'plain'}, ...registry.map((s) => el('li', {}, el('button', {type: 'button', class: 'link', onclick: () => { cmdEd.reset(); cmdEd.dispatch({type: 'LOAD', text: `${cap(K.spokenForm(s.command))}, ${p.rest}`}); parse(); pmRender(); }, text: `${s.command} · ${s.name}`}))))),
-          el('button', {type: 'button', class: 'button small', onclick: () => { createFromCommand(p.command); }, text: 'Create a skill'}),
+          el('button', {type: 'button', class: 'button small', onclick: () => createFromCommand(p.command), text: `Create ${p.command}`}),
           el('button', {type: 'button', class: 'button small', onclick: () => { pm.plain = cmdEd.state.text; pmRender(); }, text: 'Keep as text'})));
     }
     const sk = p.skill;
     const inp = pm.interp.inputs;
     const focusMarked = FS.openHighlights(cmdEd.state).some((h) => cmdEd.state.text.slice(h.start, h.end).toLowerCase() === inp.focus);
-    const rows = [
-      ['Skill', `${sk.name} (${sk.command}), ${p.via === 'typed' ? 'typed' : 'spoken'}`],
-      ['Focus', inp.focus ? inp.focus + (focusMarked ? ' · marked “Check this phrase”' : '') : 'none (covers everything)'],
-      ['Window', sk.inputs.window ? cap(windowDetail(sk.inputs.window.value)) : '—'],
-      ['Destination', `${sk.destination.value}. ${sk.completion.value === 'post' ? 'Posted automatically.' : 'Nothing is posted until you approve.'}`],
+    const facts = [
+      ['Focus', inp.focus || 'everything'],
+      ['Covers', sk.inputs.window && sk.inputs.window.value === 'since-last' ? 'since your last brief' : windowLabel(sk.inputs.window ? sk.inputs.window.value : '24h').toLowerCase()],
+      ['Posts', 'after you approve'],
     ];
-    const running = pm.run && pm.run.phase === 'running';
     return el('div', {class: 'interp'},
-      el('dl', {}, ...rows.map(([k, v]) => el('div', {}, el('dt', {text: k}), el('dd', {text: v})))),
-      focusMarked ? el('p', {class: 'muted small', text: 'Tap the underlined word to check it before running. You only repeat that word, not the command.'}) : null,
+      el('p', {class: 'facts'}, ...facts.flatMap(([k, v], i) => [i ? el('span', {class: 'sep', text: '·'}) : null, el('span', {}, el('b', {text: `${k} `}), v)])),
+      focusMarked && !pm.run ? el('p', {class: 'small warn-text', text: `“${inp.focus}” might be misheard. Tap it to fix just that word.`}) : null,
       pm.run ? null : el('div', {class: 'button-row'},
         el('button', {type: 'button', class: 'button primary', onclick: startRun, text: `Run ${sk.command}`}),
-        el('label', {class: 'inline-check'}, el('input', {type: 'checkbox', checked: pm.unavailable, onchange: (e) => { pm.unavailable = e.target.checked; }}), ' Simulate: workbook unavailable'),
-        el('button', {type: 'button', class: 'button quiet', onclick: () => { cmdEd.reset(); pm.parsed = null; pmRender(); }, text: 'Clear'})),
-      running ? el('div', {class: 'button-row'}, el('button', {type: 'button', class: 'button small', onclick: () => cmdEd.dispatch({type: 'OPEN_STRIP'}), text: 'Change a word in the command'})) : null);
+        el('button', {type: 'button', class: 'button quiet', onclick: () => { cmdEd.reset(); pm.parsed = null; composer.clear(); pmRender(); }, text: 'Clear'})));
   }
 
   function createFromCommand(command) {
-    pm.draft = {id: null, name: '', command, basedOn: [], sources: [], steps: [], inputs: {}, metrics: null, output: '', destination: {value: 'Private'}, completion: {value: 'draft'}};
+    pm.draftNew = {id: null, name: '', command, basedOn: [], sources: [], steps: [], inputs: {}, metrics: null, output: '', destination: {value: 'Private'}, completion: {value: 'draft'}};
     pm.editor = {key: 'pm-new'};
     pm.stage = 'create';
     pmRender();
@@ -366,10 +400,8 @@
   function startRun() {
     const sk = pm.parsed.skill;
     const inputs = {...pm.interp.inputs, window: sk.inputs.window ? sk.inputs.window.value : undefined, threshold: (sk.metrics && sk.metrics.threshold) || 2};
-    const unavailable = [...Object.keys(conn).filter((t) => !conn[t]), ...(pm.unavailable ? ['excel'] : [])];
-    pm.run = K.createRun(sk, inputs, {unavailable, sections: ['feedback', 'metrics']});
+    pm.run = K.createRun(sk, inputs, {unavailable: Object.keys(conn).filter((t) => !conn[t]), sections: ['feedback', 'metrics']});
     pm.draftText = ''; pm.replyText = ''; pm.postNote = null; pm.impact = null; pm.posts = [];
-    pm.flags.add('progress');
     tickLoop();
     pmRender();
   }
@@ -390,12 +422,11 @@
   function onCommandRepaired() {
     const before = pm.interp && pm.interp.inputs.focus;
     parse();
+    composer.sync();
     const after = pm.interp && pm.interp.inputs.focus;
     if (pm.run && after !== undefined && after !== before && !['cancelled'].includes(pm.run.phase)) {
       pm.run = K.reduceRun(pm.run, {type: 'CHANGE_INPUT', key: 'focus', value: after});
-      const name = (id) => (pm.run.steps.find((s) => s.id === id) || {}).text || id;
-      const by = (e) => pm.run.impact.filter((x) => x.effect === e).map((x) => x.step);
-      pm.impact = {from: before, to: after, rerun: by('rerun').map(name), restart: by('restart').map(name), upcoming: by('upcoming').map(name)};
+      pm.impact = {from: before, to: after};
       pm.draftText = ''; pm.replyText = '';
       if (pm.run.phase === 'running') tickLoop();
     }
@@ -405,111 +436,168 @@
   function impactNote() {
     const im = pm.impact;
     if (!im) return null;
-    const list = (arr) => el('ul', {class: 'plain small'}, ...arr.map((t) => el('li', {text: t})));
     return el('div', {class: 'impact', role: 'status'},
-      el('p', {}, el('strong', {text: `Focus changed: “${im.from}” → “${im.to}”. `})),
-      im.rerun.length ? el('div', {}, el('p', {class: 'small', text: 'Already finished with the old value, so they must run again:'}), list(im.rerun)) : null,
-      im.restart.length ? el('div', {}, el('p', {class: 'small', text: 'Was running; restarting with the new value:'}), list(im.restart)) : null,
-      im.upcoming.length ? el('div', {}, el('p', {class: 'small', text: 'Hadn’t started; will use the new value:'}), list(im.upcoming)) : null,
-      pm.run.phase === 'stale' ? el('div', {class: 'button-row'}, el('button', {type: 'button', class: 'button small primary', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'RERUN_STALE'}); tickLoop(); pmRender(); }, text: 'Run those steps again'})) : null);
+      el('p', {}, el('strong', {text: `Focus changed to “${im.to}”.`}), ' Only the steps that used it run again.'),
+      pm.run.phase === 'stale' ? el('div', {class: 'button-row'}, el('button', {type: 'button', class: 'button small primary', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'RERUN_STALE'}); tickLoop(); pmRender(); }, text: 'Run them again'})) : null);
   }
 
+  const shortQ = (q) => (q ? q.split('?')[0] + '?' : '');
   function briefText(b) {
-    const lines = [`Morning brief, ${D.TODAY.replace(/, 2026$/, '')}${b.focus ? ` (focus: ${b.focus})` : ''}`];
-    if (b.theme) lines.push(`• Customer theme: ${b.theme.title} (${b.theme.emails} emails, ${b.theme.slack} Slack messages).`);
-    else if (b.missing.includes('gmail') || b.missing.includes('slack')) lines.push('• Customer feedback: not included this time.');
+    const lines = [`Morning brief, ${D.TODAY.replace(/, 2026$/, '')}${b.focus ? ` · ${b.focus}` : ''}`];
+    if (b.theme) lines.push(`• ${b.theme.title} (${b.theme.emails} emails, ${b.theme.slack} Slack messages)`);
     if (b.metric) {
       const flagged = b.metric.filter((m) => m.flagged);
-      lines.push(flagged.length ? `• Metric: ${flagged.map((m) => `${m.name} ${m.delta > 0 ? 'rose' : 'fell'} ${Math.abs(m.delta).toFixed(1)} pts (${pct(m.prev)} → ${pct(m.now)}, Oct 14 → Oct 15). Cause not established.`).join(' ')}` : '• Metrics: no change at or above the threshold.');
-    } else lines.push('• Dashboard: not included. The workbook was unavailable; follow-up to come.');
-    if (b.question) lines.push(`• Open question: ${b.question}`);
+      lines.push(flagged.length ? flagged.map((m) => `• ${m.name} ${m.delta > 0 ? 'up' : 'down'} ${Math.abs(m.delta).toFixed(1)} pts (${pct(m.prev)} → ${pct(m.now)}). Cause not known yet.`).join('\n') : '• Metrics: no big changes.');
+    } else lines.push('• Dashboard: couldn’t open the workbook. Follow-up to come.');
+    if (b.question) lines.push(`• Open question: ${shortQ(b.question)}`);
     return lines.join('\n');
   }
   function metricsReplyText(b) {
     const flagged = b.metric.filter((m) => m.flagged);
-    return `Dashboard follow-up: ${flagged.length ? flagged.map((m) => `${m.name} ${m.delta > 0 ? 'rose' : 'fell'} ${Math.abs(m.delta).toFixed(1)} pts (${pct(m.prev)} → ${pct(m.now)}, Oct 14 → Oct 15). Cause not established.`).join(' ') : 'no change at or above the threshold.'}`;
+    return `Dashboard follow-up: ${flagged.length ? flagged.map((m) => `${m.name} ${m.delta > 0 ? 'up' : 'down'} ${Math.abs(m.delta).toFixed(1)} pts (${pct(m.prev)} → ${pct(m.now)}).`).join(' ') : 'no big changes.'}`;
   }
 
+  /* The result is the Slack draft itself, with its sources one tap away. */
   function resultView() {
     const r = pm.run;
     if (!['ready', 'partial', 'completed'].includes(r.phase)) return null;
     const b = K.buildBrief(r);
     if (!pm.draftText) pm.draftText = briefText(b);
-    const srcLink = (id) => el('a', {href: `#src-${id}`, class: 'src-link', onclick: () => { const d = $('pm-sources'); if (d) d.open = true; }, text: id.startsWith('g') ? `email ${id.slice(1)}` : `Slack ${id.slice(1)}`});
     const posted = (sec) => r.posted.includes(sec);
-    const sections = el('div', {class: 'brief'},
-      el('div', {class: 'brief-head'}, el('h4', {text: `${pm.skill ? pm.skill.name : 'Brief'} · ${D.TODAY}`}), el('span', {class: 'muted small', text: `Focus: ${b.focus} · covers ${windowDetail(r.inputs.window || 'since-last')}`})),
-      el('section', {}, el('h5', {text: 'Customer theme'}),
-        b.theme ? el('p', {}, el('strong', {text: b.theme.title}), ` · ${b.theme.emails} emails and ${b.theme.slack} Slack messages. Sources: `, ...b.theme.sources.flatMap((id, i) => [i ? ', ' : '', srcLink(id)])) : el('p', {class: 'muted', text: 'No customer sources were read.'})),
-      el('section', {}, el('h5', {text: 'Metric changes (observed)'}),
-        b.metric ? el('ul', {class: 'plain'}, ...b.metric.map((m) => el('li', {class: m.flagged ? 'flag' : ''}, `${m.name}: ${pct(m.prev)} → ${pct(m.now)} (${pts(m.delta)}, Oct 14 → Oct 15) `, el('span', {class: 'badge ' + (m.flagged ? 'warnb' : 'no'), text: m.flagged ? 'At or above threshold' : 'Below threshold'}))))
-          : el('div', {class: 'failure'}, el('p', {}, el('strong', {text: 'Customer feedback is ready. The dashboard summary couldn’t run because the workbook is unavailable.'})),
-            el('div', {class: 'button-row'},
-              el('button', {type: 'button', class: 'button small primary', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'RETRY', fixed: true}); pm.unavailable = false; if (!pm.run.posted.length) pm.draftText = ''; tickLoop(); pmRender(); }, text: 'Retry the dashboard step'}),
-              el('span', {class: 'muted small', text: 'Retrying re-reads only the workbook. Nothing already posted is posted again.'})))),
-      b.metric && b.metric.some((m) => m.flagged) ? el('section', {}, el('h5', {text: 'Possible explanations (not established)'}),
-        el('p', {class: 'muted', text: b.focus === 'onboarding' ? 'Invites landing in spam could stop invitees from finishing setup. Nothing in these sources shows that it did; the dashboard alone can’t establish a cause.' : 'These sources don’t point to a cause.'})) : null,
-      el('section', {}, el('h5', {text: 'Open question'}), el('p', {text: b.question || '—'})),
-      el('details', {class: 'sources', id: 'pm-sources'}, el('summary', {text: 'Sources used (sample data)'}),
-        el('ul', {class: 'plain small'}, ...[...D.PM_SOURCES.gmail, ...D.PM_SOURCES.slack].filter((m) => m.focus === b.focus).map((m) => el('li', {id: `src-${m.id}`},
-          el('strong', {text: m.from ? `Email · ${m.from}: ` : `Slack ${m.channel} · ${m.author}: `}), m.subject ? `“${m.subject}” ` : '', el('span', {class: 'muted', text: m.snippet || m.text}))))));
-
-    const ta = el('textarea', {rows: 6, 'aria-label': 'Slack draft', spellcheck: 'true'});
+    const channel = '#product-onboarding';
+    const srcs = [...D.PM_SOURCES.gmail, ...D.PM_SOURCES.slack].filter((m) => m.focus === b.focus && (!b.theme || b.theme.sources.includes(m.id)));
+    const ta = el('textarea', {rows: 5, 'aria-label': 'Slack draft', spellcheck: 'true'});
     ta.value = pm.draftText;
-    ta.addEventListener('input', () => { pm.draftText = ta.value; pm.flags.add('draft-edited'); });
-    const channel = (pm.skill && pm.skill.destination.value.match(/#[\w-]+/)) ? pm.skill.destination.value.match(/#[\w-]+/)[0] : '#product-onboarding';
-    const actions = [];
+    ta.addEventListener('input', () => { pm.draftText = ta.value; });
+    let action = null;
     if (!posted('feedback')) {
-      actions.push(el('button', {type: 'button', class: 'button primary', onclick: () => { const secs = r.phase === 'partial' ? ['feedback'] : ['feedback', 'metrics']; pm.run = K.reduceRun(pm.run, {type: 'POST', sections: secs}); pm.posts = [...(pm.posts || []), {text: pm.draftText, reply: false}]; pm.flags.add('posted'); pmRender(); },
-        text: r.phase === 'partial' ? `Post what’s ready to ${channel} (simulated)` : `Post to ${channel} (simulated)`}));
+      action = el('button', {type: 'button', class: 'button primary', onclick: () => { const secs = r.phase === 'partial' ? ['feedback'] : ['feedback', 'metrics']; pm.run = K.reduceRun(pm.run, {type: 'POST', sections: secs}); pm.posts = [...pm.posts, {text: pm.draftText, reply: false}]; pm.flags.add('posted'); pmRender(); },
+        text: r.phase === 'partial' ? 'Post what’s ready' : 'Approve and post'});
     } else if (r.phase === 'ready' && !posted('metrics')) {
       if (!pm.replyText) pm.replyText = metricsReplyText(b);
-      actions.push(el('button', {type: 'button', class: 'button primary', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'POST', sections: ['feedback', 'metrics']}); pm.posts = [...pm.posts, {text: pm.replyText, reply: true}]; pmRender(); }, text: 'Post the dashboard summary as a thread reply'}));
-    } else {
-      actions.push(el('button', {type: 'button', class: 'button', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'POST', sections: ['feedback', 'metrics']}); pm.postNote = 'Already posted. Nothing was sent twice.'; pmRender(); }, text: 'Post again'}));
+      action = el('button', {type: 'button', class: 'button primary', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'POST', sections: ['feedback', 'metrics']}); pm.posts = [...pm.posts, {text: pm.replyText, reply: true}]; pmRender(); }, text: 'Post the dashboard as a reply'});
     }
+    const failed = !b.metric ? el('div', {class: 'failure'},
+      el('p', {}, el('strong', {text: 'Excel step failed.'}), ' The rest is ready.'),
+      el('button', {type: 'button', class: 'button small', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'RETRY', fixed: true}); conn.excel = true; connRender(); if (!pm.run.posted.length) pm.draftText = ''; tickLoop(); pmRender(); }, text: 'Retry just that step'})) : null;
     return el('div', {class: 'result'},
-      sections,
+      failed,
       el('div', {class: 'slack-draft'},
-        el('div', {class: 'button-row'}, toolChip('slack', `${channel} · draft`), el('span', {class: 'tag tag-sim', text: 'Simulated destination'})),
-        posted('feedback') ? el('p', {class: 'muted small', text: 'Posted text is shown below; the draft is locked.'}) : ta,
-        el('div', {class: 'button-row'}, ...actions),
-        pm.postNote ? el('p', {class: 'post-note', role: 'status', text: pm.postNote}) : null,
-        (pm.posts || []).length ? el('div', {class: 'channel'}, el('p', {class: 'muted small', text: `${channel} (simulated)`}),
-          ...pm.posts.map((p) => el('div', {class: `msg${p.reply ? ' reply' : ''}`}, el('span', {class: 'who', text: p.reply ? 'You · thread reply · 9:12 a.m.' : 'You · 9:07 a.m.'}), el('p', {text: p.text})))) : null),
-      el('p', {class: `final-state ph-${r.phase}`, text: r.phase === 'completed' ? 'Completed: every step ran and the whole brief was posted.' : r.phase === 'partial' ? 'Partially completed: the dashboard step failed. This run is not marked successful.' : 'Ready for review. Nothing is posted until you choose to.'}));
+        el('div', {class: 'draft-head'}, toolChip('slack', `${channel} · ${posted('feedback') ? 'posted' : 'draft'}`)),
+        posted('feedback') ? null : ta,
+        srcs.length ? el('details', {class: 'sources'}, el('summary', {text: `${srcs.length} sources`}),
+          el('ul', {class: 'plain small'}, ...srcs.map((m) => el('li', {}, logo(m.from ? 'gmail' : 'slack'), el('span', {class: 'muted', text: m.snippet || m.text}))))) : null,
+        action ? el('div', {class: 'button-row'}, action) : null,
+        pm.posts.length ? el('div', {class: 'channel'},
+          ...pm.posts.map((p) => el('div', {class: `msg${p.reply ? ' reply' : ''}`}, el('span', {class: 'who', text: p.reply ? 'You · reply · 9:12 a.m.' : 'You · 9:07 a.m.'}), el('p', {text: p.text})))) : null),
+      r.phase === 'completed' ? el('p', {class: 'final-state ph-completed', text: '✓ Done. Posted once, after your approval.'}) : null,
+      r.phase === 'partial' ? el('p', {class: 'final-state ph-partial', text: 'Partly done. Not marked as a success.'}) : null);
+  }
+
+  /* Run it by voice. The composer is built once and stays mounted while the run below it re-renders, so typing
+     is never interrupted. The mic “speaks” a prepared line into it; anything typed is read the same way. */
+  let composer;
+  function buildComposer() {
+    const input = el('input', {type: 'text', class: 'composer-input', 'aria-label': 'Dictation or typed command', autocomplete: 'off', spellcheck: 'false'});
+    const mic = el('button', {type: 'button', class: 'mic attn', 'aria-label': 'Speak the command (simulated)'});
+    mic.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
+    mic.append(el('span', {class: 'mic-label', text: 'Speak'}));
+    const enter = el('button', {type: 'button', class: 'button primary small', 'aria-label': 'Send to Flow'}, el('span', {class: 'enter-label', text: 'Send'}), ' ↵');
+    const box = el('div', {class: 'composer'}, mic, input, enter);
+    const hint = el('p', {class: 'composer-hint', 'aria-live': 'polite'});
+    let speaking = null;
+
+    function showHint() {
+      const v = input.value.trim();
+      if (speaking) { hint.replaceChildren('Listening…'); return; }
+      if (pm.parsed && v && v === cmdEd.state.text.trim()) { hint.replaceChildren(); return; }
+      if (!v) { hint.replaceChildren('Tap the mic, or type a command.'); return; }
+      const p = K.parseInvocation(v, registry);
+      if (p.kind === 'skill') hint.replaceChildren(el('span', {class: 'skill-chip', text: p.command}), 'Press Enter to run.');
+      else if (p.kind === 'unknown') hint.replaceChildren(el('span', {class: 'skill-chip unknown', text: p.command}), 'Not a saved skill.');
+      else hint.replaceChildren('No command at the start, so this is just text.');
+    }
+    function send() {
+      const v = input.value.trim();
+      if (!v || speaking) return;
+      dictate(utterances().find((x) => x.text === v) || {id: 'typed', text: v});
+      pmRender();
+    }
+    function speak(u) {
+      clearInterval(speaking);
+      mic.classList.remove('attn');
+      const words = u.text.split(' ');
+      let n = 0;
+      input.value = '';
+      box.classList.add('listening');
+      const finish = () => { clearInterval(speaking); speaking = null; box.classList.remove('listening'); input.value = u.text; dictate(u); showHint(); pmRender(); };
+      if (reduceMotion()) { finish(); return; }
+      speaking = setInterval(() => { n += 1; input.value = words.slice(0, n).join(' '); if (n >= words.length) finish(); }, 120);
+      showHint();
+    }
+    mic.addEventListener('click', () => speak(utterances()[0]));
+    enter.addEventListener('click', send);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+    input.addEventListener('input', showHint);
+    composer = {
+      box, hint, speak,
+      clear() { clearInterval(speaking); speaking = null; box.classList.remove('listening'); input.value = ''; mic.classList.add('attn'); showHint(); },
+      sync() { if (!speaking) { input.value = cmdEd.state.text; showHint(); } },
+      refresh() { input.placeholder = pm.skill ? `${pm.skill.command} focus on retention` : '/morning focus on onboarding'; showHint(); },
+    };
   }
 
   function pmInvoke() {
-    const typed = el('input', {type: 'text', placeholder: pm.skill ? `${pm.skill.command} focus on onboarding` : '/morning focus on onboarding', 'aria-label': 'Type a command'});
-    typed.addEventListener('keydown', (e) => { if (e.key === 'Enter' && typed.value.trim()) dictate({id: typed.value.trim().startsWith('/') ? 'onboarding' : 'typed', text: typed.value.trim()}); pmRender(); });
+    composer.refresh();
+    const others = utterances().slice(1);
+    pm.invokeDyn = el('div', {class: 'stage'});
+    pm.invokeShell = el('div', {class: 'stage'},
+      el('div', {class: 'stage-head'}, el('h3', {text: 'Now say it'}), pm.skill ? el('span', {class: 'saved-pill'}, '✓ ', el('span', {class: 'skill-chip', text: pm.skill.command}), ' saved') : null),
+      composer.box, composer.hint,
+      el('div', {class: 'cases'}, el('span', {class: 'lead', text: 'Also try:'}),
+        ...others.map((u) => el('button', {type: 'button', class: 'case', 'data-case': u.id, title: `Says: ${u.text}`, onclick: () => composer.speak(u), text: u.label}))),
+      pm.invokeDyn);
+    return pm.invokeShell;
+  }
+
+  const RUN_LABELS = {gmail: 'Customer feedback emails', slack: '#onboarding-feedback', excel: 'Onboarding KPIs', compare: 'Separate facts from guesses', draft: 'Draft the update'};
+  function pmRunView(run) {
+    return el('ol', {class: 'run-steps', 'aria-label': K.statusLine(run, D.TOOL_NAMES)}, ...run.steps.map((s) => el('li', {class: `${s.status} rp-${s.tool || 'out'}`},
+      el('span', {class: 'st', 'aria-hidden': 'true', text: stepState(s.status)[0]}),
+      el('span', {class: 'lbl'}, s.tool ? logo(s.tool) : el('span', {class: 'tool-logo flow-dot', 'aria-hidden': 'true'}), RUN_LABELS[s.id] || s.text),
+      el('span', {class: 'det', text: stepDetail(run, s)}))));
+  }
+
+  function invokeDynamic() {
     const r = pm.run;
-    const pre = r ? [[true, `Skill recognized: ${pm.parsed.command}`], [true, `Inputs ready: focus ${r.inputs.focus || 'none'}, ${windowDetail(r.inputs.window || 'since-last')}`]] : [];
-    return el('div', {class: 'stage'},
-      el('div', {class: 'stage-head'}, el('h3', {text: 'Run it by voice'}), el('span', {class: 'tag tag-sim', text: 'Simulated dictation'})),
-      el('div', {class: 'say-grid'}, ...utterances().map((u) => el('button', {type: 'button', class: 'say', onclick: () => { dictate(u); pmRender(); }}, el('span', {class: 'say-label', text: u.label}), el('span', {class: 'say-text', text: `“${u.text}”`})))),
-      el('div', {class: 'typed'}, typed, el('button', {type: 'button', class: 'button small', onclick: () => { if (typed.value.trim()) { dictate({id: 'typed', text: typed.value.trim()}); pmRender(); } }, text: 'Run typed command'})),
-      el('div', {class: 'cmd-box'}, el('span', {class: 'eyebrow', text: 'Dictation'}), commandLine()),
-      el('div', {class: 'pe-panel', id: 'cmd-panel', hidden: !cmdEd.isEditing()}, el('div', {class: 'pe-panel-head'}, el('span', {text: 'Edit a phrase'}), el('span', {class: 'muted', text: 'Repeat only the word, not the command'})), cmdWords, cmdControls),
+    pm.invokeShell.querySelectorAll('.case').forEach((b) => b.setAttribute('aria-pressed', String(!!pm.parsed && b.dataset.case === pm.lastCase)));
+    const line = pm.parsed ? commandLine() : null;
+    return [
+      line ? el('div', {class: 'cmd-box'}, line) : null,
+      el('div', {class: 'pe-panel', id: 'cmd-panel', hidden: !cmdEd.isEditing()}, el('div', {class: 'pe-panel-head'}, el('span', {text: 'Edit a phrase'}), el('span', {class: 'muted', text: 'Repeat just the word'})), cmdWords, cmdControls),
       interpretation(),
       impactNote(),
-      r ? runView(r, pre) : null,
-      r && r.phase === 'running' ? el('div', {class: 'button-row'}, el('button', {type: 'button', class: 'button small', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'CANCEL'}); clearInterval(pm.timer); pmRender(); }, text: 'Cancel run'})) : null,
-      r && r.phase === 'cancelled' ? el('p', {class: 'final-state ph-cancelled', text: 'Cancelled. Nothing was posted.'}) : null,
-      r ? resultView() : null);
+      r ? pmRunView(r) : null,
+      r && r.phase === 'running' ? el('div', {class: 'button-row'}, el('button', {type: 'button', class: 'button small quiet', onclick: () => { pm.run = K.reduceRun(pm.run, {type: 'CANCEL'}); clearInterval(pm.timer); pmRender(); }, text: 'Cancel'})) : null,
+      r && r.phase === 'cancelled' ? el('p', {class: 'final-state', text: 'Cancelled. Nothing was posted.'}) : null,
+      r ? resultView() : null].filter(Boolean);
   }
 
   function pmCreate() {
     const box = el('div', {class: 'stage editor'});
-    renderEditor(box, Object.assign(pm.editor, {draft: pm.draft, mode: 'create', title: `Create ${pm.draft.command}`, subtitle: 'A new skill starts empty. Add its steps, sources and output.',
-      onSaved: (skill) => { pm.stage = 'invoke'; cmdEd.reset(); pm.parsed = null; pmRender(); },
+    renderEditor(box, Object.assign(pm.editor, {draft: pm.draftNew, mode: 'create', title: `Create ${pm.draftNew.command}`, subtitle: 'A new skill starts empty.',
+      onSaved: () => { pm.stage = 'invoke'; cmdEd.reset(); pm.parsed = null; composer.clear(); pmRender(); },
       onCancel: () => { pm.stage = 'invoke'; pmRender(); }}));
     return box;
   }
 
   function pmRender() {
-    const view = {history: pmHistory, editor: pmEditor, saved: pmSaved, invoke: pmInvoke, create: pmCreate}[pm.stage]();
-    $('pm-main').replaceChildren(view);
+    if (pm.stage === 'invoke') {
+      if (!pm.invokeShell || !$('pm-main').contains(pm.invokeShell)) $('pm-main').replaceChildren(pmInvoke());
+      pm.invokeDyn.replaceChildren(...invokeDynamic());
+    } else {
+      $('pm-main').replaceChildren({history: pmHistory, review: pmReview, create: pmCreate}[pm.stage]());
+    }
     pmStepper();
   }
 
@@ -636,9 +724,8 @@
     $('connections').replaceChildren(...Object.keys(conn).map((t) => {
       const i = el('input', {type: 'checkbox', checked: conn[t]});
       i.addEventListener('change', () => { conn[t] = i.checked; renderAll(); });
-      return el('label', {class: 'inline-check'}, i, ` ${D.TOOL_NAMES[t]}`);
+      return el('label', {class: 'inline-check'}, i, logo(t), D.TOOL_NAMES[t]);
     }));
-    $('registry').replaceChildren(...registry.map((s) => el('li', {}, el('span', {class: 'skill-chip', text: s.command}), ` ${s.name}`)));
   }
 
   function renderAll() {
@@ -646,6 +733,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    buildComposer();
     pmReset(); devReset();
     cmdWords = el('div', {class: 'pe-words', role: 'group', 'aria-label': 'Words in the dictation'});
     cmdControls = el('div', {class: 'pe-controls'});
@@ -656,7 +744,7 @@
       }});
     $('pm-reset').addEventListener('click', () => { pmReset(); pmRender(); });
     $('pm-skip').addEventListener('click', () => {
-      /* Same outcome as steps 1 to 5 done by hand: accept the third run, answer the two questions, save as /morning. */
+      /* Same outcome as saving the suggestion by hand as /morning, covering everything since the last brief. */
       pmReset();
       pm.history = pm.history.map((x) => (x.id === 'r3' ? {...x, status: 'completed', accepted: true} : x));
       const d = K.inferDraft(pm.history);
@@ -664,7 +752,7 @@
       const skill = clone({...d, id: 'morning'});
       registry = registry.filter((s) => s.id !== 'morning').concat(skill);
       pm.skill = skill; pm.stage = 'invoke';
-      ['three', 'suggested', 'editor', 'edited', 'saved'].forEach((f) => pm.flags.add(f));
+      ['suggested', 'saved'].forEach((f) => pm.flags.add(f));
       renderAll();
       $('pm-demo').scrollIntoView({behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start'});
     });

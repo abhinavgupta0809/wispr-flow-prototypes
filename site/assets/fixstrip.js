@@ -15,7 +15,7 @@
   const later = (fn, ms) => { const t = setTimeout(fn, ms); ui.timers.push(t); return t; };
   const clearTimers = () => { ui.timers.forEach(clearTimeout); ui.timers = []; };
 
-  const kbLabel = (left) => el('div', {class: 'kb-label'}, el('span', {text: left}), el('span', {text: 'Prototype keyboard'}));
+  const kbLabel = (left) => el('div', {class: 'kb-label'}, el('span', {text: left}), el('span', {text: document.body.dataset.device === 'desktop' ? 'Flow bar · prototype' : 'Prototype keyboard'}));
   let ed;
 
   function onEditorChange(action) {
@@ -250,6 +250,7 @@
     $('send').addEventListener('click', () => ed.dispatch({type: 'SEND'}));
     $('strip-close').addEventListener('click', () => { if (ed.state.phase !== 'strip') ed.dispatch({type: 'CANCEL'}); ed.dispatch({type: 'CLOSE_STRIP'}); });
     $('reset').addEventListener('click', () => setScenario(scenario.id));
+    window.addEventListener('wfp:device', () => { hostKey = ''; render(); });
     render();
   });
 })();

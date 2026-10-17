@@ -80,3 +80,18 @@ body.record main { padding-block: 24px; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .phone { --pe-on-accent: #0b1730; } }
 :root[data-theme="dark"] .phone .send { color: #0b1730; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .phone .send { color: #0b1730; } }
+
+/* Desktop preview: the same composer in a window, no phone chrome */
+.desk-bar { display: none; }
+body[data-device="desktop"] .demo { grid-template-columns: minmax(0, 1fr) 300px; justify-items: stretch; }
+@media (max-width: 900px) { body[data-device="desktop"] .demo { grid-template-columns: 1fr; } }
+body[data-device="desktop"] .phone { width: 100%; padding: 0; border-radius: 14px; background: none; border: 1px solid var(--border-strong); box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55); overflow: hidden; }
+body[data-device="desktop"] .phone-screen { height: 620px; min-height: 0; border-radius: 0; }
+body[data-device="desktop"] .statusbar, body[data-device="desktop"] .navbar { display: none; }
+body[data-device="desktop"] .desk-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--ph-line); font-size: 13px; color: var(--ph-sub); background: color-mix(in srgb, var(--ph-line) 35%, var(--ph-bg)); }
+.desk-bar .lights { display: flex; gap: 6px; }
+.desk-bar .lights span { width: 11px; height: 11px; border-radius: 50%; background: var(--ph-line); }
+.desk-bar .title { flex: 1; text-align: center; font-weight: 600; color: var(--ph-ink); }
+body[data-device="desktop"] .bubble { max-width: 60%; }
+body[data-device="desktop"] .phone .kb { min-height: 190px; padding-bottom: 12px; }
+body[data-device="desktop"] .phone .pe-words { max-height: 120px; }

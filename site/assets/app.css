@@ -1,0 +1,96 @@
+/* Shared by the four proposal pages: the one-minute template (problem, solution, metrics, trade-offs,
+   research), the cream app surfaces, and the Desktop / Phone preview. Loaded last on each page. */
+
+/* App surfaces are the product, so they keep Flow's light palette in both themes. The doubled class and
+   html:root beat the dark-theme rules in styles.css and the page sheets without !important. */
+html:root :is(.app-light.app-light, .bm-card.bm-card, .trade.trade) {
+  color-scheme: light;
+  --page: #ffffeb; --surface: #f8f8e0; --raised: #fffff7; --border: #e4e4d0; --border-strong: #c9c9b3;
+  --text-1: #1a1a1a; --text-2: #3a3a36; --text-3: #5c5c54; --text-4: #8a8a7c;
+  --brand: #034f46; --on-brand: #ffffeb; --focus: #034f46;
+  --evidence: #1f6f63; --evidence-soft: #e3efe6;
+  --finding: #93540a; --finding-soft: #f8ead2;
+  --proposed: #6d45a3; --proposed-soft: #efe6f8;
+  --shipping: #4a4a44; --shipping-soft: #ececdc;
+  --sim: #1a1a1a;
+  --ok: #1f6f63; --bad: #b02e46; --warn: #93540a;
+  --hl: #f0d7ff; --hl-ink: #1a1a1a; --ins: #cdeedd; --del: #f6d3d9;
+  --win-bg: #fffff7; --win-line: #e4e4d0;
+  /* one color per tool */
+  --c-gmail: #c5221f; --s-gmail: #fde8e6; --c-slack: #611f69; --s-slack: #f4e8f5; --c-excel: #107c41; --s-excel: #e1f2e8; --c-out: #034f46; --s-out: #dff0ea;
+  /* phrase-editor.css derives these on :root, so they are derived again here */
+  --pe-ink: var(--text-1); --pe-sub: var(--text-3); --pe-line: var(--border-strong); --pe-key: var(--raised); --pe-accent: var(--brand); --pe-on-accent: var(--on-brand); --pe-fix: var(--proposed);
+  color: var(--text-2);
+}
+.app-light.block { background: var(--raised); }
+html:root .phone.app-light.app-light { --ph-bg: #f7f7f2; --ph-ink: #1a1a1a; --ph-sub: #6b6b63; --ph-line: #e2e2d8; --ph-key: #ffffff; --ph-kb: #d9d9d0; --ph-blue: #1d5fd1;
+  --pe-ink: var(--ph-ink); --pe-sub: var(--ph-sub); --pe-line: var(--ph-line); --pe-key: var(--ph-key); --pe-accent: var(--ph-blue); --pe-on-accent: #fff; --pe-fix: #6d45a3; background: #1a1a1a; }
+html:root .phone.android.app-light.app-light { --ph-blue: #0b57d0; --ph-kb: #e9eef6; --ph-key: #ffffff; --ph-bg: #fbfbfe; --ph-line: #dde3ea; }
+html:root .phone.app-light.app-light .send { color: #fff; }
+.side-note { font-size: 12px; line-height: 18px; color: var(--text-3); padding: 0 4px; }
+.side-more > summary { cursor: pointer; font: 600 14px/20px var(--font-sans); color: var(--text-1); }
+.side-more > div > h3:first-child { display: none; }
+.side-more[open] > summary { margin-bottom: 8px; }
+
+/* Desktop / Phone preview. device.js sets body[data-device]; the choice carries across pages. */
+.solution-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.solution-head .section-head { margin-bottom: 0; }
+.device-toggle { display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); }
+.device-toggle button { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; color: var(--text-2); font: 600 13px/18px var(--font-sans); padding: 7px 14px; border-radius: 999px; cursor: pointer; min-height: 36px; }
+.device-toggle button svg { width: 16px; height: 16px; }
+.device-toggle button[aria-pressed="true"] { background: var(--text-1); color: var(--page); }
+
+.device-frame, .device-screen { display: contents; }
+.device-status { display: none; }
+body[data-device="phone"] .device-frame { display: block; width: 390px; max-width: 100%; justify-self: center; padding: 12px; border-radius: 50px; background: #1a1a1a; box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.7); }
+body[data-device="phone"] .device-screen { display: block; height: 740px; border-radius: 39px; overflow: hidden auto; background: #fffff7; container-type: inline-size; scrollbar-width: none; }
+body[data-device="phone"] .device-status { display: flex; justify-content: space-between; align-items: center; padding: 14px 28px 6px; font: 600 15px/20px -apple-system, system-ui, var(--font-sans); color: #1a1a1a; background: #fffff7; position: sticky; top: 0; z-index: 2; }
+body[data-device="phone"] .device-status .island { width: 96px; height: 26px; border-radius: 20px; background: #1a1a1a; }
+body[data-device="phone"] .device-screen > :not(.device-status) { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
+body[data-device="phone"] .device-screen .desk-only { display: none !important; }
+.phone-only { display: none !important; }
+body[data-device="phone"] .phone-only { display: revert !important; }
+@media (max-width: 480px) {
+  body[data-device="phone"] .device-frame { width: 100%; padding: 6px; border-radius: 30px; }
+  body[data-device="phone"] .device-screen { border-radius: 25px; height: min(740px, calc(100svh - 24px)); }
+}
+/* With a phone in the left column, the side panel sits beside it */
+body[data-device="phone"] :is(.vs-demo, .rr-demo, .desk-demo, .demo) { grid-template-columns: 390px 320px; gap: 40px; justify-content: center; }
+@media (max-width: 900px) { body[data-device="phone"] :is(.vs-demo, .rr-demo, .desk-demo, .demo) { grid-template-columns: 1fr; justify-items: center; } body[data-device="phone"] :is(.vs-side, .rr-side, .desk-side) { width: 100%; } }
+
+/* The one-minute template */
+.problem-statement { font: 500 34px/40px var(--font-serif); color: var(--text-1); letter-spacing: -0.01em; max-width: 860px; text-wrap: balance; }
+@media (max-width: 640px) { .problem-statement { font-size: 26px; line-height: 32px; } }
+.proof { display: flex; gap: 10px 14px; align-items: baseline; flex-wrap: wrap; margin-top: 14px; max-width: 860px; }
+.proof q { color: var(--text-1); font: 500 18px/27px var(--font-serif); font-style: italic; }
+.proof .muted { font-size: 13px; }
+
+.brief-metrics { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 12px; }
+@media (max-width: 860px) { .brief-metrics { grid-template-columns: 1fr; } }
+.bm-card { background: var(--raised); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+.bm-card.star { border-color: var(--brand); box-shadow: inset 0 3px 0 var(--brand); }
+.bm-label { font: 600 11px/16px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+.bm-name { font: 500 23px/28px var(--font-serif); color: var(--text-1); }
+.bm-formula { font-size: 13px; line-height: 19px; color: var(--text-3); }
+.bm-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.bm-list li { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; line-height: 20px; color: var(--text-1); }
+.bm-list .th { font: 600 12px/20px var(--font-mono); color: var(--text-3); white-space: nowrap; }
+.bm-gate { margin-top: 12px; font-size: 14px; color: var(--text-3); max-width: 860px; }
+
+.tradeoffs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 860px) { .tradeoffs { grid-template-columns: 1fr; } }
+.trade { background: var(--raised); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: grid; gap: 8px; align-content: start; }
+.trade h3 { font: 500 20px/25px var(--font-serif); color: var(--text-1); }
+.trade p { font-size: 14px; line-height: 21px; color: var(--text-2); }
+.trade b { font: 600 11px/16px var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); margin-right: 6px; }
+
+.folds { display: grid; border-bottom: 1px solid var(--border-strong); }
+.folds .fold > summary { display: flex; gap: 6px 14px; align-items: baseline; flex-wrap: wrap; padding: 16px 44px 16px 0; }
+.folds .fold > summary strong { color: var(--text-1); font-size: 16px; }
+.folds .fold[open] { padding-bottom: 20px; }
+.folds .fold > :not(summary) + :not(summary) { margin-top: 16px; }
+body[data-device="phone"] .device-screen .lights { display: none; }
+/* Fill the phone screen so bottom bars sit at the bottom */
+body[data-device="phone"] .device-screen { display: flex; flex-direction: column; }
+body[data-device="phone"] .device-screen > :not(.device-status) { flex: 1 0 auto; }
+body[data-device="phone"] .device-screen > .window { grid-template-rows: auto 1fr auto; }

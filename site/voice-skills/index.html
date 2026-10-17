@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../assets/thoughtcheck.css">
   <link rel="stylesheet" href="../assets/phrase-editor.css">
   <link rel="stylesheet" href="../assets/voice-skills.css">
+  <link rel="stylesheet" href="../assets/app.css">
   <script src="../assets/shared.js"></script>
   <script src="../assets/evidence.js"></script>
   <script src="../assets/fixstrip-core.js"></script>
@@ -25,10 +26,12 @@
   <script defer src="../assets/voice-skills.js"></script>
   <script defer src="../assets/voice-skills-static.js"></script>
   <script defer src="../assets/story.js"></script>
+  <script defer src="../assets/device.js"></script>
+  <script defer src="../assets/brief.js"></script>
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body data-page="voice-skills">
+<body data-page="voice-skills" data-device-default="desktop">
   <a class="skip" href="#pm-demo">Skip to the demo</a>
   <div class="masthead">
     <div class="shell topbar">
@@ -47,189 +50,119 @@
       <p class="independent">Moment 1 of 4 · independent, not made by or with Wispr</p>
       <h1>Voice Skills</h1>
       <p class="kicker"><em>When the work is a routine.</em></p>
-      <p class="lede">Turn a workflow you repeat into a named skill. Invoke it by voice, supply anything that changes, and let Flow follow your saved process across connected tools.</p>
+      <p class="lede">Flow spots a routine you repeat. Save it once, then run it with one voice command.</p>
       <div class="hero-cta"><a class="button hero-try" href="#pm-demo">Try the prototype ↓</a></div>
     </div>
   </div>
 
   <main class="shell">
 
+    <section aria-labelledby="problem-h">
+      <p class="eyebrow">Problem</p>
+      <h2 id="problem-h" class="problem-statement">A PM rebuilds the same morning brief from Gmail, Slack and Excel, by hand, every day.</h2>
+      <p class="proof"><span class="tag tag-hypothesis">Hypothesis</span> Flow saves repeated text (Snippets), not repeated work. No review asks for this yet.</p>
+    </section>
+
     <section id="pm-demo" aria-labelledby="pm-h">
-      <div class="section-head">
-        <p class="eyebrow">Product manager demo</p>
-        <h2 id="pm-h">From three repeated briefs to <code>/morning</code></h2>
-        <p>Accept Thursday's brief, and the suggestion appears. Review it, change the window, rename it <code>/morning</code>, save, then run it by voice across Gmail, Slack and Excel.</p>
+      <div class="solution-head">
+        <div class="section-head">
+          <p class="eyebrow">Solution</p>
+          <h2 id="pm-h">Flow spots the routine. You save it once, then say <code>/morning</code>.</h2>
+        </div>
+        <div class="device-toggle" data-device-toggle></div>
       </div>
       <div class="vs-demo">
-        <div class="vs-window">
-          <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
-          <div class="vs-body" id="pm-main"></div>
-        </div>
+        <div class="device-frame"><div class="device-screen">
+          <div class="device-status" aria-hidden="true"><span>9:41</span><span class="island"></span><span>●●●</span></div>
+          <div class="vs-window app-light">
+            <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
+            <div class="vs-body" id="pm-main"></div>
+          </div>
+        </div></div>
         <aside class="vs-side">
-          <div class="block">
+          <div class="block app-light">
             <h3>Steps</h3>
             <ol class="checklist" id="pm-steps"></ol>
-            <div class="button-row"><button type="button" class="button primary" id="pm-skip">Skip to the voice run</button><button type="button" class="button" id="pm-reset">Reset demo</button></div>
+            <div class="button-row"><button type="button" class="button small" id="pm-reset">Reset</button><button type="button" class="button small quiet" id="pm-skip">Skip to step 3</button></div>
           </div>
-          <div class="block sim">
-            <div class="button-row"><span class="tag tag-sim">Simulated</span></div>
-            <p class="small">Task history, discovery, connections, emails, Slack messages, the workbook and every number are sample data. Today is Fri, Oct 16, 2026; the last brief ran Thu, Oct 15 at 9:04 a.m. Nothing connects to Gmail, Slack or Excel, and nothing is posted anywhere.</p>
-          </div>
-          <div class="block">
-            <h3>Connections (simulated)</h3>
+          <div class="block app-light">
+            <h3>Tools</h3>
             <div class="conn" id="connections"></div>
-            <p class="muted small">Turn one off to see a setup action, or a run that can only partly finish.</p>
-            <h4 class="small-h">Saved skills</h4>
-            <ul class="plain small" id="registry"></ul>
+            <p class="muted small">Turn one off to see a partial run.</p>
           </div>
+          <p class="side-note">All tools and data are samples. Nothing connects or posts.</p>
         </aside>
       </div>
     </section>
-    <div class="legend legend-below" aria-label="How to read this page">
-      <span class="item"><span class="tag tag-hypothesis">Hypothesis</span> no direct customer evidence yet</span>
-      <span class="item"><span class="tag tag-evidence">Adjacent signal</span> reviews about related features</span>
-      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
-      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
-      <span class="item"><span class="tag tag-sim">Simulated</span> sample data, no real connections</span>
-    </div>
 
-    <section aria-labelledby="how-h">
+    <section aria-labelledby="metrics-h">
       <div class="section-head">
-        <p class="eyebrow">How it works</p>
-        <h2 id="how-h">Say the skill's name first, then whatever changes</h2>
+        <p class="eyebrow">Metrics</p>
+        <h2 id="metrics-h">Skills people run again, without a single wrong post</h2>
       </div>
-      <div class="grid-2">
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Proposed</span></div>
-          <p>A skill has a slash name, such as <code>/morning</code>. Say “slash morning” at the start of a dictation to run it. You can also type the command.</p>
-          <p>After the trigger, add the details that change: <q>Slash morning, focus on onboarding this week.</q></p>
-          <ul class="ticks">
-            <li>Only a command at the very start counts. Dictation that just mentions a task is ordinary text.</li>
-            <li>Flow shows the matched skill as a chip right away, kept apart from the rest of what you said.</li>
-            <li>An unknown command offers Choose a skill, Create a skill, or Keep as text. Flow never guesses a workflow.</li>
-            <li>A misheard detail can be fixed with Phrase Repair: repeat that word, not the command.</li>
-          </ul>
-        </article>
-        <article class="block">
-          <div class="button-row"><span class="tag tag-hypothesis">Hypothesis</span><span class="tag tag-shipping">Builds on Snippets</span></div>
-          <p>Flow already saves repeated <em>text</em>. Its docs: <q id="snip-quote"></q> <a id="snip-link" target="_blank" rel="noopener">Create and use snippets</a> <span class="muted" id="snip-read"></span></p>
-          <p>Voice Skills would extend that from text to a repeated <em>process</em>. No review in the dashboard asks for cross-tool workflows, so this is a hypothesis. The reviews below are adjacent signals about Snippets and commands.</p>
+      <div class="brief-metrics" data-metrics-brief="voiceSkills"></div>
+    </section>
+
+    <section aria-labelledby="trade-h">
+      <div class="section-head">
+        <p class="eyebrow">Trade-offs</p>
+        <h2 id="trade-h">What I gave up, on purpose</h2>
+      </div>
+      <div class="tradeoffs">
+        <article class="trade"><h3>Suggest, never auto-create</h3><p><b>Over</b>saving skills silently</p><p><b>Cost</b>fewer skills get made</p></article>
+        <article class="trade"><h3>Draft first, post on approval</h3><p><b>Over</b>fully hands-off runs</p><p><b>Cost</b>one extra tap each morning</p></article>
+        <article class="trade"><h3>Command only at the start</h3><p><b>Over</b>catching a skill anywhere in a sentence</p><p><b>Cost</b>less natural phrasing</p></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="more-h">
+      <div class="section-head">
+        <p class="eyebrow">Research</p>
+        <h2 id="more-h">For anyone who wants to dig in</h2>
+      </div>
+      <div class="folds">
+        <details class="fold">
+          <summary><strong>Customer signals</strong><span class="muted">Snippets today, and adjacent reviews</span></summary>
+          <p class="muted">Flow already saves repeated text. Its docs: <q id="snip-quote"></q> <a id="snip-link" target="_blank" rel="noopener">Create and use snippets</a> <span id="snip-read"></span></p>
           <ul class="plain adjacent" id="adjacent"></ul>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="vs-measure-h">
-      <div class="section-head">
-        <p class="eyebrow">How we'd know it worked</p>
-        <h2 id="vs-measure-h">Time saved, right inputs, and skills people actually reuse</h2>
-      </div>
-      <div class="metrics" data-metrics="voiceSkills"></div>
-    </section>
-    <section class="fold-sec" id="dev-demo" aria-labelledby="dev-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">Developer demo</p>
-        <h2 id="dev-h">A saved <code>/prs</code> review queue</h2>
-        <p>The same components, a different job: find the pull requests waiting on you, check CI, and explain the order. Reviewing, commenting, approving and merging stay separate actions.</p>
-        </summary>
-      <div class="vs-window">
-        <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
-        <div class="vs-body" id="dev-main"></div>
-        <div class="vs-foot"><button type="button" class="button small" id="dev-reset">Reset</button><span class="muted small">Repository, pull requests, people and links are fictional sample data.</span></div>
-      </div>
-      </details>
-    </section>
-
-    <section class="fold-sec" aria-labelledby="tpl-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">Templates</p>
-        <h2 id="tpl-h">Four more skills to start from</h2>
-        <p>Each lists what it needs and what it produces. A missing connection leads to a setup action first. <span class="muted">/inbox already exists, so saving that template shows the name-clash choice.</span></p>
-        </summary>
-      <div class="grid-2" id="templates"></div>
-      <p class="saved-note" id="tpl-saved" role="status"></p>
-      <div class="vs-window tpl-editor-wrap"><div class="vs-body editor" id="tpl-editor" hidden></div></div>
-      </details>
-    </section>
-
-
-    <section class="fold-sec" aria-labelledby="rules-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">The proposed behavior</p>
-        <h2 id="rules-h">Suggested after three runs, saved only when you say so</h2>
-        </summary>
-      <div class="grid-3">
-        <article class="block proposed">
-          <h3>Discovery</h3>
-          <ul class="ticks small">
-            <li>After you complete and accept the same process three times, Flow offers to save it. Three is a starting heuristic.</li>
-            <li>Retries, cancelled runs and repeated corrections don't count as separate runs. Changing inputs (dates, weeks, PRs) still count as the same process.</li>
-            <li>Flow learns only from tasks run through Flow and sources you connect. It doesn't watch other apps.</li>
-            <li>Review suggestion, Not now, or Don't suggest this again. Nothing is created until you accept.</li>
+        </details>
+        <details class="fold">
+          <summary><strong>Full metric plan</strong><span class="muted">Usability test, formulas, thresholds, kill criteria</span></summary>
+          <div class="metrics" data-metrics="voiceSkills"></div>
+        </details>
+        <details class="fold" id="dev-demo">
+          <summary><strong>Developer demo</strong><span class="muted">A saved /prs review queue</span></summary>
+          <div class="vs-window app-light">
+            <div class="vs-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Flow · Skills</span><span class="tag tag-sim">Prototype</span></div>
+            <div class="vs-body" id="dev-main"></div>
+            <div class="vs-foot"><button type="button" class="button small" id="dev-reset">Reset</button><span class="muted small">Sample repository and pull requests.</span></div>
+          </div>
+        </details>
+        <details class="fold">
+          <summary><strong>Templates</strong><span class="muted">Four more skills to start from</span></summary>
+          <div class="grid-2" id="templates"></div>
+          <p class="saved-note" id="tpl-saved" role="status"></p>
+          <div class="vs-window app-light tpl-editor-wrap"><div class="vs-body editor" id="tpl-editor" hidden></div></div>
+        </details>
+        <details class="fold">
+          <summary><strong>Rules it follows</strong><span class="muted">Discovery, saving, running</span></summary>
+          <ul class="ticks">
+            <li>Suggests a skill after three completed runs of the same routine. Retries and cancelled runs don't count.</li>
+            <li>Learns only from tasks run through Flow. It doesn't watch other apps.</li>
+            <li>Asks only what it can't infer. Nothing is saved until you say so.</li>
+            <li>Only a command at the very start of a dictation runs a skill. Unknown commands never guess.</li>
+            <li>If one tool fails, the rest is kept and only that step retries. Nothing posts twice.</li>
           </ul>
-        </article>
-        <article class="block proposed">
-          <h3>The draft skill</h3>
-          <ul class="ticks small">
-            <li>Name, slash command, sources, ordered steps, changing inputs, output, destination, and what happens at the end.</li>
-            <li>Dates you typed become a rule (“since the previous successful run”) when that matches what you meant.</li>
-            <li>Inferred recipients, destinations and reporting windows are marked for review. Flow asks only what it can't infer.</li>
-            <li>Try with sample data before saving. A clashing command name asks you to pick another or update that skill on purpose.</li>
+        </details>
+        <details class="fold">
+          <summary><strong>What this prototype doesn't show</strong><span class="muted">Limits</span></summary>
+          <ul class="ticks">
+            <li>No real connections or speech recognition. Every email, message and number is sample data.</li>
+            <li>No real discovery. How Flow would recognize "the same routine" is an open design and privacy question.</li>
+            <li>Briefs are built by fixed rules, not a model. Not yet tested with users.</li>
           </ul>
-        </article>
-        <article class="block proposed">
-          <h3>Running it</h3>
-          <ul class="ticks small">
-            <li>Visible states: recognized, inputs ready or a missing detail, reading each source, preparing, ready for review, completed or partially completed.</li>
-            <li>Cancel any time. If one source fails, the rest is kept and only the failed step is retried.</li>
-            <li>Posting is explicit, and never repeats. A skill takes only the actions saved in it.</li>
-            <li>A partial run is never shown as a success.</li>
-          </ul>
-        </article>
+        </details>
       </div>
-      </details>
-    </section>
-
-    <section class="fold-sec" aria-labelledby="q-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">Setup questions</p>
-        <h2 id="q-h">Ask only what the runs can't answer</h2>
-        <p>Observed choices are prefilled and easy to change. Nobody re-describes the whole workflow.</p>
-        </summary>
-      <article class="block proposed">
-        <ul class="ticks">
-          <li>“Which Gmail label contains the customer feedback?”</li>
-          <li>“Which Slack channels should this include?”</li>
-          <li>“Which Excel workbook, sheet, and table contain the dashboard?”</li>
-          <li>“Should this cover the last 24 hours or everything since your previous run?”</li>
-          <li>“Which metrics and thresholds should the summary highlight?”</li>
-          <li>“Should the result stay private, become a draft in Slack, or be posted after approval?”</li>
-          <li>“For PRs, should this include your repositories, assigned reviews, or both?”</li>
-        </ul>
-      </article>
-      </details>
-    </section>
-
-    <section class="fold-sec" aria-labelledby="scope-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">Scope boundary</p>
-        <h2 id="scope-h">What this prototype does not show</h2>
-        </summary>
-      <article class="block">
-        <ul class="ticks">
-          <li>No real connections. Gmail, Slack, Excel and GitHub are simulated, and every item they return is fictional sample data.</li>
-          <li>No real discovery. The task history is prepared; how Flow would recognize “the same process” across runs is an open design and privacy question.</li>
-          <li>No speech recognition. Dictations are prepared; the misheard word is marked in the demo data.</li>
-          <li>The summaries are written from sample data by fixed rules, not by a model. They show the intended shape, including keeping observed changes apart from possible explanations.</li>
-          <li>It has not been tested with users.</li>
-        </ul>
-      </article>
-      </details>
     </section>
   </main>
 

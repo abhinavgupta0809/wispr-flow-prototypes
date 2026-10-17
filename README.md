@@ -15,7 +15,7 @@ evidence; Voice Skills is the largest hypothesis.
 | Route | What it is | Status |
 |---|---|---|
 | `/` | Overview: the storyline, the 54s film, four moments, metric tree, why listen to me | Done |
-| `/voice-skills/` | Voice Skills: discovery after three runs, editable draft, `/morning` run across simulated Gmail, Slack and Excel, `/prs` developer demo, four templates | Demo done (all connections and data simulated) |
+| `/voice-skills/` | Voice Skills, cut for a one-minute look: five steps (Flow spots the routine, save as `/morning`, say it, watch it run, approve the Slack post). One color per tool (Gmail red, Slack aubergine, Excel green, output teal) marks the repeated parts of past requests and the suggested routine. Developer demo, templates, metrics, rules and limits sit in folds under “Go deeper” | Demo done (all connections and data simulated) |
 | `/phrase-repair/` | Phrase Repair: manual repair of any phrase plus optional “Check this phrase” marks. Scenarios: name, product term, multiple words, false alarm; iPhone and Android previews | Demo done. Phone comparison waits for a device check |
 | `/phrase-repair/?record&scenario=multi&platform=android` | Demo only, for screen recording | Done |
 | `/fix-strip/` | Redirects to `/phrase-repair/` | Done |
@@ -23,6 +23,16 @@ evidence; Voice Skills is the largest hypothesis.
 | `/journal-mode/` | Journal Mode: triple-press fn or button, minimal-cleanup capture, Captured/Polished versions | Demo done (`?record` for recording) |
 | `/research/` | Evidence records, the ten-passage test workspace, results | Done. Records need outputs and recordings |
 | `/thought-check/` | Redirects to `/research/` (Thought Check was replaced by Review Revisions) | Done |
+
+## Page template (Oct 17)
+
+Every proposal page reads in about a minute, in this order: Problem (one sentence plus one piece of
+evidence), Solution (the demo, with a Desktop / Phone toggle), Metrics (north star, guardrails,
+supporting, from `metrics.js` via `brief.js`), Trade-offs (three, each with what it beat and what it
+costs), then Research (folds: evidence, the full metric plan, docs, limits). Shared files: `app.css`
+(template, cream app surfaces, device frame), `device.js` (toggle; the choice is saved in localStorage
+under `wfp-device` and carries across pages; `?device=phone|desktop` overrides it), `brief.js`.
+Phrase Repair defaults to Phone; the others default to Desktop.
 
 ## Run it
 

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../assets/styles.css">
   <link rel="stylesheet" href="../assets/phrase-editor.css">
   <link rel="stylesheet" href="../assets/revisions.css">
+  <link rel="stylesheet" href="../assets/app.css">
   <script src="../assets/shared.js"></script>
   <script src="../assets/evidence.js"></script>
   <script src="../assets/fixstrip-core.js"></script>
@@ -23,10 +24,12 @@
   <script defer src="../assets/phrase-editor.js"></script>
   <script defer src="../assets/revisions.js"></script>
   <script defer src="../assets/story.js"></script>
+  <script defer src="../assets/device.js"></script>
+  <script defer src="../assets/brief.js"></script>
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body data-page="review-revisions">
+<body data-page="review-revisions" data-device-default="desktop">
   <a class="skip" href="#demo">Skip to the demo</a>
   <div class="masthead">
     <div class="shell topbar">
@@ -45,34 +48,31 @@
       <p class="independent">Moment 3 of 4 · independent, not made by or with Wispr</p>
       <h1>Review Revisions</h1>
       <p class="kicker"><em>When you change your mind mid-sentence.</em></p>
-      <p class="lede">Check the choices you changed while speaking.</p>
+      <p class="lede">Change your mind mid-sentence, then check what Flow kept.</p>
       <div class="hero-cta"><a class="button hero-try" href="#demo">Try the prototype ↓</a></div>
     </div>
   </div>
 
   <main class="shell">
 
+    <section aria-labelledby="problem-h">
+      <p class="eyebrow">Problem</p>
+      <h2 id="problem-h" class="problem-statement">When you change your mind mid-sentence, Flow sometimes keeps the old choice too. It's hard to spot before you send.</h2>
+      <p class="proof"><span class="tag tag-finding">My test</span> I said to keep Leo and drop Sam. The output kept both.</p>
+    </section>
+
     <section id="demo" aria-labelledby="demo-h">
-      <div class="section-head">
-        <p class="eyebrow">Try it</p>
-        <h2 id="demo-h">Three scenarios, and one dictation with nothing to review</h2>
-        <p>The message, the cards and the earlier choices are prepared for the demo. Nothing is listened to or interpreted.</p>
+      <div class="solution-head">
+        <div class="section-head">
+          <p class="eyebrow">Solution</p>
+          <h2 id="demo-h">One card per choice you changed. Fix one, the rest stays put.</h2>
+        </div>
+        <div class="device-toggle" data-device-toggle></div>
       </div>
       <div class="rr-demo">
-        <div class="rr-main" style="display:grid;gap:14px">
-          <div class="scenarios" role="group" aria-label="Choose a scenario">
-            <button type="button" class="button small" data-scenario="guests" aria-pressed="true">A · Guest list</button>
-            <button type="button" class="button small" data-scenario="schedule" aria-pressed="false">B · Linked revisions</button>
-            <button type="button" class="button small" data-scenario="unresolved" aria-pressed="false">C · Unresolved</button>
-            <button type="button" class="button small" data-scenario="plain" aria-pressed="false">Plain dictation</button>
-          </div>
-          <div class="basis">
-            <p><span id="basis-tag" class="tag tag-sim">Scripted</span> <span id="scenario-summary"></span></p>
-            <p class="muted" id="basis-note"></p>
-            <div id="spoken-wrap"><span class="eyebrow">What was said (scripted input)</span><p class="spoken" id="spoken"></p></div>
-          </div>
-
-          <div class="composer-win">
+        <div class="device-frame"><div class="device-screen">
+          <div class="device-status" aria-hidden="true"><span>9:41</span><span class="island"></span><span>●●●</span></div>
+          <div class="composer-win app-light">
             <div class="cw-head"><strong>New message</strong><span>To: Team</span><span class="tag tag-sim">Prototype</span></div>
             <div class="cw-body">
               <div class="message pe-text" id="message" aria-live="polite"></div>
@@ -99,83 +99,92 @@
               <div class="review-foot" id="review-foot"></div>
             </div>
           </div>
-        </div>
-
+        </div></div>
         <aside class="rr-side">
-          <div class="block">
+          <div class="block app-light">
+            <h3>Try a case</h3>
+            <div class="scenarios" role="group" aria-label="Choose a scenario">
+              <button type="button" class="button small" data-scenario="guests" aria-pressed="true">Guest list</button>
+              <button type="button" class="button small" data-scenario="schedule" aria-pressed="false">Linked changes</button>
+              <button type="button" class="button small" data-scenario="unresolved" aria-pressed="false">Unresolved</button>
+              <button type="button" class="button small" data-scenario="plain" aria-pressed="false">Plain dictation</button>
+            </div>
+            <div class="basis">
+              <p class="small"><span id="basis-tag" class="tag tag-sim">Scripted</span> <span id="scenario-summary"></span></p>
+              <div id="spoken-wrap"><span class="eyebrow">What was said</span><p class="spoken" id="spoken"></p></div>
+            </div>
+          </div>
+          <div class="block app-light">
             <h3>Steps</h3>
             <ol class="checklist" id="r-checklist"></ol>
-            <div class="button-row"><button type="button" class="button" id="r-reset">Reset scenario</button></div>
+            <div class="button-row"><button type="button" class="button small" id="r-reset">Reset</button></div>
           </div>
-          <div class="block" id="r-check" aria-live="polite"></div>
-          <div class="block sim">
-            <div class="button-row"><span class="tag tag-sim">Simulated</span></div>
-            <p>Each scenario's decisions are written by hand, and the message is built from them. The excerpts are the scripted input, labeled as demo data. A real version would take them from the transcript or the audio Flow already keeps under the user's settings, and could only offer choices that are actually in it.</p>
-            <p class="muted">No confidence scores. If the source doesn't settle a choice, the card says Unresolved and you decide.</p>
-          </div>
+          <details class="block app-light side-more"><summary>Message check and sources</summary><div id="r-check" aria-live="polite"></div><p class="muted small" id="basis-note"></p></details>
+          <p class="side-note">Cards and messages are prepared. Nothing is listened to.</p>
         </aside>
       </div>
     </section>
-    <div class="legend legend-below" aria-label="How to read this page">
-      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
-      <span class="item"><span class="tag tag-unverified">Reconstruction</span> rebuilt from what I reported, not from a checked recording</span>
-      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
-      <span class="item"><span class="tag tag-sim">Scripted</span> prepared input and cards, no recognition</span>
-    </div>
 
-    <section aria-labelledby="why-h">
+    <section aria-labelledby="metrics-h">
       <div class="section-head">
-        <p class="eyebrow">Why</p>
-        <h2 id="why-h">Most spoken corrections land. The ones that don't are hard to spot</h2>
-        <p>My ten scripted passages mostly kept their meaning, so a general “did anything get dropped?” check had little to catch. What did go wrong was narrower: choices I changed mid-sentence.</p>
+        <p class="eyebrow">Metrics</p>
+        <h2 id="metrics-h">More messages that say what you meant, nothing else changed</h2>
       </div>
-      <div class="grid-2">
-        <article class="block finding">
-          <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
-          <ul class="ticks">
-            <li>Several spoken corrections resolved correctly.</li>
-            <li>Guest list, second try: I meant to keep Leo and drop Sam. The output kept both. (In the first try, adding Sam back was on purpose.)</li>
-            <li>A complex scheduling dictation kept the final date and time, but wrote “the smaller group” without saying who was in it.</li>
-          </ul>
-          <p class="muted">One speaker, my own runs, not yet checked against the recordings. <a href="../research/">Evidence records R3 to R6</a></p>
-        </article>
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Proposed</span></div>
-          <ul class="ticks">
-            <li><strong>Optional, never a gate.</strong> Normal dictation goes straight in. A small Review revisions control appears only when the dictation contained revisions.</li>
-            <li><strong>One card per decision:</strong> guests, date, time, conditions. Each shows what the message says now.</li>
-            <li><strong>Three kinds of choice:</strong> clearly replaced, still unresolved, and a condition that still applies.</li>
-            <li><strong>Change one decision at a time.</strong> Restoring an earlier day doesn't bring back the earlier time.</li>
-            <li><strong>Preview, then apply.</strong> Cancel, undo and the original output stay available.</li>
-          </ul>
-        </article>
+      <div class="brief-metrics" data-metrics-brief="reviewRevisions"></div>
+    </section>
+
+    <section aria-labelledby="trade-h">
+      <div class="section-head">
+        <p class="eyebrow">Trade-offs</p>
+        <h2 id="trade-h">What I gave up, on purpose</h2>
+      </div>
+      <div class="tradeoffs">
+        <article class="trade"><h3>Appears only after a revision</h3><p><b>Over</b>an always-on review step</p><p><b>Cost</b>easier to miss</p></article>
+        <article class="trade"><h3>One card per decision</h3><p><b>Over</b>regenerating the whole message</p><p><b>Cost</b>more taps for big changes</p></article>
+        <article class="trade"><h3>Says “Unresolved” instead of guessing</h3><p><b>Over</b>picking the likely answer</p><p><b>Cost</b>more choices left to you</p></article>
       </div>
     </section>
 
-    <section aria-labelledby="rr-measure-h">
+    <section aria-labelledby="more-h">
       <div class="section-head">
-        <p class="eyebrow">How we'd know it worked</p>
-        <h2 id="rr-measure-h">Compare it with simply dictating another correction</h2>
-        <p>The obvious alternative is saying “Actually, drop Sam.” Review Revisions earns its place only if its controls make the final message more correct, with less effort.</p>
+        <p class="eyebrow">Research</p>
+        <h2 id="more-h">For anyone who wants to dig in</h2>
       </div>
-      <div class="metrics" data-metrics="reviewRevisions"></div>
-    </section>
-
-    <section class="fold-sec" aria-labelledby="scope-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">Scope boundary</p>
-        <h2 id="scope-h">What this prototype does not show</h2>
-        </summary>
-      <article class="block">
-        <ul class="ticks">
-          <li>It doesn't detect revisions. Whether a model can reliably find the decisions in a dictation, and their earlier values, is the main open question.</li>
-          <li>Scenario A is rebuilt from what I reported. Its recording hasn't been checked, so it shows no spoken excerpt and no earlier names.</li>
-          <li>Scenarios B and C use scripted input from the brief, not recordings.</li>
-          <li>It has not been tested with users.</li>
-        </ul>
-      </article>
-      </details>
+      <div class="folds">
+        <details class="fold">
+          <summary><strong>What my tests showed</strong><span class="muted">Ten passages, mostly right, a few telling misses</span></summary>
+          <article class="block finding">
+            <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
+            <ul class="ticks">
+              <li>My ten scripted passages mostly kept their meaning. Several spoken corrections resolved correctly.</li>
+              <li>Guest list, second try: I meant to keep Leo and drop Sam. The output kept both. (In the first try, adding Sam back was on purpose.)</li>
+              <li>A complex scheduling dictation kept the final date and time, but wrote “the smaller group” without saying who was in it.</li>
+            </ul>
+            <p class="muted">One speaker, my own runs, not yet checked against the recordings. <a href="../research/">Evidence records R3 to R6</a></p>
+          </article>
+        </details>
+        <details class="fold">
+          <summary><strong>Full metric plan</strong><span class="muted">Usability test, formulas, thresholds, kill criteria</span></summary>
+          <div class="metrics" data-metrics="reviewRevisions"></div>
+        </details>
+        <details class="fold">
+          <summary><strong>Rules it follows</strong><span class="muted">How the review behaves</span></summary>
+          <ul class="ticks">
+            <li>Optional, never a gate. The control appears only when the dictation contained revisions.</li>
+            <li>Three kinds of choice: clearly replaced, still unresolved, and a condition that still applies.</li>
+            <li>Change one decision at a time. Restoring an earlier day doesn't bring back the earlier time.</li>
+            <li>Preview, then apply. Cancel, undo and the original output stay available. No confidence scores.</li>
+          </ul>
+        </details>
+        <details class="fold">
+          <summary><strong>What this prototype doesn't show</strong><span class="muted">Limits</span></summary>
+          <ul class="ticks">
+            <li>It doesn't detect revisions. Whether a model can reliably find the decisions in a dictation is the main open question.</li>
+            <li>The guest list case is rebuilt from what I reported, so it shows no spoken excerpt. The other cases use scripted input.</li>
+            <li>Not yet tested with users.</li>
+          </ul>
+        </details>
+      </div>
     </section>
   </main>
 

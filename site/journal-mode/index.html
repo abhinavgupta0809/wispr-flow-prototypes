@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../assets/styles.css">
   <link rel="stylesheet" href="../assets/phrase-editor.css">
   <link rel="stylesheet" href="../assets/journal.css">
+  <link rel="stylesheet" href="../assets/app.css">
   <script src="../assets/shared.js"></script>
   <script src="../assets/evidence.js"></script>
   <script src="../assets/fixstrip-core.js"></script>
@@ -23,10 +24,12 @@
   <script defer src="../assets/phrase-editor.js"></script>
   <script defer src="../assets/journal.js"></script>
   <script defer src="../assets/story.js"></script>
+  <script defer src="../assets/device.js"></script>
+  <script defer src="../assets/brief.js"></script>
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body data-page="journal-mode">
+<body data-page="journal-mode" data-device-default="desktop">
   <a class="skip" href="#demo">Skip to the demo</a>
   <div class="masthead">
     <div class="shell topbar">
@@ -52,14 +55,24 @@
 
   <main class="shell">
 
+    <section aria-labelledby="problem-h">
+      <p class="eyebrow">Problem</p>
+      <h2 id="problem-h" class="problem-statement">When you journal by voice, you may want your own words kept. There's no “keep it raw, just this once” switch.</h2>
+      <p class="proof"><span class="tag tag-hypothesis">Hypothesis</span> In my test Flow mostly kept my voice. This is about choice, not a fix.</p>
+    </section>
+
     <section id="demo" aria-labelledby="demo-h">
-      <div class="section-head">
-        <p class="eyebrow">Try it</p>
-        <h2 id="demo-h">Capture an entry, polish it, go back to your own words</h2>
-        <p>A simulated desktop window. Nothing is recorded: Stop inserts a prepared entry.</p>
+      <div class="solution-head">
+        <div class="section-head">
+          <p class="eyebrow">Solution</p>
+          <h2 id="demo-h">Turn on Journal Mode, speak, keep your words. Polish later if you want.</h2>
+        </div>
+        <div class="device-toggle" data-device-toggle></div>
       </div>
       <div class="desk-demo">
-        <div class="window" id="window">
+        <div class="device-frame"><div class="device-screen">
+          <div class="device-status" aria-hidden="true"><span>9:41</span><span class="island"></span><span>●●●</span></div>
+        <div class="window app-light" id="window">
           <div class="win-bar" aria-hidden="true"><span class="lights"><span></span><span></span><span></span></span><span class="title">Journal</span><span class="sim-chip-d tag tag-sim">Prototype</span></div>
           <div class="win-body">
             <span class="entry-date">New entry</span>
@@ -83,149 +96,119 @@
             </div>
             <p class="rec-hint" id="rec-hint"></p>
           </div>
-          <div class="fn-row">
+          <div class="fn-row desk-only">
             <button type="button" class="fn-key" id="fn-key" aria-describedby="fn-label">fn</button>
             <span class="press-dots" id="press-dots" role="img"></span>
             <span class="fn-label" id="fn-label"><span class="tag tag-proposed">Proposed shortcut</span> Press fn three times quickly to turn Journal Mode on or off.</span>
           </div>
         </div>
-
+        </div></div>
         <aside class="desk-side">
-          <div class="block">
+          <div class="block app-light">
             <h3>Steps</h3>
             <ol class="checklist" id="j-checklist"></ol>
-            <div class="button-row"><button type="button" class="button" id="j-reset">Reset demo</button></div>
+            <div class="button-row"><button type="button" class="button small" id="j-reset">Reset</button></div>
           </div>
-          <div class="block" id="j-check" aria-live="polite"></div>
-          <div class="block sim">
-            <div class="button-row"><span class="tag tag-sim">Simulated</span></div>
-            <p>Recording, the captured entry and the Polish result are prepared text. The Polished version was written by hand for this demo; it is not output from Flow or any model.</p>
-            <details><summary>Where each line of the entry comes from</summary><ul class="sources" id="sources"></ul></details>
+          <details class="block app-light side-more"><summary>Entry check</summary><div id="j-check" aria-live="polite"></div></details>
+          <p class="side-note">Recording, the entry and the Polished version are prepared text. Nothing is recorded.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-labelledby="metrics-h">
+      <div class="section-head">
+        <p class="eyebrow">Metrics</p>
+        <h2 id="metrics-h">People come back to it, and nothing changes behind their back</h2>
+      </div>
+      <div class="brief-metrics" data-metrics-brief="journalMode"></div>
+    </section>
+
+    <section aria-labelledby="trade-h">
+      <div class="section-head">
+        <p class="eyebrow">Trade-offs</p>
+        <h2 id="trade-h">What I gave up, on purpose</h2>
+      </div>
+      <div class="tradeoffs">
+        <article class="trade"><h3>One recording, not a setting</h3><p><b>Over</b>a journal setting that stays on</p><p><b>Cost</b>turn it on each time</p></article>
+        <article class="trade"><h3>Keep both versions</h3><p><b>Over</b>replacing the capture with the polish</p><p><b>Cost</b>one more choice after each entry</p></article>
+        <article class="trade"><h3>Button first, shortcut second</h3><p><b>Over</b>relying on triple-press fn</p><p><b>Cost</b>slower to start; the shortcut clashes with hands-free</p></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="more-h">
+      <div class="section-head">
+        <p class="eyebrow">Research</p>
+        <h2 id="more-h">For anyone who wants to dig in</h2>
+      </div>
+      <div class="folds">
+        <details class="fold">
+          <summary><strong>Why this, and what my test showed</strong><span class="muted">A preference hypothesis</span></summary>
+          <div class="grid-2">
+            <article class="block">
+              <div class="button-row"><span class="tag tag-hypothesis">Preference hypothesis</span></div>
+              <p>When people journal or think aloud, some would rather keep the way they said it: the hedges, the restarts, the word they'd never write. Then decide later whether to tidy it.</p>
+            </article>
+            <article class="block finding">
+              <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
+              <p>In my journal comparison, the output largely kept my tone and the story's details. So this isn't a claim that Flow strips personality. <a href="../research/">Evidence record R2</a></p>
+            </article>
           </div>
-          <details class="block dev">
+        </details>
+        <details class="fold">
+          <summary><strong>Full metric plan</strong><span class="muted">Usability test, formulas, thresholds, kill criteria</span></summary>
+          <div class="metrics" data-metrics="journalMode"></div>
+        </details>
+        <details class="fold">
+          <summary><strong>Capture rules</strong><span class="muted">What Journal Mode keeps</span></summary>
+          <p>Keep what makes it yours. Add only punctuation and paragraph breaks. A word that couldn't be made out stays marked instead of guessed.</p>
+          <ul class="ticks" id="preserved"></ul>
+        </details>
+        <details class="fold">
+          <summary><strong>The shortcut conflict</strong><span class="muted">Triple-press fn already means something in Flow</span></summary>
+          <article class="block shipping conflict">
+            <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
+            <blockquote class="doc-quote" id="hf-double"></blockquote>
+            <blockquote class="doc-quote" id="hf-quote"></blockquote>
+            <p>So a triple-press of fn would start hands-free, then cancel it. The Journal Mode button is the dependable path; a dedicated binding may fit better. Source: <a id="hf-link" target="_blank" rel="noopener">Use Flow hands-free</a></p>
+          </article>
+        </details>
+        <details class="fold">
+          <summary><strong>What Flow ships today</strong><span class="muted">Transforms and Auto Cleanup</span></summary>
+          <div class="grid-2">
+            <article class="block shipping">
+              <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
+              <h3>Transforms</h3>
+              <blockquote class="doc-quote" id="tr-quote"></blockquote>
+              <p class="muted">Source: <a id="tr-link" target="_blank" rel="noopener">Rewrite text with Transforms and custom prompts</a></p>
+            </article>
+            <article class="block shipping">
+              <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
+              <h3>Auto Cleanup</h3>
+              <blockquote class="doc-quote" id="ac-quote"></blockquote>
+              <p class="muted"><span id="ac-note"></span> Source: <a id="ac-link" target="_blank" rel="noopener">Auto Cleanup</a></p>
+            </article>
+          </div>
+        </details>
+        <details class="fold">
+          <summary><strong>Where the demo entry comes from</strong><span class="muted">Line by line, plus a timing setting</span></summary>
+          <ul class="sources" id="sources"></ul>
+          <details class="block dev app-light">
             <summary>Development setting: triple-press timing</summary>
             <label for="press-window">Window from first to third press</label>
             <input type="range" id="press-window" min="300" max="1500" step="50">
             <output id="press-window-out" for="press-window"></output>
             <p class="muted">A web page can't reliably read the physical fn key, so use the on-screen key.</p>
           </details>
-        </aside>
-      </div>
-    </section>
-    <div class="legend legend-below" aria-label="How to read this page">
-      <span class="item"><span class="tag tag-hypothesis">Hypothesis</span> not yet tested with users</span>
-      <span class="item"><span class="tag tag-finding">My test</span> one speaker, my own Flow app</span>
-      <span class="item"><span class="tag tag-shipping">Wispr docs</span> what Flow documents today</span>
-      <span class="item"><span class="tag tag-proposed">Proposed</span> my idea, not a Flow feature</span>
-      <span class="item"><span class="tag tag-sim">Simulated</span> prepared input, no recognition</span>
-    </div>
-
-    <section aria-labelledby="why-h">
-      <div class="section-head">
-        <p class="eyebrow">Why</p>
-        <h2 id="why-h">A preference for control, not a fix for lost personality</h2>
-      </div>
-      <div class="grid-2">
-        <article class="block">
-          <div class="button-row"><span class="tag tag-hypothesis">Preference hypothesis</span></div>
-          <p>When people journal or think aloud, some would rather keep the way they said it: the hedges, the restarts, the word they'd never write. Then decide later whether to tidy it. If that's true, they need a way to say “keep it raw this time” before they speak, and a polish step they choose afterwards.</p>
-          <p class="muted">Untested. The test below measures which version people keep and whether they report edits they didn't want. It doesn't claim better transcription.</p>
-        </article>
-        <article class="block finding">
-          <div class="button-row"><span class="tag tag-finding">My test</span><span class="tag tag-unverified">Not yet verified</span></div>
-          <h3>Flow mostly kept my voice</h3>
-          <p>In my journal comparison, the output largely kept my tone and the story's details. So this isn't a claim that Flow strips personality. It's a proposal to let people choose how much cleanup a recording gets. <a href="../research/">Evidence record R2</a></p>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="idea-h">
-      <div class="section-head">
-        <p class="eyebrow">The proposed behavior</p>
-        <h2 id="idea-h">One recording, minimal cleanup, both versions kept</h2>
-      </div>
-      <div class="grid-2">
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Proposed</span></div>
+        </details>
+        <details class="fold">
+          <summary><strong>What this prototype doesn't show</strong><span class="muted">Limits</span></summary>
           <ul class="ticks">
-            <li><strong>Turn it on before you speak.</strong> Triple-press fn (proposed shortcut), or click Journal Mode.</li>
-            <li><strong>Always visible.</strong> A “Journal Mode · Minimal cleanup” indicator, shown apart from the microphone status, so “which mode” and “is it listening” never blur.</li>
-            <li><strong>This recording only.</strong> When it ends, Flow goes back to normal capture and says so.</li>
-            <li><strong>After recording:</strong> Keep this version, Polish, or Edit a phrase.</li>
-            <li><strong>Polish makes a second version.</strong> Labeled Captured and Polished. Compare them, keep one, switch back. The capture is never silently replaced.</li>
+            <li>It doesn't record or recognize speech. The entry is prepared text, two lines quoted from my own journal comparison.</li>
+            <li>The Polished version is written by hand. A real Polish would come from Flow's Transforms.</li>
+            <li>Mobile activation isn't designed yet; the phone preview shows the same flow with the button. Not yet tested with users.</li>
           </ul>
-        </article>
-        <article class="block proposed">
-          <div class="button-row"><span class="tag tag-proposed">Proposed capture rules</span></div>
-          <p>Keep what makes it yours. Add only punctuation and paragraph breaks.</p>
-          <ul class="ticks" id="preserved"></ul>
-          <p class="muted">This is the intended behavior, not a promise of word-for-word recognition. A word that couldn't be made out stays marked instead of guessed.</p>
-        </article>
+        </details>
       </div>
-    </section>
-
-    <section aria-labelledby="conflict-h">
-      <div class="section-head">
-        <p class="eyebrow">Open question</p>
-        <h2 id="conflict-h">Triple-press fn already means something in Flow</h2>
-      </div>
-      <article class="block shipping conflict">
-        <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span><span class="tag tag-unverified">Conflicts with the proposed shortcut</span></div>
-        <blockquote class="doc-quote" id="hf-double"></blockquote>
-        <blockquote class="doc-quote" id="hf-quote"></blockquote>
-        <p>So a triple-press of fn would start hands-free, then cancel it. The prototype keeps it as the proposed shortcut, with the Journal Mode button as the dependable path; a dedicated binding may fit better. Source: <a id="hf-link" target="_blank" rel="noopener">Use Flow hands-free</a></p>
-      </article>
-    </section>
-
-    <section aria-labelledby="jm-measure-h">
-      <div class="section-head">
-        <p class="eyebrow">How we'd know it worked</p>
-        <h2 id="jm-measure-h">Measure preference and unwanted edits, not transcription</h2>
-        <p>Journal Mode is a preference hypothesis, so the test asks which version people keep and why. It makes no claim that recognition gets better.</p>
-      </div>
-      <div class="metrics" data-metrics="journalMode"></div>
-    </section>
-
-    <section class="fold-sec" aria-labelledby="ships-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">What Flow ships today</p>
-        <h2 id="ships-h">Flow already has cleanup controls and Transforms on desktop</h2>
-        <p>Journal Mode builds on these. What's new is a switch for one recording, and keeping the captured and polished versions side by side.</p>
-        </summary>
-      <div class="grid-2">
-        <article class="block shipping">
-          <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
-          <h3>Transforms</h3>
-          <blockquote class="doc-quote" id="tr-quote"></blockquote>
-          <p class="muted">Source: <a id="tr-link" target="_blank" rel="noopener">Rewrite text with Transforms and custom prompts</a></p>
-        </article>
-        <article class="block shipping">
-          <div class="button-row"><span class="tag tag-shipping">Wispr docs</span><span class="muted" data-read-on></span></div>
-          <h3>Auto Cleanup</h3>
-          <blockquote class="doc-quote" id="ac-quote"></blockquote>
-          <p class="muted"><span id="ac-note"></span> Source: <a id="ac-link" target="_blank" rel="noopener">Auto Cleanup</a></p>
-        </article>
-      </div>
-      </details>
-    </section>
-
-    <section class="fold-sec" aria-labelledby="scope-h">
-      <details class="fold">
-        <summary class="section-head">
-        <p class="eyebrow">Scope boundary</p>
-        <h2 id="scope-h">What this prototype does not show</h2>
-        </summary>
-      <article class="block">
-        <ul class="ticks">
-          <li>It doesn't record or recognize speech. The entry is prepared text, two lines of it quoted from my own journal comparison.</li>
-          <li>It doesn't show how Flow's cleanup would treat this entry with Journal Mode off.</li>
-          <li>The Polished version is written by hand. A real Polish would come from Flow's Transforms.</li>
-          <li>It holds one entry, on desktop. Mobile activation isn't designed here.</li>
-          <li>It has not been tested with users.</li>
-        </ul>
-      </article>
-      </details>
     </section>
   </main>
 
