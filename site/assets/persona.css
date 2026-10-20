@@ -1,0 +1,63 @@
+/* Who it's for, the problem, why it matters; the research as numbers; persona cards (Oct 20).
+   Loaded on the overview and the four proposal pages. Icons come from icons.js. */
+.ic { width: 20px; height: 20px; flex: none; }
+.ic-box { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--evidence-soft); color: var(--brand); }
+.ic-box .ic { width: 22px; height: 22px; }
+.p-label { font: 600 11px/16px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+
+/* In the masthead, on the dark green: three short answers */
+.www { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; grid-column: 1 / -1; margin-top: 18px; }
+.www li { display: grid; gap: 8px; align-content: start; padding: 18px 20px; border-radius: 14px; background: rgba(255, 255, 235, 0.07); border: 1px solid rgba(255, 255, 235, 0.16); }
+.www .ic-box { background: rgba(240, 215, 255, 0.16); color: #f0d7ff; }
+.www .p-label { color: rgba(255, 255, 235, 0.72); }
+.www p { color: rgba(255, 255, 235, 0.86); font-size: 15px; line-height: 22px; }
+.www b { color: var(--cream); font-weight: 600; }
+
+/* The research as numbers */
+.stat-band { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.stat-band li { display: grid; gap: 6px; align-content: start; padding: 18px; border-radius: 14px; background: var(--raised); border: 1px solid var(--border); }
+.stat-band b { margin-top: 6px; font: 500 40px/1 var(--font-serif); letter-spacing: -0.02em; color: var(--text-1); font-variant-numeric: tabular-nums; }
+.stat-band span:last-child { font-size: 13px; line-height: 19px; color: var(--text-3); }
+@media (max-width: 1000px) { .stat-band { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .www { grid-template-columns: 1fr; } .stat-band { grid-template-columns: 1fr 1fr; } }
+
+/* Persona avatar */
+.p-av { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; flex: none; background: var(--proposed-soft); color: var(--proposed); }
+.p-av .ic { width: 26px; height: 26px; }
+
+/* Overview: four people, each leading to a prototype */
+.personas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ov-persona { position: relative; height: 100%; box-sizing: border-box; display: grid; gap: 10px; align-content: start; padding: 24px 26px 22px; border-radius: 16px; background: var(--raised); border: 1px solid var(--border); text-decoration: none; color: var(--text-2); transition: transform 200ms var(--ease-out), border-color 200ms, box-shadow 200ms var(--ease-out); }
+.ov-persona:hover { transform: translateY(-3px); border-color: var(--proposed); box-shadow: 0 18px 36px -24px rgba(3, 79, 70, 0.45); }
+.op-head { display: flex; gap: 14px; align-items: center; }
+.op-name { font: 500 28px/32px var(--font-serif); letter-spacing: -0.01em; color: var(--text-1); }
+.op-line { font-size: 15px; line-height: 22px; }
+.op-pain { display: grid; grid-template-columns: 20px auto 1fr; gap: 12px; align-items: center; padding: 12px 0; border-block: 1px solid var(--border); color: var(--proposed); }
+.op-pain b { font: 500 30px/1 var(--font-serif); color: var(--text-1); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.op-pain span { font-size: 13px; line-height: 18px; color: var(--text-3); }
+.op-fix { display: grid; gap: 2px; padding-right: 30px; }
+.op-fix strong { font-size: 17px; color: var(--text-1); }
+.op-fix span:last-child { font-size: 15px; line-height: 22px; }
+.ov-persona .m-ev { grid-area: auto; justify-self: start; }
+.ov-persona .m-go { grid-area: auto; position: absolute; right: 22px; bottom: 18px; }
+.ov-persona:hover .m-go { transform: translateX(4px); color: var(--brand); }
+@media (max-width: 860px) { .personas { grid-template-columns: 1fr; } }
+
+/* Proposal pages: one persona card above the problem */
+.persona { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px 36px; padding: 24px 26px; border-radius: 16px; background: var(--raised); border: 1px solid var(--border); max-width: 960px; }
+.persona-who { display: flex; gap: 16px; align-items: flex-start; }
+.persona-name { font: 500 28px/32px var(--font-serif); color: var(--text-1); margin-top: 2px; }
+.persona-line { margin-top: 4px; color: var(--text-2); font-size: 15px; line-height: 22px; }
+.persona-facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 20px auto 1fr; gap: 12px; align-content: center; }
+.persona-facts li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: baseline; color: var(--proposed); }
+.persona-facts .ic { align-self: center; }
+.persona-facts b { font: 500 28px/1 var(--font-serif); color: var(--text-1); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.persona-facts span { font-size: 14px; line-height: 19px; color: var(--text-3); }
+.persona-why { grid-column: 1 / -1; display: flex; gap: 12px; align-items: flex-start; margin: 0; padding: 12px 16px; border-radius: 12px; background: var(--proposed-soft); color: var(--text-2); font-size: 15px; line-height: 22px; }
+.persona-why .ic { color: var(--proposed); margin-top: 1px; }
+.persona-why b { color: var(--text-1); }
+.persona-ev { grid-column: 1 / -1; font-size: 13px; line-height: 19px; color: var(--text-3); }
+@media (max-width: 760px) { .persona { grid-template-columns: 1fr; padding: 20px; } }
+
+/* Overview: the about block is copy only now that its numbers moved to the research band */
+.about-grid.solo { grid-template-columns: minmax(0, 1fr); max-width: 760px; }

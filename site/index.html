@@ -16,10 +16,12 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="stylesheet" href="assets/overview.css">
+  <link rel="stylesheet" href="assets/persona.css">
   <script src="assets/shared.js"></script>
   <script src="assets/evidence.js"></script>
   <script src="assets/metrics.js"></script>
   <script defer src="assets/overview.js"></script>
+  <script defer src="assets/icons.js"></script>
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -42,12 +44,17 @@
       <div class="ov-hero-copy">
         <p class="independent">Four proposals for Wispr Flow · independent, not made by or with Wispr</p>
         <h1>Let your voice<br><em>finish the job.</em></h1>
-        <p class="ov-sub">I dictate with Flow every day. Here are four moments where my voice still stops short, and what I'd build so it doesn't.</p>
+        <p class="ov-sub">I dictate with Flow every day. Four moments still send me back to the keyboard. Here's what I'd build.</p>
       </div>
       <a class="ov-data" href="https://wispr-reviews-site.vercel.app/" target="_blank" rel="noopener" aria-label="Real customer data, analyzed: open the Wispr Flow app reviews dashboard (7,007 reviews)">
         <span class="ov-data-shot"><img src="assets/img/reviews-dashboard.webp" width="1080" height="885" alt="The Wispr Flow app reviews dashboard: 7,007 public reviews, average 4.04 stars, and a chart of where the signal is: 2,511 praise, 2,079 complaints, 211 requests."></span>
         <span class="ov-data-cap"><strong>Real customer data, analyzed</strong><span>7,007 public app reviews, labeled and charted · open the dashboard ↗</span></span>
       </a>
+      <ul class="www" aria-label="Who it's for, the problem, and why it matters">
+        <li><span class="ic-box"><i data-icon="user"></i></span><span class="p-label">Who it's for</span><p><b>People who write by voice all day:</b> texting on a phone, drafting email, journaling.</p></li>
+        <li><span class="ic-box"><i data-icon="alert"></i></span><span class="p-label">The problem</span><p><b>Flow gets most words right.</b> Fixing the rest, or keeping your own words, still takes the keyboard.</p></li>
+        <li><span class="ic-box"><i data-icon="target"></i></span><span class="p-label">Why it matters</span><p><b>872 reviews say saving time</b> is why they use Flow. Every typed fix gives some of that time back.</p></li>
+      </ul>
     </header>
   </div>
 
@@ -65,53 +72,68 @@
       </figure>
     </section>
 
+    <section class="shell" aria-labelledby="work-h">
+      <div class="ov-head">
+        <h2 id="work-h">The work behind it</h2>
+        <p>Customer data first, then tests in the real app, then the prototypes.</p>
+      </div>
+      <ul class="stat-band" aria-label="The research, by the numbers">
+        <li><span class="ic-box"><i data-icon="reviews"></i></span><b>7,007</b><span>app reviews parsed and labeled</span></li>
+        <li><span class="ic-box"><i data-icon="tag"></i></span><b>22</b><span>categories, with 2,079 complaints sorted into them</span></li>
+        <li><span class="ic-box"><i data-icon="flask"></i></span><b>10</b><span>passages dictated and checked in the real app</span></li>
+        <li><span class="ic-box"><i data-icon="flame"></i></span><b>26</b><span>day streak on Flow, ~50k words (self-reported)</span></li>
+        <li><span class="ic-box"><i data-icon="build"></i></span><b>4</b><span>working prototypes, one shared repair panel</span></li>
+      </ul>
+    </section>
+
     <section class="shell ov-moments" aria-labelledby="moments-h">
       <div class="ov-head">
-        <h2 id="moments-h">Four moments, one idea</h2>
-        <p>Your voice does the work. You stay in control. One “Edit a phrase” panel runs through all four.</p>
+        <h2 id="moments-h">Four people, four prototypes</h2>
+        <p>Your voice does the work. You stay in control.</p>
       </div>
-      <ol class="moments" id="moments">
+      <ol class="personas">
         <li>
-          <a class="moment" href="voice-skills/">
-            <span class="m-n">01</span>
-            <span class="m-when">When the work is a routine</span>
-            <span class="m-name">Voice Skills</span>
-            <span class="m-line">Say “slash morning.” Flow runs your saved routine across Gmail, Slack and Excel.</span>
+          <a class="ov-persona" href="voice-skills/">
+            <span class="op-head"><span class="p-av"><i data-icon="sun"></i></span><span class="op-name">The routine runner</span></span>
+            <span class="op-line">A PM or ops lead who rebuilds the same morning brief from Gmail, Slack and Excel.</span>
+            <span class="op-pain"><i data-icon="reviews"></i><b>0</b><span>reviews ask for this yet. My biggest bet, to test</span></span>
+            <span class="op-fix"><span class="p-label">What I'd build</span><strong>Voice Skills</strong><span>Say “slash morning.” Flow runs the saved routine.</span></span>
             <span class="m-ev ev-hyp">Hypothesis to test</span>
             <span class="m-go" aria-hidden="true">→</span>
           </a>
         </li>
         <li>
-          <a class="moment" href="phrase-repair/">
-            <span class="m-n">02</span>
-            <span class="m-when">When one phrase comes out wrong</span>
-            <span class="m-name">Phrase Repair</span>
-            <span class="m-line">Tap the words, pick an alternative or say just them again. Nothing else changes.</span>
+          <a class="ov-persona" href="phrase-repair/">
+            <span class="op-head"><span class="p-av"><i data-icon="phone"></i></span><span class="op-name">The phone-first texter</span></span>
+            <span class="op-line">Dictates messages all day. One wrong name sends them back to the keyboard.</span>
+            <span class="op-pain"><i data-icon="reviews"></i><b>247</b><span>reviews on keyboard and app switching, 93 at 1 or 2 stars</span></span>
+            <span class="op-fix"><span class="p-label">What I'd build</span><strong>Phrase Repair</strong><span>Tap the words, pick a fix or say them again.</span></span>
             <span class="m-ev ev-strong">Strongest evidence</span>
             <span class="m-go" aria-hidden="true">→</span>
           </a>
         </li>
         <li>
-          <a class="moment" href="review-revisions/">
-            <span class="m-n">03</span>
-            <span class="m-when">When you change your mind mid-sentence</span>
-            <span class="m-name">Review Revisions</span>
-            <span class="m-line">Check the choices you changed while speaking, and fix one without touching the rest.</span>
+          <a class="ov-persona" href="review-revisions/">
+            <span class="op-head"><span class="p-av"><i data-icon="mail"></i></span><span class="op-name">The out-loud thinker</span></span>
+            <span class="op-line">Drafts long emails by talking, and changes their mind mid-sentence.</span>
+            <span class="op-pain"><i data-icon="flask"></i><b>Leo + Sam</b><span>I said keep Leo, drop Sam. Flow kept both</span></span>
+            <span class="op-fix"><span class="p-label">What I'd build</span><strong>Review Revisions</strong><span>Check the choices you changed, fix one alone.</span></span>
             <span class="m-ev ev-test">Seen in my tests</span>
             <span class="m-go" aria-hidden="true">→</span>
           </a>
         </li>
         <li>
-          <a class="moment" href="journal-mode/">
-            <span class="m-n">04</span>
-            <span class="m-when">When the words are the point</span>
-            <span class="m-name">Journal Mode</span>
-            <span class="m-line">Capture a thought in your own words. Polish it later, if you want.</span>
+          <a class="ov-persona" href="journal-mode/">
+            <span class="op-head"><span class="p-av"><i data-icon="book"></i></span><span class="op-name">The voice journaler</span></span>
+            <span class="op-line">Speaks to think. Wants their own words kept, not polished.</span>
+            <span class="op-pain"><i data-icon="reviews"></i><b>101</b><span>complaints about AI editing; some say cleanup changed their meaning</span></span>
+            <span class="op-fix"><span class="p-label">What I'd build</span><strong>Journal Mode</strong><span>Capture it raw. Polish later, if you want.</span></span>
             <span class="m-ev ev-hyp">Preference to test</span>
             <span class="m-go" aria-hidden="true">→</span>
           </a>
         </li>
       </ol>
+      <p class="ov-fine">Personas are archetypes drawn from public reviews and my own use, not from interviews.</p>
     </section>
 
     <section class="ov-metrics" aria-labelledby="metrics-h">
@@ -126,22 +148,15 @@
     </section>
 
     <section class="shell ov-about" aria-labelledby="about-h">
-      <div class="about-grid">
+      <div class="about-grid solo">
         <div class="about-copy">
           <h2 id="about-h">Why listen to me</h2>
-          <p class="about-lede">I'm a heavy Flow user, across two student accounts. I care about this product, so I tested where it gets in the way instead of guessing.</p>
-          <p class="who">How: I read 7,007 public app reviews in a <a href="https://wispr-reviews-site.vercel.app/">labeled dashboard</a>, then checked my hunches in the real app before designing anything (<a href="research/">research notes</a>).</p>
-          <p class="who"><strong>Abhinav Gupta.</strong> MS Product Management at Carnegie Mellon (Tepper), December 2026. About six years in product, growth and strategy at Flipkart, ShareChat, Meesho and Tata 1mg. I built the reviews dashboard, ran the tests and built these prototypes, with Claude Code as a coding partner.</p>
-          <div class="button-row"><a class="button primary" href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a><a class="button" href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a></div>
+          <p class="about-lede">I'm a heavy Flow user. I care about this product, so I tested where it gets in the way instead of guessing.</p>
+          <p class="who"><strong>Abhinav Gupta.</strong> MS Product Management, Carnegie Mellon (Tepper), Dec 2026. Six years in product and growth at Flipkart, ShareChat, Meesho and Tata 1mg.</p>
+          <div class="button-row"><a class="button primary" href="https://www.linkedin.com/in/abhinavgupta0809" target="_blank" rel="noopener">LinkedIn</a><a class="button" href="https://github.com/abhinavgupta0809" target="_blank" rel="noopener">GitHub</a><a class="button" href="research/">Research notes</a></div>
         </div>
-        <dl class="stats" aria-label="By the numbers">
-          <div><dt>26</dt><dd>day streak on Flow, as of Oct 16, 2026</dd></div>
-          <div><dt>~50k</dt><dd>words spoken on one account, more on the other</dd></div>
-          <div><dt>7,007</dt><dd>app reviews read and labeled</dd></div>
-          <div><dt>4</dt><dd>working prototypes, one shared repair panel</dd></div>
-        </dl>
       </div>
-      <p class="ov-fine">Usage numbers are self-reported. A heavy user isn't a typical one, so my own usage isn't counted as evidence anywhere on this site.</p>
+      <p class="ov-fine">Usage numbers are self-reported. A heavy user isn't a typical one, so my own usage isn't counted as evidence anywhere on this site. Built with Claude Code as a coding partner.</p>
     </section>
 
     <section class="shell ov-real" aria-label="What's real and what's simulated">

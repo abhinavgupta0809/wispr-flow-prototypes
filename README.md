@@ -24,6 +24,10 @@ evidence; Voice Skills is the largest hypothesis.
 | `/research/` | Evidence records, the ten-passage test workspace, results | Done. Records need outputs and recordings |
 | `/thought-check/` | Redirects to `/research/` (Thought Check was replaced by Review Revisions) | Done |
 
+## Who it's for, and why care (Oct 20)
+
+From a senior product reviewer's notes: say who each proposal is for, what problem it solves and why anyone should care, and show the research as numbers. The overview now has a who / problem / why band in the masthead, a research stat band ("The work behind it"), and four persona cards that lead into the proposals (replacing the moments list). Each proposal page opens with a persona card above Problem. Personas are archetypes from the reviews dashboard counts (`wispr-reviews/site/data/summary.json`) and my own tests, labeled as such. Shared files: `assets/persona.css`, `assets/icons.js` (fills `<i data-icon>`).
+
 ## Page template (Oct 17)
 
 Every proposal page reads in about a minute, in this order: Problem (one sentence plus one piece of

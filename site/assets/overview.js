@@ -15,7 +15,7 @@
       el('div', {class: 'root'}, el('span', {class: 'lab', text: 'Flow-level goal (my assumption)'}), el('strong', {text: M.anchor.metric})),
       el('div', {class: 'branches'}, ...ORDER.map(([key, name, href], i) => {
         const c = M[key];
-        return el('a', {class: 'branch', href: `${href}#${{voiceSkills: 'vs-measure-h', fixStrip: 'measure-h', reviewRevisions: 'rr-measure-h', journalMode: 'jm-measure-h'}[key]}`},
+        return el('a', {class: 'branch', href: `${href}#metrics-h`},
           el('span', {class: 'b-n', text: String(i + 1).padStart(2, '0')}),
           el('span', {class: 'b-name', text: name}),
           el('span', {class: 'lab', text: 'North star'}),

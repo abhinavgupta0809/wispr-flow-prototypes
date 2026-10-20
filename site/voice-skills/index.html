@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../assets/phrase-editor.css">
   <link rel="stylesheet" href="../assets/voice-skills.css">
   <link rel="stylesheet" href="../assets/app.css">
+  <link rel="stylesheet" href="../assets/persona.css">
   <script src="../assets/shared.js"></script>
   <script src="../assets/evidence.js"></script>
   <script src="../assets/fixstrip-core.js"></script>
@@ -27,6 +28,7 @@
   <script defer src="../assets/voice-skills-static.js"></script>
   <script defer src="../assets/story.js"></script>
   <script defer src="../assets/device.js"></script>
+  <script defer src="../assets/icons.js"></script>
   <script defer src="../assets/brief.js"></script>
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
@@ -56,6 +58,15 @@
   </div>
 
   <main class="shell">
+
+    <section aria-label="Who it's for">
+      <div class="persona">
+        <div class="persona-who"><span class="p-av"><i data-icon="sun"></i></span><div><span class="p-label">Who it's for</span><p class="persona-name">The routine runner</p><p class="persona-line">A PM or ops lead who rebuilds the same morning brief from Gmail, Slack and Excel, by hand.</p></div></div>
+        <ul class="persona-facts"><li><i data-icon="reviews"></i><b>0</b><span>reviews ask for cross-tool routines yet</span></li><li><i data-icon="repeat"></i><b>3</b><span>nearby reviews about Snippets and voice commands</span></li></ul>
+        <p class="persona-why"><i data-icon="target"></i><span><b>Why it matters.</b> Flow saves repeated text, not repeated work. Routines would make Flow part of the workday, not only a keyboard. That's my assumption and the biggest bet here.</span></p>
+        <p class="persona-ev">An archetype from my own work and adjacent reviews. Needs testing with users before anything else.</p>
+      </div>
+    </section>
 
     <section aria-labelledby="problem-h">
       <p class="eyebrow">Problem</p>
